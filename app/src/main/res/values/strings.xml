@@ -1,0 +1,105 @@
+<resources>
+    <string name="app_name">SheTuan</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="finished">"  完成  "</string>
+    <string name="press_activity">发布活动</string>
+    <string name="activity_theme">活动主题</string>
+    <string name="activity_theme_hint">请输入活动主题（最多20字）</string>
+    <string name="started_time">开始时间</string>
+    <string name="started_time_hint">点击选择活动开始时间</string>
+    <string name="finished_time">结束时间</string>
+    <string name="finished_time_hint">点击选择活动结束时间</string>
+    <string name="activity_address">活动地点</string>
+    <string name="activity_address_hint">请填写活动地点</string>
+    <string name="hold_organization">主办组织</string>
+    <string name="hold_organization_hint">请填写组织名</string>
+    <string name="activities_fee">活动费用</string>
+    <string name="required_number">需要人数</string>
+    <string name="required_number_hint">请输入人数</string>
+    <string name="event_poster">活动海报</string>
+    <string name="activity_details">活动详情</string>
+    <string name="activity_details_hint">请认真描述该活动详细信息！</string>
+
+    <string name="activity_profile_subtitle">【活动简介】</string>
+    <string name="activity_details_subtitle">【活动详情】</string>
+    <string name="join_in_details_subtitle">【参与详情】</string>
+    <string name="total_of_entered">已报名数</string>
+
+    <string name="fill_information">填写资料</string>
+    <string name="phone_number">手机号码</string>
+    <string name="nick_name">昵称</string>
+    <string name="nick_name_hint">请输入昵称</string>
+    <string name="sex">性别</string>
+    <string name="hometown_address">家乡所在地</string>
+    <string name="hometown_address_hint">请输入家乡所在地</string>
+    <string name="school">学校</string>
+    <string name="school_hint">请输入学校</string>
+    <string name="enrollment_year">入学年份</string>
+    <string name="enrollment_year_hint">请输入入学年份</string>
+    <string name="academy">学院专业班级</string>
+    <string name="academy_hint">请输入学院专业班级</string>
+    <string name="class_name">班级</string>
+    <string name="class_name_hint">请输入班级</string>
+    <string name="student_number">学号</string>
+    <string name="student_number_hint">请输入学号</string>
+    <string name="student_name">姓名</string>
+    <string name="student_name_hint">请输入姓名</string>
+    <string name="student_birthday">生日</string>
+    <string name="student_birthday_hint">请选择生日</string>
+    <string name="person_edit">个人说明</string>
+
+    <string name="head_image">头像</string>
+
+    <string name="mine">我的</string>
+    <string name="my_nickname">我的昵称</string>
+    <string name="my_shetuan">我的社团</string>
+    <string name="my_activity">我的活动</string>
+    <string name="my_collection">我的收藏</string>
+    <string name="system_service">系统客服</string>
+    <string name="setting">设置</string>
+    <string name="about_us">关于我们</string>
+    <string name="share">分享</string>
+
+    <string name="more_activity">周围活动</string>
+    <string name="more">更多</string>
+
+    <string name="select_contacts">选择联系人</string>
+
+    <string name="shetuan_wall">社团墙</string>
+
+    <string name="message">消息</string>
+
+    <string name="write_notice">写通知</string>
+    <string name="scanning">扫一扫</string>
+
+    <string name="account_exit">退出当前账号</string>
+    <string name="quiet_hours">勿扰模式</string>
+    <string name="quiet_hours_explain">开启后，收到新消息不会响铃或者振动</string>
+    <string name="personal_information_revise">个人信息修改</string>
+    <string name="phone_binding_revise">修改绑定手机号</string>
+    <string name="password_revise">修改密码</string>
+
+    <string name="input_originally_password">请输入原始密码</string>
+    <string name="input_new_password">请输入新密码</string>
+    <string name="confirm_new_password">请确认密码</string>
+
+    <string name="search">"搜索  "</string>
+    <string name="search_view_hint">搜索社团、活动</string>
+    <string name="lately_search">最近搜索</string>
+    <string name="empty_string"></string>
+    <string name="clear_search_records">清空搜索历史</string>
+
+    <string name="release_enthusiasm">释放热情</string>
+    <string name="live_wonderful">活出精彩</string>
+
+    <string name="input_phone_number">请输入手机号</string>
+    <string name="input_phone_number_describe">为方便联系，请输入手机号</string>
+    <string name="send_vercode">发送验证码</string>
+    <string name="existing_account">【已有账号】</string>
+    <string name="input_vercode">请输入验证码</string>
+    <string name="next_step">下一步</string>
+
+    <string name="phonenumber_error">手机号错误</string>
+</resources>

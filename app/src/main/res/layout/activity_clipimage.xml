@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffffff">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/ic_navigate_before_black_24dp"
+            android:gravity="center"
+            android:text="照片"
+            android:textColor="#18B4ED"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="20dp"
+            android:text="移动和缩放"
+            android:textColor="#ff000000"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <com.example.asus.shetuan.clipimage.cliphead.ClipImageLayout
+        android:id="@+id/id_clipImageLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/rl_botom"
+        android:layout_below="@+id/title_bar" />
+
+    <RelativeLayout
+        android:id="@+id/rl_botom"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF" >
+
+        <Button
+            android:id="@+id/id_action_clip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="@null"
+            android:padding="5dp"
+            android:text="确 定"
+            android:textColor="#18B4ED"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

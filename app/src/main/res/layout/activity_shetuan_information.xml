@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="shetuanInformation"
+            type="com.example.asus.shetuan.bean.ShetuanInformation"/>
+        <variable
+            name="shetuanInformationData"
+            type="com.example.asus.shetuan.bean.ShetuanMsg"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/shetuan_information_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_height">
+
+                        <LinearLayout
+                            android:layout_width="@dimen/title_height"
+                            android:layout_height="@dimen/title_height"
+                            android:layout_marginLeft="10dp"
+                            android:padding="8dp"
+                            android:onClick="@{shetuanInformation.backclick}">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/ic_background_gray"
+                                android:padding="2dp"
+                                android:src="@drawable/ic_back"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/title_height"
+                                android:layout_height="@dimen/title_height"
+                                android:padding="8dp">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/ic_background_gray"
+                                    android:padding="5dp"
+                                    android:src="@drawable/share_white" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="@dimen/title_height"
+                                android:layout_height="@dimen/title_height"
+                                android:padding="8dp">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/ic_background_gray"
+                                    android:padding="5dp"
+                                    android:src="@drawable/ic_collection_before" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:gravity="center"
+                            android:text="@{shetuanInformationData.name}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/title_font_size" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"></LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_module_space"
+                    android:background="@color/item_space_color"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/item_space_color"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/linear_marginleft"
+                        android:layout_marginRight="@dimen/linear_marginright"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/module_item_height"
+                            android:gravity="center"
+                            android:text="公告"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/title_font_size" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginTop="10dp"
+                            android:lineSpacingMultiplier="1.2"
+                            android:text="@{shetuanInformationData.shtuanannouncement}"
+                            android:textColor="@color/search_keyword_color"
+                            android:textSize="@dimen/font_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_module_space"
+                        android:background="@color/item_space_color"></LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/linear_marginleft"
+                        android:layout_marginRight="@dimen/linear_marginright"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/module_item_height"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/module_item_height"
+                                android:layout_height="match_parent"
+                                android:padding="11dp"
+                                android:src="@drawable/school" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="所属学校："
+                                android:textColor="@color/search_keyword_color"
+                                android:textSize="@dimen/font_size" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/search_keyword_color"
+                                android:textSize="@dimen/font_size"
+                                android:text="@{shetuanInformationData.shetuanschool}"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/module_item_height"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/module_item_height"
+                                android:layout_height="match_parent"
+                                android:padding="11dp"
+                                android:src="@drawable/type" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="社团性质："
+                                android:textColor="@color/search_keyword_color"
+                                android:textSize="@dimen/font_size" />
+
+                            <TextView
+                                android:id="@+id/shetuan_information_shetuantype"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/search_keyword_color"
+                                android:textSize="@dimen/font_size" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/module_item_height"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/module_item_height"
+                                android:layout_height="match_parent"
+                                android:padding="11dp"
+                                android:src="@drawable/lead" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="现任社长："
+                                android:textColor="@color/search_keyword_color"
+                                android:textSize="@dimen/font_size" />
+
+                            <TextView
+                                android:id="@+id/shetuan_information_shetuanboss"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/search_keyword_color"
+                                android:textSize="@dimen/font_size" />
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/module_item_height"
+                                android:background="@color/white"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/module_item_height"
+                                    android:layout_height="match_parent"
+                                    android:padding="11dp"
+                                    android:src="@drawable/partner" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_vertical"
+                                    android:text="小伙伴们："
+                                    android:textColor="@color/search_keyword_color"
+                                    android:textSize="@dimen/font_size" />
+
+                                <TextView
+                                    android:id="@+id/shetuan_information_shetuanheat"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_vertical"
+                                    android:textColor="@color/search_keyword_color"
+                                    android:textSize="@dimen/font_size" />
+                            </LinearLayout>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_goto"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="7dp"/>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_module_space"
+                            android:background="@color/item_space_color"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:paddingRight="@dimen/activity_horizontal_margin">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/module_item_height"
+                                android:gravity="center_vertical"
+                                android:text="社团详情"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/title_font_size" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:lineSpacingMultiplier="1.2"
+                                android:text="@{shetuanInformationData.briefintroduction}"
+                                android:textColor="@color/search_keyword_color"
+                                android:textSize="@dimen/font_size" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_module_space"
+                            android:background="@color/item_space_color"></LinearLayout>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="vertical"
+                                android:paddingLeft="@dimen/activity_horizontal_margin"
+                                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/module_item_height"
+                                    android:gravity="center_vertical"
+                                    android:text="社团专属二维码"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/title_font_size" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:lineSpacingMultiplier="1.2"
+                                    android:text="扫一扫了解详情"
+                                    android:textColor="@color/search_keyword_color"
+                                    android:textSize="@dimen/font_size" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginRight="16dp"
+                                android:src="@drawable/qrcode" />
+                        </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"></LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FF8000"
+                android:gravity="center"
+                android:text="申请加入"
+                android:textColor="@color/white"
+                android:textSize="@dimen/title_font_size" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
+
+

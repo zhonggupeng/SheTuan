@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="com.example.asus.shetuan.activity.MainTabActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:id="@+id/realtabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <android.support.v4.app.FragmentTabHost
+                android:id="@+id/tabhost"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_bar_height"
+
+                >
+
+                <FrameLayout
+                    android:id="@+id/tabcontent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0" />
+            </android.support.v4.app.FragmentTabHost>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageplus"
+            android:layout_width="@dimen/navigation_bar_height"
+            android:layout_height="@dimen/navigation_bar_height"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/add_fill" />
+    </RelativeLayout>
+</layout>

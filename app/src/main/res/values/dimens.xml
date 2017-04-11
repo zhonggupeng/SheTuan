@@ -1,0 +1,41 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="title_height">50dp</dimen>
+    <dimen name="title_bottom_line">1dp</dimen>
+    <dimen name="title_image_width">30dp</dimen>
+    <dimen name="item_module_space">10dp</dimen>
+    <dimen name="item_module_space_larger">20dp</dimen>
+    <dimen name="activity_item_height">68dp</dimen>
+    <dimen name="activity_item_image_weight">90dp</dimen>
+    <dimen name="module_item_height">45dp</dimen>
+    <dimen name="edit_item_height">45dp</dimen>
+    <dimen name="navigation_bar_height">50dp</dimen>
+    <dimen name="text_padding_left">8dp</dimen>
+    <dimen name="text_padding_right">8dp</dimen>
+    <dimen name="text_padding_top">5dp</dimen>
+    <dimen name="text_padding_bottom">5dp</dimen>
+
+    <dimen name="image_padding">8dp</dimen>
+    <dimen name="me_image_padding_large">11dp</dimen>
+    <dimen name="me_image_padding_mid">9dp</dimen>
+    <dimen name="min_image_padding">3dp</dimen>
+
+    <dimen name="font_size">16sp</dimen>
+    <dimen name="font_size_dp">16dp</dimen>
+    <dimen name="title_font_size">18sp</dimen>
+    <dimen name="min_font_size">14sp</dimen>
+    <dimen name="navigation_bar_text_size">12sp</dimen>
+
+    <dimen name="my_nickname_item_height">80dp</dimen>
+
+    <dimen name="activity_detail_subtitle_height">30dp</dimen>
+    
+    <dimen name="search_view_height">40dp</dimen>
+    <dimen name="my_activity_button_height">60dp</dimen>
+    <dimen name="linear_marginleft">5dp</dimen>
+    <dimen name="linear_marginright">5dp</dimen>
+
+</resources>

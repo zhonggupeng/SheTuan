@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="search"
+            type="com.example.asus.shetuan.bean.Search" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        tools:context="com.example.asus.shetuan.activity.SearchActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/main_color">
+
+            <ImageView
+                android:layout_width="@dimen/title_image_width"
+                android:layout_height="match_parent"
+                android:onClick="@{search.backclick}"
+                android:src="@drawable/ic_back" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@color/search_view_color">
+
+                <LinearLayout
+                    android:layout_width="274dp"
+                    android:layout_height="30dp"
+                    android:focusableInTouchMode="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/image_padding"
+                        android:src="@drawable/search" />
+
+                    <com.example.asus.shetuan.weight.EditTextWithDel
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:gravity="start|center_vertical"
+                        android:hint="@string/search_view_hint"
+                        android:imeOptions="actionSearch"
+                        android:text="@={search.searchtext}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:onClick="@{search.searchclick}"
+                android:text="@string/search"
+                android:textColor="@color/title_font_color"
+                android:textSize="@dimen/font_size" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:gravity="bottom"
+            android:paddingBottom="@dimen/text_padding_bottom"
+            android:text="热门关键词"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bottom_line"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@color/item_space_color"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+            <!--每一行拜访确定个数的textview 内容大小不一致，自然就有参差效果-->
+            <!--textview里的内容通过类来设置-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pin_edit_sharp"
+                android:paddingBottom="@dimen/text_padding_bottom"
+                android:paddingLeft="@dimen/text_padding_left"
+                android:paddingRight="@dimen/text_padding_right"
+                android:paddingTop="@dimen/text_padding_top"
+                android:text="志愿者"
+                android:textColor="@color/search_keyword_color"
+                android:textSize="@dimen/font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pin_edit_sharp"
+                android:paddingBottom="@dimen/text_padding_bottom"
+                android:paddingLeft="@dimen/text_padding_left"
+                android:paddingRight="@dimen/text_padding_right"
+                android:paddingTop="@dimen/text_padding_top"
+                android:text="羽毛球"
+                android:textColor="@color/search_keyword_color"
+                android:textSize="@dimen/font_size" />
+
+            <LinearLayout
+                android:layout_width="@dimen/item_module_space"
+                android:layout_height="wrap_content"></LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pin_edit_sharp"
+                android:paddingBottom="@dimen/text_padding_bottom"
+                android:paddingLeft="@dimen/text_padding_left"
+                android:paddingRight="@dimen/text_padding_right"
+                android:paddingTop="@dimen/text_padding_top"
+                android:text="轮滑"
+                android:textColor="@color/search_keyword_color"
+                android:textSize="@dimen/font_size" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:gravity="bottom"
+            android:paddingBottom="@dimen/text_padding_bottom"
+            android:text="@{(search.totaldata>0) ? @string/lately_search : @string/empty_string}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bottom_line"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@color/item_space_color"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_module_space"></LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_page_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:gravity="center"
+            android:onClick="@{search.clearrecordclick}"
+            android:text="@{(search.totaldata>0) ? @string/clear_search_records : @string/empty_string}"
+            android:textColor="@color/button_background"
+            android:textSize="@dimen/font_size" />
+    </LinearLayout>
+</layout>

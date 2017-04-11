@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tab="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="myactivity"
+            type="com.example.asus.shetuan.bean.MyActivity"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_my_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        tools:context="com.example.asus.shetuan.activity.MyActivityActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/main_color">
+            <ImageView
+                android:layout_width="@dimen/title_image_width"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_back"
+                android:onClick="@{myactivity.backclick}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:text="@string/my_activity"
+                android:textSize="@dimen/title_font_size"
+                android:textColor="@color/title_font_color"
+                android:gravity="center"/>
+        </RelativeLayout>
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/my_activity_slidingtab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_item_height"
+            tab:pstsIndicatorColor="@color/main_color"
+            tab:pstsIndicatorHeight="2dp"
+            tab:pstsUnderlineColor="@color/gray"
+            tab:pstsUnderlineHeight="@dimen/title_bottom_line"
+            tab:pstsShouldExpand="true"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/my_activity_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+</layout>
+

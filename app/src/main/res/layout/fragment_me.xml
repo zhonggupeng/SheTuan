@@ -1,0 +1,374 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="MeFrag"
+            type="com.example.asus.shetuan.bean.MeFrag" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="com.example.asus.shetuan.activity.fragment.MeFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_height"
+                android:background="@color/main_color"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mine"
+                    android:textColor="@color/title_font_color"
+                    android:textSize="@dimen/title_font_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_me_mynickname"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/my_nickname_item_height"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/fragment_me_headimage"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:padding="8dp"
+                    fresco:placeholderImage="@drawable/avater"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/text_padding_left"
+                    android:text="@string/my_nickname"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/title_font_size" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_goto" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_module_space_larger"
+                android:background="@color/item_space_color"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/module_item_height"
+                android:onClick="@{MeFrag.MyShetuanclick}"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/shetuan" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_padding_left"
+                        android:text="@string/my_shetuan"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_goto" />
+                />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bottom_line"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/gray"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/module_item_height"
+                android:onClick="@{MeFrag.MyActivityclick}"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/activity" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_padding_left"
+                        android:text="@string/my_activity"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+                    />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_goto" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bottom_line"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/gray"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/module_item_height"
+                android:onClick="@{MeFrag.MyCollectionclick}"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:padding="9dp"
+                        android:src="@drawable/collection" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_padding_left"
+                        android:text="@string/my_collection"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_goto" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_module_space_larger"
+                android:background="@color/item_space_color"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/module_item_height"
+                android:onClick="@{MeFrag.SystemServiceclick}"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:src="@drawable/system_service" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_padding_left"
+                        android:text="@string/system_service"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_goto" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bottom_line"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/gray"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/module_item_height"
+                android:onClick="@{MeFrag.Setupclick}"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/setting" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_padding_left"
+                        android:text="@string/setting"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_goto" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_module_space_larger"
+                android:background="@color/item_space_color"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/module_item_height"
+                android:onClick="@{MeFrag.Aboutusclick}"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:src="@drawable/about_us" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_padding_left"
+                        android:text="@string/about_us"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_goto" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bottom_line"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/gray"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/module_item_height"
+                android:onClick="@{MeFrag.Shareusclick}"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:padding="9dp"
+                    android:src="@drawable/share" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/text_padding_left"
+                    android:text="@string/share"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_goto" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/item_space_color"></LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+</layout>

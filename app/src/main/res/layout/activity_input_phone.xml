@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <variable
+            name="phone"
+            type="com.example.asus.shetuan.bean.Phone"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true"
+        android:background="@color/white"
+        tools:context="com.example.asus.shetuan.activity.login.InputPhoneActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:padding="25dp"
+            android:src="@drawable/phone"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:text="@string/input_phone_number"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/title_font_size"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:text="@string/input_phone_number_describe"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:text="@{(phone.phonenumber.length()==0||(phone.phonenumber.charAt(0)=='1'))?@string/empty_string:@string/phonenumber_error}"
+            android:textColor="@color/red2"
+            android:textSize="@dimen/min_font_size"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:digits="1234567890"
+            android:inputType="phone|number"
+            android:maxLength="11"
+            android:text="@={phone.phonenumber}"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
+            android:background="@null"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@color/black">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/input_phone_sendvercode"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:text="@string/send_vercode"
+            android:gravity="center"
+            android:textColor="@{(phone.phonenumber.length()!=11||(phone.phonenumber.charAt(0)!='1'))?@color/gray:@color/black}"
+            android:textSize="@dimen/title_font_size"
+            android:clickable="@{(phone.phonenumber.length()!=11||(phone.phonenumber.charAt(0)!='1'))?false:true}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/input_phone_tologin"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:text="@string/existing_account"
+            android:gravity="center"
+            android:textColor="@color/cyan"
+            android:textSize="@dimen/title_font_size"
+            android:onClick="@{phone.tendtoLogin}"/>
+    </LinearLayout>
+
+</layout>
+

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="SelectContacts"
+            type="com.example.asus.shetuan.bean.SelectContacts"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_select_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        tools:context="com.example.asus.shetuan.activity.funct.SelectContactsActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/main_color">
+
+            <ImageView
+                android:layout_width="@dimen/title_image_width"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_back"
+                android:onClick="@{SelectContacts.backclick}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/select_contacts"
+                android:textColor="@color/title_font_color"
+                android:textSize="@dimen/title_font_size" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/ic_launcher" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bottom_line"
+            android:background="@color/gray"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></Spinner>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"
+                android:background="@color/gray"></LinearLayout>
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></Spinner>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"
+                android:background="@color/gray"></LinearLayout>
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bottom_line"
+            android:background="@color/gray"></LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_module_space"
+                    android:background="@color/item_space_color"></LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

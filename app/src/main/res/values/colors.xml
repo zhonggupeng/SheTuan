@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="black">#000000</color>
+    <color name="gray">#DCDCDC</color>
+    <color name="blue">#0000FF</color>
+    <color name="cyan">#00FFFF</color>
+    <color name="Gainsboro">#DCDCDC</color>
+    <color name="DarkGrey">#A9A9A9</color>
+    <color name="WhiteSmoke">#f5f5f5</color>
+
+    <color name="icon_bule">#4379CF</color>
+    <color name="icon_goto">#aabbcc</color>
+
+    <color name="main_color">#FF2842</color>
+
+    <color name="title_font_color">#ffffff</color>
+    <color name="item_space_color">#F2F2F2</color>
+
+    <color name="button_background">#029AE9</color>
+
+    <color name="app_background_color">#ffffff</color>
+    
+    <color name="search_keyword_color">#676767</color>
+
+    <color name="search_view_color">#ffffff</color>
+
+    <color name="my_activity_background_color">#02BFC8</color>
+    <color name="my_shetuan_background_color">#82C23E</color>
+    <color name="my_activity_font_color">#ffffff</color>
+    <color name="shetuan_item_font_color">#ffffff</color>
+    <color name="white">#ffffff</color>
+
+    <color name="province_line_border">#D0D0D0</color>
+    <color name="red2">#DE2910</color>
+
+</resources>

@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="pressactivity"
+            type="com.example.asus.shetuan.bean.PressActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context="com.example.asus.shetuan.activity.funct.PressActivityActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/main_color">
+
+            <ImageView
+                android:layout_width="@dimen/title_image_width"
+                android:layout_height="match_parent"
+                android:onClick="@{pressactivity.backclick}"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/press_activity"
+                android:textColor="@color/title_font_color"
+                android:textSize="@dimen/title_font_size" />
+
+            <TextView
+                android:id="@+id/press_activity_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/finished"
+                android:textColor="@color/title_font_color"
+                android:textSize="@dimen/font_size" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/press_activity_activityimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_item_height"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/module_item_height"
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:src="@drawable/activity_green" />
+
+                        <com.example.asus.shetuan.weight.EditTextWithDel
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="活动名称"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@={pressactivity.title}"
+                            android:textColor="@color/black"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/font_size"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/press_activity_editplace"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_module_space"
+                        android:background="@color/item_space_color"></LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_item_height"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/module_item_height"
+                            android:layout_height="match_parent"
+                            android:padding="11dp"
+                            android:src="@drawable/place_green" />
+
+                        <com.example.asus.shetuan.weight.EditTextWithDel
+                            android:id="@+id/press_activity_editplace"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="活动地点"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@={pressactivity.place}"
+                            android:textColor="@color/black"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/font_size"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/press_activity_editprice"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_module_space"
+                        android:background="@color/item_space_color"></LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_item_height"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/module_item_height"
+                            android:layout_height="match_parent"
+                            android:padding="11dp"
+                            android:src="@drawable/price_green" />
+
+                        <com.example.asus.shetuan.weight.EditTextWithDel
+                            android:id="@+id/press_activity_editprice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="活动价格"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@={pressactivity.price}"
+                            android:textColor="@color/black"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/font_size"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/press_activity_editnum"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_module_space"
+                        android:background="@color/item_space_color"></LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_item_height"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/module_item_height"
+                            android:layout_height="match_parent"
+                            android:padding="11dp"
+                            android:src="@drawable/people_green" />
+
+                        <com.example.asus.shetuan.weight.EditTextWithDel
+                            android:id="@+id/press_activity_editnum"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="活动人数（不限人数填0）"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@={pressactivity.expectnum}"
+                            android:textColor="@color/black"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/font_size"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/press_activity_editdetail"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_bottom_line"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:background="@color/gray"></LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:orientation="vertical">
+
+                        <com.example.asus.shetuan.weight.EditTextWithDel
+                            android:id="@+id/press_activity_editdetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:gravity="left|top"
+                            android:hint="@string/activity_details_hint"
+                            android:padding="16dp"
+                            android:text="@={pressactivity.detail}"
+                            android:textColor="@color/black"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/font_size"
+                            android:lineSpacingMultiplier="1.2"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_module_space"
+                        android:background="@color/item_space_color"></LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_item_height"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/module_item_height"
+                                android:layout_height="match_parent"
+                                android:padding="11dp"
+                                android:src="@drawable/time_green" />
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="@string/started_time"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/font_size" />
+
+                            <TextView
+                                android:id="@+id/press_activity_select_starttime"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="30dp"
+                                android:gravity="center_vertical|right"
+                                android:text="@={pressactivity.starttime}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/font_size" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="7dp"
+                            android:src="@drawable/ic_goto" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_bottom_line"
+                        android:background="@color/gray"></LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_item_height"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/module_item_height"
+                                android:layout_height="match_parent"
+                                android:padding="11dp"
+                                android:src="@drawable/time_green_finish" />
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="@string/finished_time"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/font_size" />
+
+                            <TextView
+                                android:id="@+id/press_activity_select_endtime"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="30dp"
+                                android:gravity="center_vertical|right"
+                                android:text="@={pressactivity.endtime}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/font_size"
+                                />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="7dp"
+                            android:src="@drawable/ic_goto" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_bottom_line"
+                        android:background="@color/gray"></LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_item_height"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/module_item_height"
+                                android:layout_height="match_parent"
+                                android:padding="11dp"
+                                android:src="@drawable/enddate_green" />
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="报名截止时间"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/font_size" />
+
+                            <TextView
+                                android:id="@+id/press_activity_select_enrolldeadtime"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="30dp"
+                                android:gravity="center_vertical|right"
+                                android:text="@={pressactivity.enrolldeadline}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/font_size" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="7dp"
+                            android:src="@drawable/ic_goto" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_module_space"
+                        android:background="@color/item_space_color"></LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/module_item_height">
+
+                            <ImageView
+                                android:layout_width="@dimen/module_item_height"
+                                android:layout_height="match_parent"
+                                android:padding="11dp"
+                                android:src="@drawable/register_green" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="是否需要签到"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/font_size" />
+                        </LinearLayout>
+                        <com.suke.widget.SwitchButton
+                            android:id="@+id/press_activity_isregister"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_module_space"
+                        android:background="@color/item_space_color"></LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

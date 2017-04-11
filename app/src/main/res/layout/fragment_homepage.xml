@@ -1,0 +1,240 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="homepage"
+            type="com.example.asus.shetuan.bean.Homepage" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="com.example.asus.shetuan.activity.fragment.HomepageFragment">
+
+        <com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout
+            android:id="@+id/homepage_swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.example.asus.shetuan.weight.MyScrollView
+                    android:id="@+id/homepage_scrollview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.daimajia.slider.library.SliderLayout
+                            android:id="@+id/homepage_slider"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_module_space"
+                            android:background="@color/item_space_color"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/my_activity_button_height"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:paddingLeft="@dimen/text_padding_left"
+                                android:onClick="@{homepage.myactivityclick}"
+                                android:orientation="horizontal"
+                                android:background="@color/my_activity_background_color">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="3"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="@dimen/text_padding_left">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="3"
+                                        android:gravity="center_vertical"
+                                        android:text="@string/my_activity"
+                                        android:textColor="@color/my_activity_font_color"
+                                        android:textSize="@dimen/font_size" />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="2"
+                                        android:gravity="center_vertical"
+                                        android:text="@string/live_wonderful"
+                                        android:textColor="@color/my_activity_font_color"
+                                        android:textSize="@dimen/min_font_size" />
+                                </LinearLayout>
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:layout_margin="3dp"
+                                    android:padding="@dimen/me_image_padding_large"
+                                    android:src="@drawable/activity_white"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.04"></LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:paddingLeft="@dimen/text_padding_left"
+                                android:onClick="@{homepage.myshetuanclick}"
+                                android:orientation="horizontal"
+                                android:background="@color/my_shetuan_background_color">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="3"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="@dimen/text_padding_left">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="3"
+                                        android:gravity="center_vertical"
+                                        android:text="@string/my_shetuan"
+                                        android:textColor="@color/my_activity_font_color"
+                                        android:textSize="@dimen/font_size" />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="2"
+                                        android:gravity="center_vertical"
+                                        android:text="@string/release_enthusiasm"
+                                        android:textColor="@color/my_activity_font_color"
+                                        android:textSize="@dimen/min_font_size" />
+                                </LinearLayout>
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:layout_margin="@dimen/min_image_padding"
+                                    android:padding="@dimen/me_image_padding_large"
+                                    android:src="@drawable/shetuan_white"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_module_space"
+                            android:background="@color/item_space_color"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/module_item_height"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="3"
+                                android:padding="@dimen/image_padding"
+                                android:src="@drawable/recommend" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="5"
+                                android:gravity="center_vertical"
+                                android:text="@string/more_activity"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/font_size" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="14">
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/title_bottom_line"
+                            android:background="@color/gray"></LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/homepage_activity_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:paddingRight="@dimen/activity_horizontal_margin">
+
+                        </android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+                </com.example.asus.shetuan.weight.MyScrollView>
+
+                <LinearLayout
+                    android:id="@+id/homepage_title_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_height"
+                    android:layout_alignParentTop="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/title_height"
+                        android:layout_height="@dimen/title_height"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:onClick="@{homepage.scanimageclick}"
+                        android:padding="@dimen/image_padding"
+                        android:src="@drawable/scanning" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/homepage_title_search_view"
+                            android:layout_width="270dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:descendantFocusability="blocksDescendants"
+                            android:onClick="@{homepage.searchviewclick}"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:padding="@dimen/image_padding"
+                                android:src="@drawable/search" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="@string/search_view_hint"
+                                android:textColor="@color/search_keyword_color"
+                                android:textSize="@dimen/font_size" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout>
+    </FrameLayout>
+
+</layout>

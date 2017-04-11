@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_item_height"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/load_viewstub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="正在加载中"
+            android:textColor="@color/search_keyword_color"
+            android:textSize="@dimen/font_size"/>
+        <TextView
+            android:id="@+id/end_viewstub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="没有更多了"
+            android:textSize="@dimen/font_size"
+            android:textColor="@color/search_keyword_color"/>
+        <TextView
+            android:id="@+id/load_error_viewstub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="加载失败"
+            android:textSize="@dimen/font_size"
+            android:textColor="@color/search_keyword_color"/>
+    </RelativeLayout>
+</layout>

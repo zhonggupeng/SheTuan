@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="InputPINTest"
+            type="com.example.asus.shetuan.bean.InputPINTest"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:padding="25dp"
+                android:src="@drawable/pin" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="@string/input_vercode"
+                android:textColor="@color/black"
+                android:textSize="@dimen/title_font_size" />
+            <!--多少秒之后重新发送验证码-->
+            <TextView
+                android:id="@+id/input_pin_showtime"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@{InputPINTest.countdown}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/input_pin_edit1"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/pin_edit_sharp"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:gravity="center"
+                    android:textCursorDrawable="@null"
+                    android:text="@={InputPINTest.edit1}"
+                    android:textSize="22sp"
+                    android:textColor="@color/black"
+                    android:focusable='@{(InputPINTest.edit1.length()==0)?true:false}'
+                    />
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent">
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/input_pin_edit2"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/pin_edit_sharp"
+                    android:focusable='@{((InputPINTest.edit1.length()==0 || (InputPINTest.edit2.length()==1)))?false:true}'
+                    android:focusableInTouchMode='@{(InputPINTest.edit1.length()==1)?true:false}'
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:text="@={InputPINTest.edit2}"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="22sp" />
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent">
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/input_pin_edit3"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/pin_edit_sharp"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:gravity="center"
+                    android:textCursorDrawable="@null"
+                    android:text="@={InputPINTest.edit3}"
+                    android:textSize="22sp"
+                    android:textColor="@color/black"
+                    android:focusable='@{((InputPINTest.edit2.length()==0)|| (InputPINTest.edit3.length()==1))?false:true}'
+                    android:focusableInTouchMode='@{(InputPINTest.edit2.length()==1)?true:false}'/>
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent">
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/input_pin_edit4"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/pin_edit_sharp"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:gravity="center"
+                    android:textCursorDrawable="@null"
+                    android:text="@={InputPINTest.edit4}"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:focusable='@{((InputPINTest.edit3.length()==0))?false:true}'
+                    android:focusableInTouchMode='@{(InputPINTest.edit3.length()==1)?true:false}'/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/input_pin_nextstep"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/next_step"
+                android:textSize="@dimen/title_font_size"
+                android:textColor="@{(InputPINTest.edit4.length()==0)?@color/gray:@color/black}"
+                android:gravity="center"
+                android:clickable="@{(InputPINTest.edit4.length()==0)?false:true}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5">
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:padding="9dp"
+            android:onClick="@{InputPINTest.backimage}"
+            android:src="@drawable/back_gray"/>
+        
+    </RelativeLayout>
+</layout>
+
