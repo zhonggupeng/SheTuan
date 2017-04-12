@@ -67,7 +67,6 @@ public class FillInformationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         informationFill.setPhonenumber(intent.getStringExtra("phonenumber"));
 
-
         File file = new File(Environment.getExternalStorageDirectory(),"SheTuan/cache");
         if (!file.exists()) {
             Toast.makeText(FillInformationActivity.this,"无法使用存储器，该功能无法正常使用",Toast.LENGTH_LONG).show();
@@ -93,24 +92,38 @@ public class FillInformationActivity extends AppCompatActivity {
         binding.fillInformFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(FillInformationActivity.this).setTitle("提示").setMessage("为了在社团、活动交流方便，您确定填写了真实的个人信息吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(FillInformationActivity.this, SetPasswordActivity.class);
-                        intent.putExtra("isregister","0");
-                        intent.putExtra("phonenumber",informationFill.getPhonenumber());
-                        intent.putExtra("nickname",informationFill.getNickname());
-                        //
-                        intent.putExtra("sex",binding.fillInformSexselect.getText());
-                        //
-                        intent.putExtra("academe",informationFill.getAcademe());
-                        intent.putExtra("studentid",informationFill.getStudentid());
-                        intent.putExtra("name",informationFill.getName());
-                        intent.putExtra("personedit",informationFill.getPersonalexplaintion());
-                        intent.putExtra("headimagepath",headimagepath);
-                        FillInformationActivity.this.startActivity(intent);
-                    }
-                }).setNegativeButton("取消",null).show();
+                if (informationFill.getNickname()==null||informationFill.getNickname().length()==0){
+                    Toast.makeText(FillInformationActivity.this,"未填写昵称",Toast.LENGTH_SHORT).show();
+                }else if (binding.fillInformSexselect.getText()==null||binding.fillInformSexselect.getText().length()==0){
+                    Toast.makeText(FillInformationActivity.this,"未选择性别",Toast.LENGTH_SHORT).show();
+                }else if (informationFill.getAcademe()==null||informationFill.getAcademe().length()==0){
+                    Toast.makeText(FillInformationActivity.this,"未填写学院专业班级",Toast.LENGTH_SHORT).show();
+                }else if (informationFill.getStudentid()==null||informationFill.getStudentid().length()==0){
+                    Toast.makeText(FillInformationActivity.this,"未填写学号",Toast.LENGTH_SHORT).show();
+                }else if (informationFill.getName()==null||informationFill.getName().length()==0){
+                    Toast.makeText(FillInformationActivity.this,"未填写姓名",Toast.LENGTH_SHORT).show();
+                }else if (headimagepath==null||headimagepath.length()==0){
+                    Toast.makeText(FillInformationActivity.this,"请设置头像",Toast.LENGTH_SHORT).show();
+                }else {
+                    new AlertDialog.Builder(FillInformationActivity.this).setTitle("提示").setMessage("为了在社团、活动交流方便，您确定填写了真实的个人信息吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(FillInformationActivity.this, SetPasswordActivity.class);
+                            intent.putExtra("isregister", "0");
+                            intent.putExtra("phonenumber", informationFill.getPhonenumber());
+                            intent.putExtra("nickname", informationFill.getNickname());
+                            //
+                            intent.putExtra("sex", binding.fillInformSexselect.getText());
+                            //
+                            intent.putExtra("academe", informationFill.getAcademe());
+                            intent.putExtra("studentid", informationFill.getStudentid());
+                            intent.putExtra("name", informationFill.getName());
+                            intent.putExtra("personedit", informationFill.getPersonalexplaintion());
+                            intent.putExtra("headimagepath", headimagepath);
+                            FillInformationActivity.this.startActivity(intent);
+                        }
+                    }).setNegativeButton("取消", null).show();
+                }
             }
         });
         binding.fillInformSexselect.setOnClickListener(new View.OnClickListener() {

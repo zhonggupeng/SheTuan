@@ -178,6 +178,9 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this, MainTabActivity.class);
                                 LoginActivity.this.startActivity(intent);
                             }
+                            else if(resutlt == 401){
+                                Toast.makeText(LoginActivity.this,jsonObject.getString("data"),Toast.LENGTH_SHORT).show();
+                            }
                             else {
                                 Toast.makeText(LoginActivity.this,"出现异常",Toast.LENGTH_SHORT).show();
                             }
