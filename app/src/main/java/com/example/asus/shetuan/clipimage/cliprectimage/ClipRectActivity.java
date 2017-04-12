@@ -51,7 +51,7 @@ public class ClipRectActivity extends Activity{
 					@Override
 					public void run() {
 						Bitmap bitmap = mClipImageLayout.clip();
-						String path= Environment.getExternalStorageDirectory()+"/ClipHeadPhoto/cache/"+System.currentTimeMillis()+ ".png";
+						String path= Environment.getExternalStorageDirectory()+"/ClipHeadPhoto/cache/"+System.currentTimeMillis()+ ".jpeg";
 						ImageTools.savePhotoToSDCard(bitmap,path);
 						loadingDialog.dismiss();
 						Intent intent = new Intent();

@@ -19,6 +19,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private ActivityActivityDetailBinding binding =null;
     private String datajsonstring;
 
+    private String imageloadurl = "https://euswag.com/picture/activity/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
         ActivityMsg activityMsg=null;
         try {
             jsonObject = new JSONObject(datajsonstring);
-            activityMsg = new ActivityMsg(jsonObject.getString("avTitle"),jsonObject.getString("avPlace"),DateUtils.timet(jsonObject.getString("avStarttime")),jsonObject.getString("avLogo"));
+            activityMsg = new ActivityMsg(jsonObject.getString("avTitle"),jsonObject.getString("avPlace"),DateUtils.timet(jsonObject.getString("avStarttime")),imageloadurl+jsonObject.getString("avLogo")+".jpg");
             activityMsg.setActendtime(DateUtils.timet(jsonObject.getString("avEndtime")));
             activityMsg.setUid(jsonObject.getInt("uid"));
             activityMsg.setActexpectnum(jsonObject.getInt("avExpectnum"));

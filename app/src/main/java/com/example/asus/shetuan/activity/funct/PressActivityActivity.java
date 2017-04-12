@@ -3,10 +3,13 @@ package com.example.asus.shetuan.activity.funct;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -58,10 +61,11 @@ public class PressActivityActivity extends AppCompatActivity {
     private final int ENDTIMEID = 11;
     private final int ENROLLDEADTIME = 110;
 
+    private final int PRESSACTIVITY = 0x1000;
+
     private OKHttpConnect okHttpConnect;
-    private String resultstring;
     private String url = "https://euswag.com/eu/activity/createav";
-    private String tocken = "?accesstoken=zzzz";
+    private String tocken;
     private String string;
     private long uid = Long.parseLong("15061884797");
 
@@ -74,13 +78,26 @@ public class PressActivityActivity extends AppCompatActivity {
     private ActivityPressActivityBinding binding = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_press_activity);
         inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         pressActivity = new PressActivity(this);
         binding.setPressactivity(pressActivity);
         dataSelect = new DataSelect(this);
+
+        File file = new File(Environment.getExternalStorageDirectory(), "SheTuan/cache");
+        if (!file.exists()) {
+            Toast.makeText(PressActivityActivity.this, "无法使用存储器，该功能无法正常使用", Toast.LENGTH_LONG).show();
+            file.mkdirs();
+        }
+        photoSavePath = Environment.getExternalStorageDirectory().getPath() + "/SheTuan/cache/";
+        System.out.println(photoSavePath);
+        photoSaveName = System.currentTimeMillis() + ".jpeg";
+        click();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+    private void click(){
         binding.pressActivitySelectStarttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,52 +142,20 @@ public class PressActivityActivity extends AppCompatActivity {
                             }
                             string = "&avDetail=" + pressActivity.getDetail() + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum()) + "&avPlace=" + pressActivity.getPlace() + "&avPrice=" + Double.parseDouble(pressActivity.getPrice()) + "&avRegister=" + Integer.parseInt(pressActivity.getRegister()) + "&avTitle=" + pressActivity.getTitle() + "&avendtime=" + DateUtils.data(pressActivity.getEndtime()) + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline()) + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime()) + "&uid=" + uid;
                             System.out.println(string);
-                            Thread thread = new Thread(new PressActivityRunable());
-                            thread.start();
-                            System.out.println("11111111");
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            System.out.println("resultstring:" + resultstring);
-                            JSONObject jsonObject = null;
-                            int result = 0;
-                            try {
-                                jsonObject = new JSONObject(resultstring);
-                                result = jsonObject.getInt("status");
-                                if (result == 200) {
-                                    Toast.makeText(PressActivityActivity.this, "活动发布成功", Toast.LENGTH_LONG).show();
-                                } else if (result == 400) {
-                                    Toast.makeText(PressActivityActivity.this, "活动发布失败", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(PressActivityActivity.this, "网络异常", Toast.LENGTH_LONG).show();
-                                }
-                                PressActivityActivity.this.finish();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            SharedPreferences sharedPreferences = getSharedPreferences("tocken",Context.MODE_PRIVATE);
+                            tocken = "?accesstoken="+sharedPreferences.getString("accesstocken","");
+                            new Thread(new PressActivityRunable()).start();
                         }
                     }
                 }).setNegativeButton("取消", null).show();
             }
         });
-
-        File file = new File(Environment.getExternalStorageDirectory(), "SheTuan/cache");
-        if (!file.exists()) {
-            Toast.makeText(PressActivityActivity.this, "无法使用存储器，该功能无法正常使用", Toast.LENGTH_LONG).show();
-            file.mkdirs();
-        }
-        photoSavePath = Environment.getExternalStorageDirectory().getPath() + "/SheTuan/cache/";
-        System.out.println(photoSavePath);
-        photoSaveName = System.currentTimeMillis() + ".jpeg";
         binding.pressActivityActivityimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPopupWindow(binding.pressActivityActivityimage);
             }
         });
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override
@@ -193,13 +178,52 @@ public class PressActivityActivity extends AppCompatActivity {
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
+            String resultstring;
             try {
                 resultstring = okHttpConnect.getdata(url + tocken + string);
+                Message message = handler.obtainMessage();
+                message.what = PRESSACTIVITY;
+                message.obj = resultstring;
+                handler.sendMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case PRESSACTIVITY:
+                    String pressactivityresult = (String) msg.obj;
+                    System.out.println("pressactivityresult"+pressactivityresult);
+                    if (pressactivityresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result ;
+                        try {
+                            jsonObject = new JSONObject(pressactivityresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200) {
+                                Toast.makeText(PressActivityActivity.this, "活动发布成功", Toast.LENGTH_LONG).show();
+                            } else if (result == 400) {
+                                Toast.makeText(PressActivityActivity.this, "活动发布失败", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(PressActivityActivity.this, "网络异常", Toast.LENGTH_LONG).show();
+                            }
+                            PressActivityActivity.this.finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else {
+                        Toast.makeText(PressActivityActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:break;
+            }
+        }
+    };
 
     private void showPopupWindow(View parent) {
         if (popWindow == null) {
@@ -223,7 +247,7 @@ public class PressActivityActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 popWindow.dismiss();
-                photoSaveName = String.valueOf(System.currentTimeMillis()) + ".png";
+                photoSaveName = String.valueOf(System.currentTimeMillis()) + ".jpeg";
                 Uri imageUri = null;
                 Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 imageUri = Uri.fromFile(new File(photoSavePath, photoSaveName));
