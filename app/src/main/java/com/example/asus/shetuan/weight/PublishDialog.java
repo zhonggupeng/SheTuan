@@ -2,6 +2,7 @@ package com.example.asus.shetuan.weight;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.databinding.ActivityFunctionBinding;
 
@@ -19,8 +22,7 @@ public class PublishDialog extends Dialog {
     private Activity context;
 
     private Handler handler;
-
-    private ActivityFunctionBinding binding;
+    private  ActivityFunctionBinding binding;
 
     public PublishDialog(Activity context) {
         this(context, R.style.main_publishdialog_style);
@@ -39,6 +41,7 @@ public class PublishDialog extends Dialog {
         handler = new Handler();
         //填充视图
         binding = DataBindingUtil.setContentView(context,R.layout.activity_function);
+
         binding.activityFunctionLinear.setOnClickListener(new View.OnClickListener() {
 
             @Override
