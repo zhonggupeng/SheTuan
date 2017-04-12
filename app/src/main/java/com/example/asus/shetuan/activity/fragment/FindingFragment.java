@@ -1,5 +1,7 @@
 package com.example.asus.shetuan.activity.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,12 +39,10 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private LayoutInflater inflater;
     private OKHttpConnect okHttpConnect;
     private OKHttpConnect loadmoreOkHttpConnect;
-    private String jsonString;
-    private String loadmoreJsonString;
     private String url="https://euswag.com/eu/community/commoncm";
-    private String tocken = "?accesstocken";
+    private String tocken;
     private String paramName1 = "&page=";
-    private int page = 1;
+    private int page = 2;
     private String pageparam = paramName1+page;
 
     private final int REFRESH_COMPLETE = 0x1100;
@@ -61,6 +61,8 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_finding, container, false);
             findingRecyclerviewAdapter = new FindingRecyclerviewAdapter(inflater.getContext());
+            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("tocken", Context.MODE_PRIVATE);
+            tocken = "?accesstocken="+sharedPreferences.getString("accesstocken","");
             onRefresh();
             binding.shetuanItemRecyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext(), LinearLayoutManager.VERTICAL, false) {
                 @Override
@@ -154,42 +156,6 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 case LOAD_MORE:
                     new Thread(new ShetuanLoadmoreRunable()).start();
 
-                    if (loadmoreJsonString.length()!=0){
-                        JSONTokener loadmoreJsonTokener = new JSONTokener(loadmoreJsonString);
-                        JSONArray loadmoreJsonArray = null;
-                        try {
-                            loadmoreJsonArray = (JSONArray) loadmoreJsonTokener.nextValue();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        if (loadmoreJsonArray.length()!=0){
-                            for (int i = 0; i < loadmoreJsonArray.length(); i++) {
-                                try {
-                                    ShetuanMsg shetuanMsg = new ShetuanMsg(loadmoreJsonArray.getJSONObject(i).getString("cmName"), loadmoreJsonArray.getJSONObject(i).getString("cmDetail"), loadmoreJsonArray.getJSONObject(i).getString("cmBackground"), loadmoreJsonArray.getJSONObject(i).getString("cmLogo"));
-                                    shetuanMsg.setShetuanJsonString(loadmoreJsonArray.getJSONObject(i).toString());
-                                    mData.add(shetuanMsg);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            //
-                            //可能会有逻辑上的错误
-                            //
-                            page++;
-                            pageparam = paramName1+page;
-                            findingRecyclerviewAdapter.setStatus(NORMAL);
-                            changeAdapterState(NORMAL);
-                        }
-                        else {
-                            findingRecyclerviewAdapter.setStatus(THEEND);
-                            changeAdapterState(THEEND);
-                        }
-                    }
-                    else {
-                        findingRecyclerviewAdapter.setStatus(LOADERROR);
-                        changeAdapterState(LOADERROR);
-                    }
-                    findingRecyclerviewAdapter.notifyDataSetChanged();
                     break;
                 case LOADSHETUAN:
                     String loadshetuanresult = (String) msg.obj;
@@ -210,12 +176,8 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                     shetuanMsg.setShetuanJsonString(jsonArray.getJSONObject(i).toString());
                                     mData.add(shetuanMsg);
                                 }
-                                page++;
-                                pageparam = paramName1+page;
                                 findingRecyclerviewAdapter.setmData(null);
                                 findingRecyclerviewAdapter.setmData(mData);
-                                binding.shetuanItemRecyclerView.removeAllViews();
-                                binding.shetuanItemRecyclerView.setAdapter(findingRecyclerviewAdapter);
                             }
                             else {
                                 Toast.makeText(inflater.getContext(),"加载失败，刷新试试",Toast.LENGTH_SHORT).show();
@@ -226,15 +188,58 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     }else {
                         Toast.makeText(inflater.getContext(),"网络异常",Toast.LENGTH_SHORT).show();
                     }
+                    binding.shetuanItemRecyclerView.removeAllViews();
+                    binding.shetuanItemRecyclerView.setAdapter(findingRecyclerviewAdapter);
+                    System.out.println("page1:  "+page);
                     break;
                 case LOAD_MORE_SHETUAN:
                     String loadmoreshetuanresult = (String) msg.obj;
                     if (loadmoreshetuanresult.length()!=0){
-
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(loadmoreshetuanresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                String loadmoreshetuandata = jsonObject.getString("data");
+                                JSONTokener loadmoreJsonTokener = new JSONTokener(loadmoreshetuandata);
+                                JSONArray loadmoreJsonArray = null;
+                                loadmoreJsonArray = (JSONArray) loadmoreJsonTokener.nextValue();
+                                if (loadmoreJsonArray.length()!=0){
+                                    for (int i = 0; i < loadmoreJsonArray.length(); i++) {
+                                        ShetuanMsg shetuanMsg = new ShetuanMsg(loadmoreJsonArray.getJSONObject(i).getString("cmName"), loadmoreJsonArray.getJSONObject(i).getString("cmDetail"), loadmoreJsonArray.getJSONObject(i).getString("cmBackground"), loadmoreJsonArray.getJSONObject(i).getString("cmLogo"));
+                                        shetuanMsg.setShetuanJsonString(loadmoreJsonArray.getJSONObject(i).toString());
+                                        mData.add(shetuanMsg);
+                                    }
+                                    //
+                                    //可能会有逻辑上的错误
+                                    //
+                                    page++;
+                                    pageparam = paramName1+page;
+                                    findingRecyclerviewAdapter.setStatus(NORMAL);
+                                    changeAdapterState(NORMAL);
+                                }
+                                else {
+                                    findingRecyclerviewAdapter.setStatus(THEEND);
+                                    changeAdapterState(THEEND);
+                                }
+                            }
+                            else {
+                                Toast.makeText(inflater.getContext(),"加载失败，刷新试试",Toast.LENGTH_SHORT).show();
+                                findingRecyclerviewAdapter.setStatus(LOADERROR);
+                                changeAdapterState(LOADERROR);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     else {
-                        Toast.makeText(inflater.getContext(),"",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(inflater.getContext(),"网络异常",Toast.LENGTH_SHORT).show();
+                        findingRecyclerviewAdapter.setStatus(LOADERROR);
+                        changeAdapterState(LOADERROR);
                     }
+                    findingRecyclerviewAdapter.notifyDataSetChanged();
+                    System.out.println("page2:  "+page);
                     break;
                 default:break;
             }

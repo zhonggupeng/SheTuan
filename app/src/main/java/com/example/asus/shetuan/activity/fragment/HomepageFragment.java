@@ -99,7 +99,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                     new Thread(new ViewpagerRunnable()).start();
 
                     new Thread(new ActivityRefreshRunable()).start();
-
+                    binding.homepageSwipeRefresh.setRefreshing(false);
                     break;
                 case LOAD_MORE:
                     new Thread(new ActivityLoadMoreRunable()).start();
@@ -208,7 +208,6 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                     }
                     binding.homepageActivityRecyclerView.removeAllViews();
                     binding.homepageActivityRecyclerView.setAdapter(homepageActivityAdapter);
-                    binding.homepageSwipeRefresh.setRefreshing(false);
                     break;
                 case ACTIVITYLOADMORE:
                     String activityloadmoreresult = (String) msg.obj;
