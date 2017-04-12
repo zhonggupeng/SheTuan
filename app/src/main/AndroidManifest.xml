@@ -58,9 +58,6 @@
             android:name=".activity.MyShetuanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.FunctionActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.funct.WriteNoticeActivity"
             android:screenOrientation="portrait" />
         <activity

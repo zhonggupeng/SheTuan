@@ -1,6 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -22,60 +22,177 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/title_height"
-                android:background="@color/main_color"
-                android:gravity="center">
+                android:layout_height="180dp"
+                android:orientation="vertical"
+                android:background="@drawable/background3">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mine"
-                    android:textColor="@color/title_font_color"
-                    android:textSize="@dimen/title_font_size" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_height"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/setting_white"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_me_mynickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/my_nickname_item_height"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/fragment_me_headimage"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        fresco:placeholderImage="@drawable/avater" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:gravity="bottom"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="@dimen/text_padding_left"
+                            android:text="@string/my_nickname"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/title_font_size" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:paddingLeft="@dimen/text_padding_left"
+                            android:paddingTop="2dp"
+                            android:text="节操值100"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/goto_white" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/fragment_me_mynickname"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/my_nickname_item_height"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:layout_height="80dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal">
 
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/fragment_me_headimage"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:padding="8dp"
-                    fresco:placeholderImage="@drawable/avater"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="7"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/text_padding_left"
-                    android:text="@string/my_nickname"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/title_font_size" />
-
-                <ImageView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_goto" />
-            </LinearLayout>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="2.2"
+                        android:src="@drawable/activity"
+                        android:padding="10dp"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="我的活动"
+                        android:textSize="@dimen/font_size"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="2.2"
+                        android:src="@drawable/shetuan"
+                        android:padding="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="我的社团"
+                        android:textSize="@dimen/font_size"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="2.2"
+                        android:src="@drawable/collection"
+                        android:padding="9dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="活动收藏"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="2.2"
+                        android:src="@drawable/collection2"
+                        android:padding="8dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="社团收藏"
+                        android:textSize="@dimen/font_size"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/item_module_space_larger"
+                android:layout_height="@dimen/item_module_space"
                 android:background="@color/item_space_color"></LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/module_item_height"
-                android:onClick="@{MeFrag.MyShetuanclick}"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
@@ -87,15 +204,15 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:padding="10dp"
-                        android:src="@drawable/shetuan" />
+                        android:padding="9dp"
+                        android:src="@drawable/identity" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/text_padding_left"
-                        android:text="@string/my_shetuan"
+                        android:text="身份认证"
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
 
@@ -112,15 +229,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/title_bottom_line"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="@color/gray"></LinearLayout>
+                android:layout_height="@dimen/item_module_space"
+                android:background="@color/item_space_color"></LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/module_item_height"
-                android:onClick="@{MeFrag.MyActivityclick}"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
@@ -130,10 +244,11 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/imageView"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:padding="10dp"
-                        android:src="@drawable/activity" />
+                        android:padding="9dp"
+                        android:src="@drawable/feedback" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -141,7 +256,7 @@
                         android:layout_weight="8"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/text_padding_left"
-                        android:text="@string/my_activity"
+                        android:text="意见反馈"
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
                     />
@@ -165,49 +280,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/module_item_height"
-                android:onClick="@{MeFrag.MyCollectionclick}"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:padding="9dp"
-                        android:src="@drawable/collection" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/text_padding_left"
-                        android:text="@string/my_collection"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/font_size" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="7dp"
-                    android:src="@drawable/ic_goto" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/item_module_space_larger"
-                android:background="@color/item_space_color"></LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/module_item_height"
-                android:onClick="@{MeFrag.SystemServiceclick}"
-                android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
@@ -226,7 +298,48 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/text_padding_left"
-                        android:text="@string/system_service"
+                        android:text="联系客服"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_goto" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_module_space"
+                android:background="@color/item_space_color"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/module_item_height"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:src="@drawable/share" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_padding_left"
+                        android:text="分享我们"
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
                 </LinearLayout>
@@ -247,49 +360,14 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@color/gray"></LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/module_item_height"
-                android:onClick="@{MeFrag.Setupclick}"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:padding="10dp"
-                        android:src="@drawable/setting" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/text_padding_left"
-                        android:text="@string/setting"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/font_size" />
-                </LinearLayout>
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="7dp"
-                    android:src="@drawable/ic_goto" />
-            </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/item_module_space_larger"
+                android:layout_height="@dimen/item_module_space"
                 android:background="@color/item_space_color"></LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/module_item_height"
-                android:onClick="@{MeFrag.Aboutusclick}"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
@@ -314,6 +392,7 @@
                         android:textSize="@dimen/font_size" />
 
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -332,27 +411,27 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/module_item_height"
-                android:onClick="@{MeFrag.Shareusclick}"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:padding="9dp"
-                    android:src="@drawable/share" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/text_padding_left"
-                    android:text="@string/share"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/font_size" />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:src="@drawable/givescore" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_padding_left"
+                        android:text="给我们评分"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
                 </LinearLayout>
 
                 <ImageView
