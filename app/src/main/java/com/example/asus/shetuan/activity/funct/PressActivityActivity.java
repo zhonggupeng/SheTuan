@@ -23,7 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
+import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.ChangePeosonInformationActivity;
 import com.example.asus.shetuan.bean.PressActivity;
@@ -80,6 +82,7 @@ public class PressActivityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewServer.get(this).addWindow(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_press_activity);
         inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         pressActivity = new PressActivity(this);
@@ -312,5 +315,17 @@ public class PressActivityActivity extends AppCompatActivity {
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ViewServer.get(this).addWindow(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ViewServer.get(this).addWindow(this);
     }
 }

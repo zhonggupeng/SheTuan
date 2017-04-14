@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.bean.Phone;
 import com.example.asus.shetuan.databinding.ActivityInputPhoneBinding;
@@ -39,6 +40,7 @@ public class InputPhoneActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewServer.get(this).addWindow(this);
         //
         //新设置的图片影响了背景
         binding = DataBindingUtil.setContentView(this,R.layout.activity_input_phone);
@@ -159,4 +161,16 @@ public class InputPhoneActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ViewServer.get(this).addWindow(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ViewServer.get(this).addWindow(this);
+    }
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.MainTabActivity;
 import com.example.asus.shetuan.bean.SetPassword;
@@ -49,6 +50,7 @@ public class SetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewServer.get(this).addWindow(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_set_password);
         setPassword = new SetPassword(this);
         binding.setSetPassword(setPassword);
@@ -245,4 +247,16 @@ public class SetPasswordActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ViewServer.get(this).addWindow(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ViewServer.get(this).addWindow(this);
+    }
 }

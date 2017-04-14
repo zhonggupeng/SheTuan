@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acker.simplezxing.activity.CaptureActivity;
+import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.fragment.FindingFragment;
 import com.example.asus.shetuan.activity.fragment.HomepageFragment;
@@ -53,6 +54,7 @@ public class MainTabActivity extends FragmentActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewServer.get(this).addWindow(this);
         //setContentView(R.layout.activity_main_tab);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_tab);
 
@@ -166,4 +168,15 @@ public class MainTabActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ViewServer.get(this).addWindow(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ViewServer.get(this).addWindow(this);
+    }
 }

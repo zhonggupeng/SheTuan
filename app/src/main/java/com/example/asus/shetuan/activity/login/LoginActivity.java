@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.MainTabActivity;
 import com.example.asus.shetuan.bean.Login;
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewServer.get(this).addWindow(this);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
         login = new Login(LoginActivity.this);
         binding.setLogin(login);
@@ -197,4 +199,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ViewServer.get(this).addWindow(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ViewServer.get(this).addWindow(this);
+    }
 }
