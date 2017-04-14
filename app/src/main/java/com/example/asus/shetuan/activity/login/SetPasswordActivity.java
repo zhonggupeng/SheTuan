@@ -192,12 +192,12 @@ public class SetPasswordActivity extends AppCompatActivity {
                             if (result == 200) {
                                 //返回的data为新的tocken，将其存入本地
 //                                jsonObject.getString("data");
-                                SharedPreferences sharedPreferences = getSharedPreferences("tocken", Context.MODE_PRIVATE);
+                                SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("accesstocken", jsonObject.getString("data"));
+                                editor.putString("accesstoken", jsonObject.getString("data"));
                                 editor.putString("phonenumber",dataintent.getStringExtra("phonenumber"));
                                 editor.commit();
-                                System.out.println("sharedPreferences  accesstocken:  " + sharedPreferences.getString("accesstocken", "00"));
+                                System.out.println("sharedPreferences  accesstoken:  " + sharedPreferences.getString("accesstoken", "00"));
                                 Intent intent = new Intent(SetPasswordActivity.this, MainTabActivity.class);
                                 SetPasswordActivity.this.startActivity(intent);
                             } else if (result == 500) {
@@ -223,12 +223,12 @@ public class SetPasswordActivity extends AppCompatActivity {
                             result = jsonObject.getInt("status");
                             System.out.println("result"+result);
                             if (result == 200) {
-                                SharedPreferences sharedPreferences = getSharedPreferences("tocken", Context.MODE_PRIVATE);
+                                SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("accesstocken", jsonObject.getString("data"));
+                                editor.putString("accesstoken", jsonObject.getString("data"));
                                 editor.putString("phonenumber",dataintent.getStringExtra("phonenumber"));
                                 editor.commit();
-                                System.out.println("sharedPreferences  accesstocken:  " + sharedPreferences.getString("accesstocken", "00"));
+                                System.out.println("sharedPreferences  accesstoken:  " + sharedPreferences.getString("accesstoken", "00"));
                                 Intent intent = new Intent(SetPasswordActivity.this, MainTabActivity.class);
                                 SetPasswordActivity.this.startActivity(intent);
                             } else if (result == 500) {

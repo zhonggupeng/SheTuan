@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.adapter.ActivityRecyclerviewAdapter;
 import com.example.asus.shetuan.adapter.FirstAdapter;
+import com.example.asus.shetuan.adapter.NoLoadmoreActivityRecyclerviewAdapter;
 import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.databinding.FragmentActivityBinding;
 import com.example.asus.shetuan.model.DateUtils;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshLayout.OnRefreshListener{
     private FragmentActivityBinding binding = null ;
 
-    private ActivityRecyclerviewAdapter adapter;
+    private NoLoadmoreActivityRecyclerviewAdapter adapter;
 
     private OKHttpConnect okHttpConnect;
     private String createdurl = "https://euswag.com/eu/activity/createdav";
@@ -50,6 +52,9 @@ public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshL
     private final int ACTIVITYREFRESH = 0x1010;
     private final int ACTIVITYLOADMORE = 0x1100;
 
+    private final int NORMAL = 110;
+    private final int THEEND = 100;
+
     private LayoutInflater inflater;
 
     private ArrayList<ActivityMsg> mData = new ArrayList<ActivityMsg>();
@@ -60,10 +65,10 @@ public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshL
         if (binding == null) {
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_activity, container, false);
-            adapter = new ActivityRecyclerviewAdapter(inflater.getContext());
-            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("tocken", Context.MODE_PRIVATE);
+            adapter = new NoLoadmoreActivityRecyclerviewAdapter(inflater.getContext());
+            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
             phonenumber = sharedPreferences.getString("phonenumber","0");
-            accesstocken = sharedPreferences.getString("accesstocken","00");
+            accesstocken = sharedPreferences.getString("accesstoken","00");
             createdparam1 = "?uid="+phonenumber;
             createdparam2 = "&accesstoken="+accesstocken;
             onRefresh();
@@ -74,6 +79,9 @@ public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshL
                 }
             });
             binding.fragmentActivityScrollview.smoothScrollTo(0,40);
+            binding.fragmentActivityRefresh.setOnRefreshListener(this);
+            binding.fragmentActivityRefresh.setDistanceToTriggerSync(300);
+            binding.fragmentActivityRefresh.setSize(SwipeRefreshLayout.DEFAULT);
         }
         return binding.getRoot();
     }
@@ -92,7 +100,7 @@ public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshL
             try {
                 resultstring = okHttpConnect.getdata(createdurl+createdparam1+createdparam2);
                 Message message = handler.obtainMessage();
-                message.what = REFRESH_COMPLETE;
+                message.what = ACTIVITYREFRESH;
                 message.obj = resultstring;
                 handler.sendMessage(message);
             } catch (IOException e) {
@@ -105,7 +113,7 @@ public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshL
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case REFRESH_COMPLETE:
-                    new Thread(new CreatedRunnable());
+                    new Thread(new CreatedRunnable()).start();
                     binding.fragmentActivityRefresh.setRefreshing(false);
                     break;
                 case ACTIVITYREFRESH:

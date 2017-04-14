@@ -40,7 +40,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private OKHttpConnect okHttpConnect;
     private OKHttpConnect loadmoreOkHttpConnect;
     private String url="https://euswag.com/eu/community/commoncm";
-    private String tocken;
+    private String token;
     private String paramName1 = "&page=";
     private int page = 2;
     private String pageparam = paramName1+page;
@@ -61,8 +61,8 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_finding, container, false);
             findingRecyclerviewAdapter = new FindingRecyclerviewAdapter(inflater.getContext());
-            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("tocken", Context.MODE_PRIVATE);
-            tocken = "?accesstocken="+sharedPreferences.getString("accesstocken","");
+            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
+            token = "?accesstoken="+sharedPreferences.getString("accesstoken","");
             onRefresh();
             binding.shetuanItemRecyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext(), LinearLayoutManager.VERTICAL, false) {
                 @Override
@@ -117,7 +117,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(url+tocken);
+                resultstring = okHttpConnect.getdata(url+ token);
                 Message message = handler.obtainMessage();
                 message.what = LOADSHETUAN;
                 message.obj = resultstring;
@@ -134,7 +134,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
             loadmoreOkHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = loadmoreOkHttpConnect.getdata(url+tocken+pageparam);
+                resultstring = loadmoreOkHttpConnect.getdata(url+ token +pageparam);
                 Message message = handler.obtainMessage();
                 message.what = LOAD_MORE_SHETUAN;
                 message.obj = resultstring;

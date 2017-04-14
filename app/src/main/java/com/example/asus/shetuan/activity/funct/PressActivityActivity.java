@@ -145,8 +145,8 @@ public class PressActivityActivity extends AppCompatActivity {
                             }
                             string = "&avDetail=" + pressActivity.getDetail() + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum()) + "&avPlace=" + pressActivity.getPlace() + "&avPrice=" + Double.parseDouble(pressActivity.getPrice()) + "&avRegister=" + Integer.parseInt(pressActivity.getRegister()) + "&avTitle=" + pressActivity.getTitle() + "&avendtime=" + DateUtils.data(pressActivity.getEndtime()) + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline()) + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime()) + "&uid=" + uid;
                             System.out.println(string);
-                            SharedPreferences sharedPreferences = getSharedPreferences("tocken",Context.MODE_PRIVATE);
-                            tocken = "?accesstoken="+sharedPreferences.getString("accesstocken","");
+                            SharedPreferences sharedPreferences = getSharedPreferences("token",Context.MODE_PRIVATE);
+                            tocken = "?accesstoken="+sharedPreferences.getString("accesstoken","");
                             new Thread(new PressActivityRunable()).start();
                         }
                     }

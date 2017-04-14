@@ -76,7 +76,8 @@ public class FunctionActivity extends AppCompatActivity {
         binding.functionViewWritenotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FunctionActivity.this, WriteNoticeActivity.class);
+                Intent intent = new Intent(FunctionActivity.this,MyActivityActivity.class);
+                intent.putExtra("page",1);
                 FunctionActivity.this.startActivity(intent);
             }
         });

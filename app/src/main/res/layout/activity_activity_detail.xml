@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="activityDetail"
-            type="com.example.asus.shetuan.bean.ActivityDetail"/>
-        <variable
             name="activityDetailMsg"
             type="com.example.asus.shetuan.bean.ActivityMsg"/>
     </data>
@@ -39,11 +36,11 @@
                         android:layout_height="@dimen/title_height">
 
                         <LinearLayout
+                            android:id="@+id/activitydetail_backimage"
                             android:layout_width="@dimen/title_height"
                             android:layout_height="@dimen/title_height"
                             android:layout_marginLeft="10dp"
-                            android:padding="8dp"
-                            android:onClick="@{activityDetail.backclick}">
+                            android:padding="8dp">
 
                             <ImageView
                                 android:layout_width="match_parent"
@@ -152,10 +149,11 @@
 
                         <com.facebook.drawee.view.SimpleDraweeView
                             android:id="@+id/activity_detail_headimage"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/my_nickname_item_height"
-                            android:layout_weight="1.1"
-                            fresco:placeholderImage="@drawable/avater" />
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:padding="5dp"
+                            fresco:placeholderImage="@drawable/avater"
+                            fresco:roundedCornerRadius="40dp" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -169,18 +167,22 @@
                                 android:layout_weight="1"></LinearLayout>
 
                             <TextView
+                                android:id="@+id/activity_detail_originator"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
+                                android:paddingLeft="5dp"
                                 android:gravity="center_vertical"
                                 android:text="昵称"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/title_font_size" />
 
                             <TextView
+                                android:id="@+id/activity_detail_reputation"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
+                                android:paddingLeft="5dp"
                                 android:text="节操值 100"
                                 android:textColor="@color/search_keyword_color"
                                 android:textSize="@dimen/min_font_size" />
@@ -192,11 +194,11 @@
                         </LinearLayout>
 
                         <ImageView
+                            android:id="@+id/activity_detail_callphone"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:padding="15dp"
-                            android:onClick="@{activityDetail.callclick}"
                             android:src="@drawable/call" />
                     </LinearLayout>
 

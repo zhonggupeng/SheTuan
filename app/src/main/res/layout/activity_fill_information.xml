@@ -82,8 +82,10 @@
                         android:id="@+id/fill_inform_headimage"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
+                        android:padding="5dp"
                         android:layout_alignParentRight="true"
-                        fresco:placeholderImage="@drawable/avater" />
+                        fresco:placeholderImage="@drawable/avater"
+                        fresco:roundedCornerRadius="40dp"/>
                 </RelativeLayout>
 
                 <LinearLayout

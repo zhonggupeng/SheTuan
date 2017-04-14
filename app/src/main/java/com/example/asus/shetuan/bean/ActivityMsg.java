@@ -115,6 +115,16 @@ public class ActivityMsg extends BaseObservable{
     private String actaddress;
     private String acttime;
     private String imageurl;
+    private String isparticipate;
+
+    public String getIsparticipate() {
+        return isparticipate;
+    }
+
+    public void setIsparticipate(String isparticipate) {
+        this.isparticipate = isparticipate;
+    }
+
 
     public String getImageurl() {
         return imageurl;

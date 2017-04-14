@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.adapter.ActivityRecyclerviewAdapter;
 import com.example.asus.shetuan.adapter.FirstAdapter;
+import com.example.asus.shetuan.adapter.NoLoadmoreActivityRecyclerviewAdapter;
 import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.databinding.FragmentActivityBinding;
 import com.example.asus.shetuan.databinding.FragmentFindingBinding;
@@ -37,7 +39,7 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
     private FragmentActivityBinding binding = null ;
 
     private ArrayList<ActivityMsg> mData = new ArrayList<ActivityMsg>();
-    private ActivityRecyclerviewAdapter adapter;
+    private NoLoadmoreActivityRecyclerviewAdapter adapter;
 
     private OKHttpConnect okHttpConnect;
     private String participatingurl = "https://euswag.com/eu/activity/joinedav";
@@ -53,6 +55,7 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
     private final int ACTIVITYREFRESH = 0x1010;
     private final int ACTIVITYLOADMORE = 0x1100;
 
+    //上拉加载状态
     private final int NORMAL = 110;
     private final int LOADING = 111;
     private final int THEEND = 100;
@@ -66,10 +69,10 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
         if (binding == null) {
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_activity, container, false);
-            adapter = new ActivityRecyclerviewAdapter(inflater.getContext());
-            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("tocken", Context.MODE_PRIVATE);
+            adapter = new NoLoadmoreActivityRecyclerviewAdapter(inflater.getContext());
+            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
             phonenumber = sharedPreferences.getString("phonenumber","0");
-            accesstocken = sharedPreferences.getString("accesstocken","00");
+            accesstocken = sharedPreferences.getString("accesstoken","00");
             participatingparam1 = "?uid="+phonenumber;
             participatingparam2 = "&accesstoken="+accesstocken;
             onRefresh();
@@ -80,9 +83,15 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
                 }
             });
             binding.fragmentActivityScrollview.smoothScrollTo(0,40);
+
+            //不用上拉加载，设置状态为NORMAL
+            binding.fragmentActivityRefresh.setOnRefreshListener(this);
+            binding.fragmentActivityRefresh.setDistanceToTriggerSync(300);
+            binding.fragmentActivityRefresh.setSize(SwipeRefreshLayout.DEFAULT);
         }
         return binding.getRoot();
     }
+
 
     @Override
     public void onRefresh() {
@@ -138,6 +147,7 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
                                     //对于时间要进行处理，即时间格式的转换
                                     ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"),activityRefreshJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")),imageloadurl+activityRefreshJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
+                                    activityMsg.setIsparticipate("1");
                                     mData.add(activityMsg);
                                 }
                                 adapter.setmData(null);
@@ -160,4 +170,9 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
         }
     };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
+    }
 }

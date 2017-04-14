@@ -188,6 +188,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                         //对于时间要进行处理，即时间格式的转换
                                     ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"),activityRefreshJsonArray.getJSONObject(i).getString("avPlace"),DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")),imageloadurl+activityRefreshJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
+                                    activityMsg.setIsparticipate("0");
                                     mData.add(activityMsg);
                                 }
 //                        mData.addAll(changeData);
@@ -231,6 +232,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                     for (int i = 0; i < activityLoadMoreJsonArray.length(); i++) {
                                         ActivityMsg activityMsg = new ActivityMsg(activityLoadMoreJsonArray.getJSONObject(i).getString("avTitle"), activityLoadMoreJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityLoadMoreJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl+activityLoadMoreJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
                                         activityMsg.setActivityDetailJsonString(activityLoadMoreJsonArray.getJSONObject(i).toString());
+                                        activityMsg.setIsparticipate("0");
                                         mData.add(activityMsg);
                                     }
                                     loadmoreParam = paramName2+DateUtils.data2(mData.get(mData.size()-1).getActtime());

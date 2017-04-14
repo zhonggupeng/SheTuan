@@ -23,10 +23,10 @@
     <dimen name="me_image_padding_mid">9dp</dimen>
     <dimen name="min_image_padding">3dp</dimen>
 
-    <dimen name="font_size">16sp</dimen>
+    <dimen name="font_size">15sp</dimen>
     <dimen name="font_size_dp">16dp</dimen>
-    <dimen name="title_font_size">18sp</dimen>
-    <dimen name="min_font_size">14sp</dimen>
+    <dimen name="title_font_size">17sp</dimen>
+    <dimen name="min_font_size">13sp</dimen>
     <dimen name="navigation_bar_text_size">12sp</dimen>
 
     <dimen name="my_nickname_item_height">80dp</dimen>

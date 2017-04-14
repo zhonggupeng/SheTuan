@@ -172,12 +172,12 @@ public class LoginActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(loginresultstring);
                             resutlt = jsonObject.getInt("status");
                             if (resutlt == 200){
-                                SharedPreferences sharedPreferences = getSharedPreferences("tocken", Context.MODE_PRIVATE);
+                                SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("accesstocken", jsonObject.getString("data"));
+                                editor.putString("accesstoken", jsonObject.getString("data"));
                                 editor.putString("phonenumber",login.getAccountnumber());
                                 editor.commit();
-                                System.out.println("sharedPreferences  accesstocken:  " + sharedPreferences.getString("accesstocken", "00"));
+                                System.out.println("sharedPreferences  accesstoken:  " + sharedPreferences.getString("accesstoken", "00"));
                                 Intent intent = new Intent(LoginActivity.this, MainTabActivity.class);
                                 LoginActivity.this.startActivity(intent);
                             }

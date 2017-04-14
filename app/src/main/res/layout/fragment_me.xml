@@ -2,13 +2,6 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="MeFrag"
-            type="com.example.asus.shetuan.bean.MeFrag" />
-    </data>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,10 +50,11 @@
 
                         <com.facebook.drawee.view.SimpleDraweeView
                             android:id="@+id/fragment_me_headimage"
-                            android:layout_width="0dp"
+                            android:layout_width="80dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            fresco:placeholderImage="@drawable/avater" />
+                            android:padding="5dp"
+                            fresco:placeholderImage="@drawable/avater"
+                            fresco:roundedCornerRadius="40dp"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -69,6 +63,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/fragment_me_nickname"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="2"
@@ -80,6 +75,7 @@
                                 android:textSize="@dimen/title_font_size" />
 
                             <TextView
+                                android:id="@+id/fragment_me_reputation"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
@@ -106,6 +102,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/fragment_me_myactivity"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -130,6 +127,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/fragment_me_myshetuan"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -153,6 +151,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/fragment_me_activity_collection"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -176,6 +175,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/fragment_me_shetuan_collection"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
