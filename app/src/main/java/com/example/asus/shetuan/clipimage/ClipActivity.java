@@ -1,4 +1,4 @@
-package com.example.asus.shetuan.clipimage.cliphead;
+package com.example.asus.shetuan.clipimage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -49,7 +49,7 @@ public class ClipActivity extends Activity{
 					@Override
 					public void run() {
 						Bitmap bitmap = mClipImageLayout.clip();
-						String path= Environment.getExternalStorageDirectory()+"/ClipHeadPhoto/cache/"+System.currentTimeMillis()+ ".jpeg";
+						String path= Environment.getExternalStorageDirectory()+"/SheTuan/cache/"+System.currentTimeMillis()+ ".jpeg";
 						ImageTools.savePhotoToSDCard(bitmap,path);
 						loadingDialog.dismiss();
 						Intent intent = new Intent();

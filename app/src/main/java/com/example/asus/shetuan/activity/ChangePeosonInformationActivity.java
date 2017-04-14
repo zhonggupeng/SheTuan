@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
-import com.example.asus.shetuan.clipimage.cliphead.ClipActivity;
+import com.example.asus.shetuan.clipimage.ClipActivity;
 import com.example.asus.shetuan.databinding.ActivityChangePeosonInformationBinding;
 
 import java.io.File;
@@ -46,7 +46,7 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_change_peoson_information);
         File file = new File(Environment.getExternalStorageDirectory(),"SheTuan/cache");
         if (!file.exists()) {
-            Toast.makeText(ChangePeosonInformationActivity.this,"无法使用存储器，该功能无法正常使用",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"无法使用存储器，该功能无法正常使用",Toast.LENGTH_LONG).show();
             file.mkdirs();
         }
         photoSavePath=Environment.getExternalStorageDirectory().getPath()+"/SheTuan/cache/";
@@ -86,7 +86,7 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 popWindow.dismiss();
-                photoSaveName =String.valueOf(System.currentTimeMillis()) + ".png";
+                photoSaveName =String.valueOf(System.currentTimeMillis()) + ".jpeg";
                 Uri imageUri = null;
                 Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 imageUri = Uri.fromFile(new File(photoSavePath,photoSaveName));
@@ -145,7 +145,8 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                 final String temppath = data.getStringExtra("path");
                 String string = "file://";
                 System.out.println(temppath);
-                binding.changeInformHeadimage.setImageURI(new String(string+temppath));//将图片置入image
+                binding.changeInformHeadimage.setImageURI(new String(string+temppath));
+//                imageView.setImageURI();//将图片置入image
                 break;
             default:
                 break;

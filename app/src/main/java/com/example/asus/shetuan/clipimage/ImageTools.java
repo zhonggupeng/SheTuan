@@ -1,4 +1,4 @@
-package com.example.asus.shetuan.clipimage.cliphead;
+package com.example.asus.shetuan.clipimage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

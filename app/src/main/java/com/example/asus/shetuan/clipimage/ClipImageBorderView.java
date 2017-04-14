@@ -1,4 +1,4 @@
-package com.example.asus.shetuan.clipimage.cliprectimage;
+package com.example.asus.shetuan.clipimage;
 
 
 import android.content.Context;
@@ -10,23 +10,23 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-public class ClipRectImageBorderView extends View
+public class ClipImageBorderView extends View
 {
-	private int mHorizontalPadding;
-	private int mBorderWidth = 1;
+//	private int mHorizontalPadding;
+	private int mBorderWidth = 2;
 	private Paint mPaint;
 
-	public ClipRectImageBorderView(Context context)
+	public ClipImageBorderView(Context context)
 	{
 		this(context, null);
 	}
 
-	public ClipRectImageBorderView(Context context, AttributeSet attrs)
+	public ClipImageBorderView(Context context, AttributeSet attrs)
 	{
 		this(context, attrs, 0);
 	}
 
-	public ClipRectImageBorderView(Context context, AttributeSet attrs, int defStyle)
+	public ClipImageBorderView(Context context, AttributeSet attrs, int defStyle)
 	{
 		super(context, attrs, defStyle);
 	
@@ -46,14 +46,14 @@ public class ClipRectImageBorderView extends View
 		mPaint.setStrokeWidth(mBorderWidth);
 		mPaint.setStyle(Style.STROKE);
 
-//		canvas.drawCircle( getWidth()/2, getHeight()/2, getWidth()/2-mHorizontalPadding, mPaint);
-		canvas.drawRect(0,getHeight()/2-getHeight()/5,getWidth(),getHeight()/2+getHeight()/5,mPaint);
+		canvas.drawRect(0,getHeight()/2-getHeight()/4,getWidth(),getHeight()/2+getHeight()/4,mPaint);
+
 	}
 
-	public void setHorizontalPadding(int mHorizontalPadding)
-	{
-		this.mHorizontalPadding = mHorizontalPadding;
-		
-	}
+//	public void setHorizontalPadding(int mHorizontalPadding)
+//	{
+//		this.mHorizontalPadding = mHorizontalPadding;
+//
+//	}
 
 }

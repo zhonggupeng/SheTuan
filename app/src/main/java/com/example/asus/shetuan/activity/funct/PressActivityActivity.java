@@ -29,8 +29,7 @@ import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.ChangePeosonInformationActivity;
 import com.example.asus.shetuan.bean.PressActivity;
-import com.example.asus.shetuan.clipimage.cliphead.ClipActivity;
-import com.example.asus.shetuan.clipimage.cliprectimage.ClipRectActivity;
+import com.example.asus.shetuan.clipimage.ClipActivity;
 import com.example.asus.shetuan.databinding.ActivityPressActivityBinding;
 import com.example.asus.shetuan.dateselector.DataSelect;
 import com.example.asus.shetuan.model.DateUtils;
@@ -56,6 +55,7 @@ public class PressActivityActivity extends AppCompatActivity {
     private String photoSavePath;
     private String photoSaveName;
     private String path;
+    private String imagepath = null;
 
     private LayoutInflater inflater = null;
     private DataSelect dataSelect = null;
@@ -64,12 +64,15 @@ public class PressActivityActivity extends AppCompatActivity {
     private final int ENROLLDEADTIME = 110;
 
     private final int PRESSACTIVITY = 0x1000;
+    private final int PRESSIMAGE = 0x1100;
 
     private OKHttpConnect okHttpConnect;
     private String url = "https://euswag.com/eu/activity/createav";
     private String tocken;
     private String string;
     private long uid = Long.parseLong("15061884797");
+
+    private String pressimageurl = "https://euswag.com/eu/upload/activity";
 
     private PressActivity pressActivity;
 
@@ -78,6 +81,7 @@ public class PressActivityActivity extends AppCompatActivity {
     }
 
     private ActivityPressActivityBinding binding = null;
+    private File imagefile;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -143,11 +147,16 @@ public class PressActivityActivity extends AppCompatActivity {
                             } else {
                                 pressActivity.setRegister("-1");
                             }
-                            string = "&avDetail=" + pressActivity.getDetail() + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum()) + "&avPlace=" + pressActivity.getPlace() + "&avPrice=" + Double.parseDouble(pressActivity.getPrice()) + "&avRegister=" + Integer.parseInt(pressActivity.getRegister()) + "&avTitle=" + pressActivity.getTitle() + "&avendtime=" + DateUtils.data(pressActivity.getEndtime()) + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline()) + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime()) + "&uid=" + uid;
-                            System.out.println(string);
-                            SharedPreferences sharedPreferences = getSharedPreferences("token",Context.MODE_PRIVATE);
-                            tocken = "?accesstoken="+sharedPreferences.getString("accesstoken","");
-                            new Thread(new PressActivityRunable()).start();
+                            if (imagepath == null) {
+                                string = "&avDetail=" + pressActivity.getDetail() + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum()) + "&avPlace=" + pressActivity.getPlace() + "&avPrice=" + Double.parseDouble(pressActivity.getPrice()) + "&avRegister=" + Integer.parseInt(pressActivity.getRegister()) + "&avTitle=" + pressActivity.getTitle() + "&avendtime=" + DateUtils.data(pressActivity.getEndtime()) + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline()) + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime()) + "&uid=" + uid;
+                                System.out.println(string);
+                                SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
+                                tocken = "?accesstoken=" + sharedPreferences.getString("accesstoken", "");
+                                new Thread(new PressActivityRunable()).start();
+                            }else {
+                                imagefile = new File(imagepath);
+                                new Thread(new PressImageRunnable()).start();
+                            }
                         }
                     }
                 }).setNegativeButton("取消", null).show();
@@ -193,6 +202,23 @@ public class PressActivityActivity extends AppCompatActivity {
             }
         }
     }
+    private class PressImageRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.postfile(pressimageurl,imagefile);
+                Message message = handler.obtainMessage();
+                message.what = PRESSIMAGE;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private Handler handler = new Handler(){
         @Override
@@ -220,6 +246,33 @@ public class PressActivityActivity extends AppCompatActivity {
                         }
                     }
                     else {
+                        Toast.makeText(PressActivityActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case PRESSIMAGE:
+                    String pressimageresult = (String) msg.obj;
+                    if (pressimageresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(pressimageresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                String pressimagedata = jsonObject.getString("data");
+                                string ="&avLogo="+pressimagedata.substring(0,pressimagedata.indexOf("."))+ "&avDetail=" + pressActivity.getDetail()
+                                        + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum()) + "&avPlace=" + pressActivity.getPlace()
+                                        + "&avPrice=" + Double.parseDouble(pressActivity.getPrice()) + "&avRegister=" + Integer.parseInt(pressActivity.getRegister())
+                                        + "&avTitle=" + pressActivity.getTitle() + "&avendtime=" + DateUtils.data(pressActivity.getEndtime())
+                                        + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline()) + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime())
+                                        + "&uid=" + uid;
+                                SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
+                                tocken = "?accesstoken=" + sharedPreferences.getString("accesstoken", "");
+                                new Thread(new PressActivityRunable()).start();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
                         Toast.makeText(PressActivityActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
                     }
                     break;
@@ -294,14 +347,14 @@ public class PressActivityActivity extends AppCompatActivity {
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
                 path = cursor.getString(column_index);//得到一个图片
-                Intent intent3 = new Intent(this, ClipRectActivity.class);
+                Intent intent3 = new Intent(this, ClipActivity.class);
                 intent3.putExtra("path", path);
                 startActivityForResult(intent3, IMAGE_COMPLETE);
                 break;
             case PHOTOTAKE:
                 path = photoSavePath + photoSaveName;
                 uri = Uri.fromFile(new File(path));
-                Intent intent2 = new Intent(this, ClipRectActivity.class);
+                Intent intent2 = new Intent(this, ClipActivity.class);
                 intent2.putExtra("path", path);
                 startActivityForResult(intent2, IMAGE_COMPLETE);
                 break;
@@ -309,6 +362,7 @@ public class PressActivityActivity extends AppCompatActivity {
                 final String temppath = data.getStringExtra("path");
                 String string = "file://";
                 System.out.println(temppath);
+                imagepath = temppath;
                 binding.pressActivityActivityimage.setImageURI(new String(string + temppath));//将图片置入image
                 break;
             default:

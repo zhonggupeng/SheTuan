@@ -31,8 +31,8 @@ public class SetPasswordActivity extends AppCompatActivity {
     private String sendurl = "https://euswag.com/eu/user/newuser";
     private String sendparam;
 
-    //    private String sendavatarresult;
-    private String sendavatarurl = "https://euswag.com/eu/upload/activity";
+    //头像上传网址
+    private String sendavatarurl = "https://euswag.com/eu/upload/user";
 
     private String changepasswordurl = "https://euswag.com/eu/user/changepwdbyphone";
     private String changepasswordparam1;

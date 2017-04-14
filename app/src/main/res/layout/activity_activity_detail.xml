@@ -29,7 +29,8 @@
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/activity_detail_background"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        fresco:placeholderImage="@drawable/activitydetailbackground"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.asus.shetuan.clipimage.cliphead;
+package com.example.asus.shetuan.clipimage;
 
 
 import android.content.Context;
@@ -13,7 +13,7 @@ public class ClipImageLayout extends RelativeLayout
 	private ClipZoomImageView mZoomImageView;
 	private ClipImageBorderView mClipImageView;
 
-	private int mHorizontalPadding =60;
+	private int mHorizontalPadding =0;
 
 	public ClipImageLayout(Context context, AttributeSet attrs)
 	{
@@ -30,8 +30,8 @@ public class ClipImageLayout extends RelativeLayout
 		this.addView(mClipImageView, lp);
 
 		mHorizontalPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mHorizontalPadding, getResources().getDisplayMetrics());
-		mZoomImageView.setHorizontalPadding(mHorizontalPadding);
-		mClipImageView.setHorizontalPadding(mHorizontalPadding);
+//		mZoomImageView.setHorizontalPadding(mHorizontalPadding);
+//		mClipImageView.setHorizontalPadding(mHorizontalPadding);
 	}
 	public void setHorizontalPadding(int mHorizontalPadding)
 	{

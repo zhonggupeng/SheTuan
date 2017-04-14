@@ -68,10 +68,10 @@
         <activity android:name=".activity.AccountPasswordReviseActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.CheckActivityActivity" />
-        <activity android:name=".clipimage.cliphead.ClipActivity" />
-        <activity android:name=".clipimage.cliprectimage.ClipRectActivity" />
+        <activity android:name=".clipimage.ClipActivity" />
         <activity android:name=".activity.ChangePeosonInformationActivity" />
-        <activity android:name=".activity.FunctionActivity"></activity>
+        <activity android:name=".activity.FunctionActivity" />
+        <activity android:name=".activity.ActivityCollectionActivity"></activity>
     </application>
 
 </manifest>

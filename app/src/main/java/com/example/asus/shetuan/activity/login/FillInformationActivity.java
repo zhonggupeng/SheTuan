@@ -27,7 +27,7 @@ import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.ChangePeosonInformationActivity;
 import com.example.asus.shetuan.bean.InformationFill;
-import com.example.asus.shetuan.clipimage.cliphead.ClipActivity;
+import com.example.asus.shetuan.clipimage.ClipActivity;
 import com.example.asus.shetuan.databinding.ActivityFillInformationBinding;
 import com.example.asus.shetuan.sexselector.SexSelect;
 

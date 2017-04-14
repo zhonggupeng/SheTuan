@@ -58,6 +58,7 @@
                             android:id="@+id/change_inform_headimage"
                             android:layout_width="80dp"
                             android:layout_height="match_parent"
+                            android:padding="5dp"
                             android:layout_marginLeft="10dp"
                             fresco:placeholderImage="@drawable/avater"
                             fresco:roundedCornerRadius="40dp"/>

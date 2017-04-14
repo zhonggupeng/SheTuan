@@ -1,4 +1,4 @@
-package com.example.asus.shetuan.clipimage.cliprectimage;
+package com.example.asus.shetuan.clipimage;
 
 
 import android.content.Context;
@@ -6,10 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -24,7 +20,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 @SuppressWarnings("deprecation")
-public class ClipRectZoomImageView extends ImageView implements
+public class ClipZoomImageView extends ImageView implements
 		OnScaleGestureListener, OnTouchListener,
 		ViewTreeObserver.OnGlobalLayoutListener
 
@@ -52,12 +48,12 @@ public class ClipRectZoomImageView extends ImageView implements
 	private boolean isCanDrag;
 	private int lastPointerCount;
 
-	public ClipRectZoomImageView(Context context)
+	public ClipZoomImageView(Context context)
 	{
 		this(context, null);
 	}
 
-	public ClipRectZoomImageView(Context context, AttributeSet attrs)
+	public ClipZoomImageView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 
@@ -75,12 +71,12 @@ public class ClipRectZoomImageView extends ImageView implements
 						float y = e.getY();
 						if (getScale() < SCALE_MID)
 						{
-							ClipRectZoomImageView.this.postDelayed(
+							ClipZoomImageView.this.postDelayed(
 									new AutoScaleRunnable(SCALE_MID, x, y), 16);
 							isAutoScale = true;
 						} else
 						{
-							ClipRectZoomImageView.this.postDelayed(
+							ClipZoomImageView.this.postDelayed(
 									new AutoScaleRunnable(initScale, x, y), 16);
 							isAutoScale = true;
 						}
@@ -129,7 +125,7 @@ public class ClipRectZoomImageView extends ImageView implements
 			if (((tmpScale > 1f) && (currentScale < mTargetScale))
 					|| ((tmpScale < 1f) && (mTargetScale < currentScale)))
 			{
-				ClipRectZoomImageView.this.postDelayed(this, 16);
+				ClipZoomImageView.this.postDelayed(this, 16);
 			} else
 
 			{
@@ -241,11 +237,11 @@ public class ClipRectZoomImageView extends ImageView implements
 				{
 
 					RectF rectF = getMatrixRectF();
-					if (rectF.width() <= getWidth() - mHorizontalPadding * 2)
+					if (rectF.width() <= getWidth() )
 					{
 						dx = 0;
 					}
-					if (rectF.height() <= getHeight() - mVerticalPadding * 2)
+					if (rectF.height() <= getHeight())
 					{
 						dy = 0;
 					}
@@ -286,7 +282,7 @@ public class ClipRectZoomImageView extends ImageView implements
 		getViewTreeObserver().removeGlobalOnLayoutListener(this);
 	}
 
-	private int mHorizontalPadding;
+//	private int mHorizontalPadding;
 
 	private int mVerticalPadding;
 
@@ -299,7 +295,7 @@ public class ClipRectZoomImageView extends ImageView implements
 			if (d == null)
 				return;
 
-			mVerticalPadding = (getHeight() - (getWidth() - 2 * mHorizontalPadding)) / 2;
+			mVerticalPadding = (getHeight() - (getWidth())) / 2;
 
 			int width = getWidth();
 			int height = getHeight();
@@ -307,19 +303,19 @@ public class ClipRectZoomImageView extends ImageView implements
 			int dw = d.getIntrinsicWidth();
 			int dh = d.getIntrinsicHeight();
 			float scale = 1.0f;
-			if (dw <= getWidth() - mHorizontalPadding * 2&& dh >=getHeight() - mVerticalPadding * 2)
+			if (dw <= getWidth() && dh >=getHeight() - mVerticalPadding * 2)
 			{
-				scale = (getWidth() * 1.0f - mHorizontalPadding * 2) / dw;
+				scale = (getWidth() * 1.0f ) / dw;
 			}
 
-			if (dh <= getHeight() - mVerticalPadding * 2&& dw >= getWidth() - mHorizontalPadding * 2)
+			if (dh <= getHeight() - mVerticalPadding * 2&& dw >= getWidth() )
 			{
 				scale = (getHeight() * 1.0f - mVerticalPadding * 2) / dh;
 			}
 
-			if (dw <= getWidth() - mHorizontalPadding * 2&& dh <= getHeight() - mVerticalPadding * 2)
+			if (dw <= getWidth() * 2&& dh <= getHeight() - mVerticalPadding * 2)
 			{
-				float scaleW = (getWidth() * 1.0f - mHorizontalPadding * 2)/ dw;
+				float scaleW = (getWidth() * 1.0f )/ dw;
 				float scaleH = (getHeight() * 1.0f - mVerticalPadding * 2) / dh;
 				scale = Math.max(scaleW, scaleH);
 			}
@@ -341,9 +337,9 @@ public class ClipRectZoomImageView extends ImageView implements
 		Canvas canvas = new Canvas(bitmap);
 		draw(canvas);
 
-		return Bitmap.createBitmap(bitmap, mHorizontalPadding,
-				mVerticalPadding, getWidth() - 2 * mHorizontalPadding,
-				getWidth() - 2 * mHorizontalPadding);
+		return Bitmap.createBitmap(bitmap, 0,
+				mVerticalPadding, getWidth() ,
+				getWidth() );
 	}
 
 	private void checkBorder()
@@ -355,15 +351,15 @@ public class ClipRectZoomImageView extends ImageView implements
 
 		int width = getWidth();
 		int height = getHeight();
-		if (rect.width() + 0.01 >= width - 2 * mHorizontalPadding)
+		if (rect.width() + 0.01 >= width )
 		{
-			if (rect.left > mHorizontalPadding)
+			if (rect.left > 0)
 			{
-				deltaX = -rect.left + mHorizontalPadding;
+				deltaX = -rect.left ;
 			}
-			if (rect.right < width - mHorizontalPadding)
+			if (rect.right < width )
 			{
-				deltaX = width - mHorizontalPadding - rect.right;
+				deltaX = width  - rect.right;
 			}
 		}
 		if (rect.height() + 0.01 >= height - 2 * mVerticalPadding)
@@ -385,8 +381,24 @@ public class ClipRectZoomImageView extends ImageView implements
 		return Math.sqrt((dx * dx) + (dy * dy)) >= mTouchSlop;
 	}
 
-	public void setHorizontalPadding(int mHorizontalPadding)
-	{
-		this.mHorizontalPadding = mHorizontalPadding;
-	}
+//	public void setHorizontalPadding(int mHorizontalPadding)
+//	{
+//		this.mHorizontalPadding = mHorizontalPadding;
+//	}
+
+//	private Bitmap getCircleBitmap(Bitmap bitmap) {
+//        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Config.ARGB_8888);
+//        Canvas canvas = new Canvas(output);
+//        final int color = 0xff424242;
+//        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//        Paint paint =new Paint();
+//        paint.setAntiAlias(true);
+//        canvas.drawARGB(0, 0, 0, 0);
+//        paint.setColor(color);
+//        int x = bitmap.getWidth();
+//        canvas.drawCircle(x / 2, x / 2, x / 2, paint);
+//        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+//        canvas.drawBitmap(bitmap, rect, rect, paint);
+//        return output;
+//	}
 }

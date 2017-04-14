@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
@@ -39,6 +40,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private final int GETORIGINATOR  = 110;
     private final int PARTICIPATE = 101;
     private final int QUIT = 111;
+    private final int COLLECTE = 100;
+    private final int CANCELCOLLECTE = 121;
 
     private String headimageloadurl = "https://euswag.com/picture/user/";
     private String activityimageloadurl = "https://euswag.com/picture/activity/";
@@ -53,6 +56,19 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private String quitparam1;
     private String quitparam2;
     private String quitparam3;
+
+    private String collecteurl = "https://euswag.com/eu/activity/collectav";
+    private String collecteparam1;
+    private String collecteparam2;
+    private String collecteparam3;
+
+    private String cancelcollecteurl = "https://euswag.com/eu/activity/discollectav";
+    private String cancelcollecteparam1;
+    private String cancelcollecteparam2;
+    private String cancelcollecteparam3;
+
+    //是否已经收藏该活动，
+    private boolean hascollection;
 
     private SharedPreferences sharedPreferences;
 
@@ -164,6 +180,22 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 }
             });
         }
+        binding.activityDetailCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hascollection){
+                    cancelcollecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
+                    cancelcollecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                    cancelcollecteparam3 = "&avid="+activityMsg.getActid();
+                    new Thread(new CancelCollecteRunnable()).start();
+                }else {
+                    collecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
+                    collecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                    collecteparam3 = "&avid="+activityMsg.getActid();
+                    new Thread(new CollecteRunnable()).start();
+                }
+            }
+        });
     }
 
     private class GetOriginatorRunnable implements Runnable{
@@ -210,6 +242,40 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 resultstring = okHttpConnect.getdata(quiturl+quitparam1+quitparam2+quitparam3);
                 Message message = handler.obtainMessage();
                 message.what = QUIT;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class CollecteRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(collecteurl+collecteparam1+collecteparam2+collecteparam3);
+                Message message = handler.obtainMessage();
+                message.what = COLLECTE;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class CancelCollecteRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(cancelcollecteurl+cancelcollecteparam1+cancelcollecteparam2+cancelcollecteparam3);
+                Message message = handler.obtainMessage();
+                message.what = CANCELCOLLECTE;
                 message.obj = resultstring;
                 handler.sendMessage(message);
             } catch (IOException e) {
@@ -285,6 +351,47 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
                             }else {
                                 Toast.makeText(ActivityDetailActivity.this,"退出失败，请重试",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case COLLECTE:
+                    String collecteresult = (String) msg.obj;
+                    if (collecteresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(collecteresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(ActivityDetailActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+                                binding.activityDetailCollection.setImageResource(R.drawable.ic_collection_after);
+                                hascollection = true;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case CANCELCOLLECTE:
+                    String cancelcollecteresult = (String) msg.obj;
+                    if (cancelcollecteresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(cancelcollecteresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(ActivityDetailActivity.this,"已取消收藏",Toast.LENGTH_SHORT).show();
+                                binding.activityDetailCollection.setImageResource(R.drawable.ic_collection_before);
+                            }else {
+                                Toast.makeText(ActivityDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
