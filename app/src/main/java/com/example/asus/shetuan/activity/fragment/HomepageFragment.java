@@ -19,7 +19,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.asus.shetuan.R;
-import com.example.asus.shetuan.adapter.HomepageRecyclerviewAdapter;
+import com.example.asus.shetuan.adapter.ActivityRecyclerviewAdapter;
 import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.bean.Homepage;
 import com.example.asus.shetuan.databinding.FragmentHomepageBinding;
@@ -54,7 +54,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
     private ArrayList<ActivityMsg> mData = new ArrayList<ActivityMsg>();
 //    private ArrayList<ActivityMsg> changeData = new ArrayList<ActivityMsg>();
 
-    private HomepageRecyclerviewAdapter homepageActivityAdapter;
+    private ActivityRecyclerviewAdapter homepageActivityAdapter;
 
     private JSONArray viewpagerdata;
     private OKHttpConnect okHttpConnect;
@@ -266,7 +266,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
         if(binding == null) {
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_homepage, container, false);
-            homepageActivityAdapter = new HomepageRecyclerviewAdapter(inflater.getContext());
+            homepageActivityAdapter = new ActivityRecyclerviewAdapter(inflater.getContext());
 
             onRefresh();
             binding.homepageActivityRecyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext(), LinearLayoutManager.VERTICAL, false) {

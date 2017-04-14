@@ -12,8 +12,8 @@ import com.example.asus.shetuan.databinding.ViewActivityItemBinding;
  * Created by ASUS on 2017/4/2.
  */
 
-public class HomepageRecyclerviewAdapter extends RecyclerviewBaseAdapter<ActivityMsg> {
-    public HomepageRecyclerviewAdapter(Context context) {
+public class ActivityRecyclerviewAdapter extends RecyclerviewBaseAdapter<ActivityMsg> {
+    public ActivityRecyclerviewAdapter(Context context) {
         super(context, R.layout.view_activity_item);
     }
 

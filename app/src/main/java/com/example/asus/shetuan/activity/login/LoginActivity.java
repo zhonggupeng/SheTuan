@@ -175,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPreferences sharedPreferences = getSharedPreferences("tocken", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("accesstocken", jsonObject.getString("data"));
+                                editor.putString("phonenumber",login.getAccountnumber());
                                 editor.commit();
                                 System.out.println("sharedPreferences  accesstocken:  " + sharedPreferences.getString("accesstocken", "00"));
                                 Intent intent = new Intent(LoginActivity.this, MainTabActivity.class);

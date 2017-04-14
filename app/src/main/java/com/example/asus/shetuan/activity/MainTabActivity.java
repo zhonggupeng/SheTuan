@@ -10,8 +10,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,10 +27,7 @@ import com.example.asus.shetuan.activity.fragment.FindingFragment;
 import com.example.asus.shetuan.activity.fragment.HomepageFragment;
 import com.example.asus.shetuan.activity.fragment.MeFragment;
 import com.example.asus.shetuan.activity.fragment.MessageFragment;
-import com.example.asus.shetuan.activity.funct.PressActivityActivity;
-import com.example.asus.shetuan.activity.funct.WriteNoticeActivity;
 import com.example.asus.shetuan.databinding.ActivityMainTabBinding;
-import com.example.asus.shetuan.weight.PublishDialog;
 
 public class MainTabActivity extends FragmentActivity {
 
@@ -49,8 +44,6 @@ public class MainTabActivity extends FragmentActivity {
     //Tab选项卡的文字
     private String mTextviewArray[] = {"首页", "发现", "  ", "消息", "我的"};
     private ActivityMainTabBinding binding;
-
-    private PublishDialog publishDialog;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,31 +82,9 @@ public class MainTabActivity extends FragmentActivity {
         binding.imageplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (publishDialog == null){
-                    publishDialog = new PublishDialog(MainTabActivity.this);
-                    publishDialog.setPressactivityClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(MainTabActivity.this, PressActivityActivity.class);
-                            MainTabActivity.this.startActivity(intent);
-                        }
-                    });
-                    publishDialog.setWritenoticeClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(MainTabActivity.this, WriteNoticeActivity.class);
-                            MainTabActivity.this.startActivity(intent);
-                        }
-                    });
-                    publishDialog.setScanningClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(MainTabActivity.this,CaptureActivity.class);
-                            MainTabActivity.this.startActivityForResult(intent,CaptureActivity.REQ_CODE);
-                        }
-                    });
-                }
-                publishDialog.show();
+                Intent intent = new Intent(MainTabActivity.this,FunctionActivity.class);
+                MainTabActivity.this.startActivity(intent);
+                overridePendingTransition(R.anim.mainactivity_fade_in,0);
             }
         });
     }
