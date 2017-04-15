@@ -139,6 +139,7 @@ public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshL
                                     //对于时间要进行处理，即时间格式的转换
                                     ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"),activityRefreshJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")),imageloadurl+activityRefreshJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
+                                    activityMsg.setIsbuild(1);
                                     mData.add(activityMsg);
                                 }
                                 adapter.setmData(null);

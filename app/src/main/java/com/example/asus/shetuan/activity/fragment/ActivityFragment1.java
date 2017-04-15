@@ -55,11 +55,6 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
     private final int ACTIVITYREFRESH = 0x1010;
     private final int ACTIVITYLOADMORE = 0x1100;
 
-    //上拉加载状态
-    private final int NORMAL = 110;
-    private final int LOADING = 111;
-    private final int THEEND = 100;
-    private final int LOADERROR =101;
 
     private LayoutInflater inflater;
 
@@ -147,6 +142,7 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
                                     //对于时间要进行处理，即时间格式的转换
                                     ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"),activityRefreshJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")),imageloadurl+activityRefreshJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
+                                    activityMsg.setIsbuild(0);
                                     activityMsg.setIsparticipate("1");
                                     mData.add(activityMsg);
                                 }

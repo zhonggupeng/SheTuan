@@ -114,7 +114,7 @@ public class MeFragment extends Fragment{
                                 loadpersondata = jsonObject.getString("data");
                                 JSONObject jsonObject1 = new JSONObject(loadpersondata);
                                 binding.fragmentMeNickname.setText(jsonObject1.getString("nickname"));
-                                binding.fragmentMeReputation.setText(jsonObject1.getString("reputation"));
+                                binding.fragmentMeReputation.setText("节操值 "+jsonObject1.getString("reputation"));
                                 binding.fragmentMeHeadimage.setImageURI(imageloadurl+jsonObject1.getString("avatar")+".jpg");
                             }
                             else {
@@ -127,6 +127,7 @@ public class MeFragment extends Fragment{
                         Toast.makeText(inflater.getContext(),"",Toast.LENGTH_SHORT).show();
                     }
                     break;
+                default:break;
             }
         }
     };

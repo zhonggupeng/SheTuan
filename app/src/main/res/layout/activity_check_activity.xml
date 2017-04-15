@@ -3,6 +3,12 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="checkActivityMsg"
+            type="com.example.asus.shetuan.bean.ActivityMsg"/>
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,14 +28,17 @@
                     android:layout_height="180dp">
 
                     <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/check_activity_background"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/title_height">
 
                         <LinearLayout
+                            android:id="@+id/check_activity_backimage"
                             android:layout_width="@dimen/title_height"
                             android:layout_height="@dimen/title_height"
                             android:layout_marginLeft="10dp"
@@ -50,6 +59,7 @@
                             android:layout_marginRight="10dp">
 
                             <LinearLayout
+                                android:id="@+id/check_activity_moreimage"
                                 android:layout_width="@dimen/title_height"
                                 android:layout_height="@dimen/title_height"
                                 android:padding="8dp">
@@ -77,7 +87,7 @@
                             android:layout_marginLeft="@dimen/activity_horizontal_margin"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
                             android:gravity="center_vertical"
-                            android:text="羽毛球争霸赛"
+                            android:text="@{checkActivityMsg.acttitle}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/title_font_size" />
 
@@ -95,6 +105,7 @@
                                 android:src="@drawable/notice2" />
 
                             <TextView
+                                android:id="@+id/check_activity_isregister"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
@@ -128,6 +139,7 @@
                         android:paddingRight="22dp">
 
                         <LinearLayout
+                            android:id="@+id/check_activity_check"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -153,6 +165,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/check_activity_notice"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -178,6 +191,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/check_activity_share"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -203,6 +217,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/check_activity_register"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -253,6 +268,7 @@
                                 android:src="@drawable/price" />
 
                             <TextView
+                                android:id="@+id/check_activity_isfree"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
@@ -277,7 +293,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
-                                android:text="免费"
+                                android:text="@{checkActivityMsg.actaddress}"
                                 android:textColor="@color/search_keyword_color"
                                 android:textSize="@dimen/font_size" />
                         </LinearLayout>
@@ -295,10 +311,11 @@
                                 android:src="@drawable/timetable" />
 
                             <TextView
+                                android:id="@+id/check_activity_activitytime"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
-                                android:text="免费"
+                                android:text=""
                                 android:textColor="@color/search_keyword_color"
                                 android:textSize="@dimen/font_size" />
                         </LinearLayout>
@@ -320,10 +337,11 @@
                                     android:src="@drawable/enrolled" />
 
                                 <TextView
+                                    android:id="@+id/check_activity_people"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center_vertical"
-                                    android:text="免费"
+                                    android:text=""
                                     android:textColor="@color/search_keyword_color"
                                     android:textSize="@dimen/font_size" />
                             </LinearLayout>
@@ -360,7 +378,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:lineSpacingMultiplier="1.2"
-                                android:text="是解放拉萨解放"
+                                android:text="@{checkActivityMsg.actdetail}"
                                 android:textColor="@color/search_keyword_color"
                                 android:textSize="@dimen/font_size" />
                         </LinearLayout>
@@ -400,6 +418,7 @@
                             </LinearLayout>
 
                             <ImageView
+                                android:id="@+id/check_activity_qrcode"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_alignParentBottom="true"
@@ -408,6 +427,10 @@
                                 android:layout_marginRight="16dp"
                                 android:src="@drawable/qrcode" />
                         </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/title_height"
+                            android:background="@color/item_space_color"></LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -422,6 +445,7 @@
             android:layout_marginRight="10dp">
 
             <TextView
+                android:id="@+id/check_activity_changeactivity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FF8000"

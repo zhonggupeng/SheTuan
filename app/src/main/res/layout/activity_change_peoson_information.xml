@@ -4,6 +4,12 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="peosonInformation"
+            type="com.example.asus.shetuan.bean.PeosonInformation" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,9 +22,11 @@
             android:background="@color/main_color">
 
             <ImageView
-                android:layout_width="@dimen/title_image_width"
+                android:id="@+id/change_inform_backimage"
+                android:layout_width="@dimen/title_height"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
+                android:padding="10dp"
                 android:src="@drawable/ic_back" />
 
             <TextView
@@ -58,10 +66,10 @@
                             android:id="@+id/change_inform_headimage"
                             android:layout_width="80dp"
                             android:layout_height="match_parent"
-                            android:padding="5dp"
                             android:layout_marginLeft="10dp"
+                            android:padding="5dp"
                             fresco:placeholderImage="@drawable/avater"
-                            fresco:roundedCornerRadius="40dp"/>
+                            fresco:roundedCornerRadius="40dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -86,6 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -107,14 +116,14 @@
                         <com.example.asus.shetuan.weight.EditTextWithDel
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:background="@null"
+                            android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="修改头像"
+                            android:text="@={peosonInformation.nickname}"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/font_size"
                             android:textCursorDrawable="@null"
-                            android:background="@null"/>
+                            android:textSize="@dimen/font_size" />
                     </LinearLayout>
 
                     <ImageView
@@ -154,26 +163,21 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="修改头像"
+                            android:text="@{peosonInformation.gender}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="7dp"
-                        android:src="@drawable/ic_goto" />
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -186,35 +190,32 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
                             android:text="学院专业班级"
                             android:textColor="@color/search_keyword_color"
-                            android:textSize="@dimen/font_size"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+                            android:textSize="@dimen/font_size" />
+
                         <TextView
+                            android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="修改头像"
-                            android:textSize="@dimen/font_size"
-                            android:textColor="@color/black"/>
+                            android:text="@{peosonInformation.academe}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/font_size" />
                     </LinearLayout>
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_goto"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginRight="10dp"/>
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/title_bottom_line"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:background="@color/gray"></LinearLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -227,35 +228,31 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
                             android:text="@string/student_number"
                             android:textColor="@color/search_keyword_color"
-                            android:textSize="@dimen/font_size"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+                            android:textSize="@dimen/font_size" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="修改头像"
-                            android:textSize="@dimen/font_size"
-                            android:textColor="@color/black"/>
+                            android:text="@{peosonInformation.studentid}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/font_size" />
                     </LinearLayout>
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_goto"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginRight="10dp"/>
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/title_bottom_line"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:background="@color/gray"></LinearLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -268,75 +265,69 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
                             android:text="@string/student_name"
                             android:textColor="@color/search_keyword_color"
-                            android:textSize="@dimen/font_size"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+                            android:textSize="@dimen/font_size" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="修改头像"
-                            android:textSize="@dimen/font_size"
-                            android:textColor="@color/black"/>
+                            android:text="@{peosonInformation.name}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/font_size" />
                     </LinearLayout>
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_goto"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginRight="10dp"/>
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
-                <RelativeLayout
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/title_height"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
-                        android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:gravity="center_vertical"
+                        android:text="@string/person_edit"
+                        android:textColor="@color/search_keyword_color"
+                        android:textSize="@dimen/font_size" />
+                </LinearLayout>
+                <com.example.asus.shetuan.weight.EditTextWithDel
+                    android:id="@+id/fill_inform_personedit"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:hint="请修改个人说明"
+                    android:lineSpacingMultiplier="1.2"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="@={peosonInformation.personalexplaintion}"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/font_size" />
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:text="@string/person_edit"
-                            android:textColor="@color/search_keyword_color"
-                            android:textSize="@dimen/font_size"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:padding="10dp"
-                            android:text="修改头像"
-                            android:textSize="@dimen/font_size"
-                            android:textColor="@color/black"/>
-                    </LinearLayout>
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_goto"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginRight="10dp"/>
-                </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_height"></LinearLayout>
             </LinearLayout>
         </ScrollView>
+
         <TextView
+            android:id="@+id/change_inform_confirm"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_height"
             android:layout_alignParentBottom="true"

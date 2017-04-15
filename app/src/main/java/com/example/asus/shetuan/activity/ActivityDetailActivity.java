@@ -94,46 +94,48 @@ public class ActivityDetailActivity extends AppCompatActivity {
             //报名截止时间
             activityMsg.setActenrolldeadline(jsonObject.getString("avEnrolldeadline"));
             System.out.println("报名截止时间："+jsonObject.getString("avEnrolldeadline"));
+
+            binding.setActivityDetailMsg(activityMsg);
+
+            //请求发起活动者信息
+            getoriginatorparam1 = "?uid="+activityMsg.getUid();
+            getoriginatorparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+            System.out.println("getoriginatorparam1"+getoriginatorparam1);
+            System.out.println("getoriginatorparam2"+getoriginatorparam2);
+            new Thread(new GetOriginatorRunnable()).start();
+
+            if (activityMsg.getActregister()==-1){
+                binding.activityDetailIsregister.setText("无需签到");
+                participateparam4 = "&verifystate=2";
+            }
+            else {
+                binding.activityDetailIsregister.setText("需要签到");
+                participateparam4 = "&verifystate=0";
+            }
+
+            if(activityMsg.getActprice()==0){
+                binding.activityDetailIsfree.setText("免费");
+            }
+            else {
+                binding.activityDetailIsfree.setText(String.valueOf(activityMsg.getActprice()));
+            }
+            binding.activityDetailActivitytime.setText(activityMsg.getActtime()+"~"+activityMsg.getActendtime());
+            //需要知道已报名人数
+            binding.activityDetailPeople.setText("已报名"+"人/限"+activityMsg.getActexpectnum()+"人");
+            //设置参加按钮
+            //通过验证来确定
+            //请求是否已经参加该活动
+            if (intent.getStringExtra("isparticipate").equals("0")) {
+                binding.activityDetailIsenroll.setText("我要参加");
+            }else {
+                binding.activityDetailIsenroll.setText("退出活动");
+            }
+            binding.activityDetailBackground.setImageURI(activityMsg.getImageurl());
+            click();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        binding.setActivityDetailMsg(activityMsg);
 
-        //请求发起活动者信息
-        getoriginatorparam1 = "?uid="+activityMsg.getUid();
-        getoriginatorparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-        System.out.println("getoriginatorparam1"+getoriginatorparam1);
-        System.out.println("getoriginatorparam2"+getoriginatorparam2);
-        new Thread(new GetOriginatorRunnable()).start();
-
-        if (activityMsg.getActregister()==-1){
-            binding.activityDetailIsregister.setText("无需签到");
-            participateparam4 = "&verifystate=2";
-        }
-        else {
-            binding.activityDetailIsregister.setText("需要签到");
-            participateparam4 = "&verifystate=0";
-        }
-
-        if(activityMsg.getActprice()==0){
-            binding.activityDetailIsfree.setText("免费");
-        }
-        else {
-            binding.activityDetailIsfree.setText(String.valueOf(activityMsg.getActprice()));
-        }
-        binding.activityDetailActivitytime.setText(activityMsg.getActtime()+"~"+activityMsg.getActendtime());
-        //需要知道已报名人数
-        binding.activityDetailPeople.setText("已报名"+"人/限"+activityMsg.getActexpectnum()+"人");
-        //设置参加按钮
-        //通过验证来确定
-        //请求是否已经参加该活动
-        if (intent.getStringExtra("isparticipate").equals("0")) {
-            binding.activityDetailIsenroll.setText("我要参加");
-        }else {
-            binding.activityDetailIsenroll.setText("退出活动");
-        }
-        binding.activityDetailBackground.setImageURI(activityMsg.getImageurl());
-        click();
     }
 
     private void click(){
@@ -301,7 +303,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                                 oringingationdata = jsonObject.getString("data");
                                 JSONObject jsonObject1 = new JSONObject(oringingationdata);
                                 binding.activityDetailOriginator.setText(jsonObject1.getString("name"));
-                                binding.activityDetailReputation.setText(jsonObject1.getString("reputation"));
+                                binding.activityDetailReputation.setText("节操值 "+jsonObject1.getString("reputation"));
                                 binding.activityDetailHeadimage.setImageURI(headimageloadurl+jsonObject1.getString("avatar")+".jpg");
                             }
                             else {
@@ -325,7 +327,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             if (result == 200){
                                 Toast.makeText(ActivityDetailActivity.this,"参加成功",Toast.LENGTH_SHORT).show();
                             }else if (result == 500){
-                                Toast.makeText(ActivityDetailActivity.this,"已参加了该活动，不能重复参加",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ActivityDetailActivity.this,"你已参加了该活动，不要重复参加",Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 Toast.makeText(ActivityDetailActivity.this,"活动未参加成功",Toast.LENGTH_SHORT).show();
@@ -348,7 +350,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             if (result == 200){
                                 Toast.makeText(ActivityDetailActivity.this,"你已经退出该活动",Toast.LENGTH_SHORT).show();
                                 ActivityDetailActivity.this.finish();
-
                             }else {
                                 Toast.makeText(ActivityDetailActivity.this,"退出失败，请重试",Toast.LENGTH_SHORT).show();
                             }

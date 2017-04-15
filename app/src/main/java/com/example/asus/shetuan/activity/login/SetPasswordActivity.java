@@ -175,10 +175,14 @@ public class SetPasswordActivity extends AppCompatActivity {
                                         + "&password=" + setPassword.getConfirmpassword()+"&reputation="+100+"&verified="+1;
                                 System.out.println("发送数据"+sendparam);
                                 new Thread(new SendUserinfoRunnable()).start();
+                            }else {
+                                Toast.makeText(SetPasswordActivity.this,"上传头像失败，请重试",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else {
+                        Toast.makeText(SetPasswordActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case CHANGEPASSWORD:
