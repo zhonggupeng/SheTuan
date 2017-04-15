@@ -46,6 +46,8 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
     private String photoSavePath;
     private String photoSaveName;
     private String path;
+    private String headimagepath=null;
+    private File headimagefile;
 
     private ActivityChangePeosonInformationBinding binding;
     private SharedPreferences sharedPreferences;
@@ -56,9 +58,17 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
     private String requestpeoinformationparam1;
     private String requestpeoinformationparam2;
 
+    private String changeinformationurl = "https://euswag.com/eu/info/changeinfo";
+    private String changeinformationparamstring;
+
     private String headimageloadurl = "https://euswag.com/picture/user/";
 
+    private String postheadimageurl = "https://euswag.com/eu/upload/user";
+    private String returnheadimageurl = null;
+
     private final int REQUEST_PEOPLE = 110;
+    private final int POST_HEADIMAGE = 111;
+    private final int CHANGE_INFORMATION = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,27 +87,32 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
         photoSavePath=Environment.getExternalStorageDirectory().getPath()+"/SheTuan/cache/";
         System.out.println(photoSavePath);
         photoSaveName =System.currentTimeMillis()+ ".jpeg";
-        click();
+        click1();
         //解决启动Activy时自动弹出输入法
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
-    private void click(){
-        binding.changeInformChangeHeadimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupWindow(binding.changeInformHeadimage);
-            }
-        });
+    private void click1(){
         binding.changeInformBackimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ChangePeosonInformationActivity.this.onBackPressed();
             }
         });
+    }
+    private void click2(){
+        binding.changeInformChangeHeadimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWindow(binding.changeInformHeadimage);
+            }
+        });
         binding.changeInformConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (headimagepath!=null){
+                    headimagefile = new File(headimagepath);
+                    new Thread(new PostHeadimageRunnable()).start();
+                }
             }
         });
     }
@@ -111,6 +126,40 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                 resultstring = okHttpConnect.getdata(requestpeoinformationurl+requestpeoinformationparam1+requestpeoinformationparam2);
                 Message message = handler.obtainMessage();
                 message.what = REQUEST_PEOPLE;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class PostHeadimageRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.postfile(postheadimageurl,headimagefile);
+                Message message = handler.obtainMessage();
+                message.what = POST_HEADIMAGE;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class ChangeInformationRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(changeinformationurl+changeinformationparamstring);
+                Message message = handler.obtainMessage();
+                message.what = CHANGE_INFORMATION;
                 message.obj = resultstring;
                 handler.sendMessage(message);
             } catch (IOException e) {
@@ -149,6 +198,8 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                                 peosonInformation.setStudentid(jsonObject1.getString("studentid"));
                                 peosonInformation.setPersonalexplaintion(jsonObject1.getString("userdescription"));
                                 binding.setPeosonInformation(peosonInformation);
+                                binding.changeInformHeadimage.setImageURI(peosonInformation.getHeadimage());
+                                click2();
                             }else {
                                 Toast.makeText(ChangePeosonInformationActivity.this,"个人信息加载失败",Toast.LENGTH_SHORT).show();
                             }
@@ -157,6 +208,47 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                         }
                     }else {
                         Toast.makeText(ChangePeosonInformationActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case POST_HEADIMAGE:
+                    String postheadimageresult = (String) msg.obj;
+                    if (postheadimageresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(postheadimageresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                String postheadimagedata = jsonObject.getString("data");
+                                changeinformationparamstring = "?uid="+peosonInformation.getUid()+"&avatar="+postheadimagedata.substring(0,postheadimagedata.indexOf("."))
+                                                            +"&nickname="+peosonInformation.getNickname()+"&userdescription="+peosonInformation.getPersonalexplaintion();
+                                new Thread(new ChangeInformationRunnable()).start();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(ChangePeosonInformationActivity.this,"",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case CHANGE_INFORMATION:
+                    String changeinformtionresult = (String) msg.obj;
+                    if (changeinformtionresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(changeinformtionresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(ChangePeosonInformationActivity.this,"活动发布成功",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(ChangePeosonInformationActivity.this,"活动发布失败，请重试",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(ChangePeosonInformationActivity.this,"",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:break;
@@ -245,6 +337,7 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                 final String temppath = data.getStringExtra("path");
                 String string = "file://";
                 System.out.println(temppath);
+                headimagepath = temppath;
                 binding.changeInformHeadimage.setImageURI(new String(string+temppath));
 //                imageView.setImageURI();//将图片置入image
                 break;

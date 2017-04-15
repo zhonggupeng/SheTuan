@@ -303,7 +303,6 @@
                         android:textSize="@dimen/font_size" />
                 </LinearLayout>
                 <com.example.asus.shetuan.weight.EditTextWithDel
-                    android:id="@+id/fill_inform_personedit"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:background="@null"
