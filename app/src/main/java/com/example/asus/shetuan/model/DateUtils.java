@@ -10,6 +10,12 @@ import java.util.Locale;
 
 public class DateUtils {
 
+    //调用此方法返回当前时间
+    public static String getCurrentTime(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+        return sdf.format(new java.util.Date());
+    }
+
     /**
      *  
      *      * 掉此方法输入所要转换的时间输入例如（"2014年06月14日16时09分00秒"）返回时间戳 

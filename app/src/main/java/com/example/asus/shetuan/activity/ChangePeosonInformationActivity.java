@@ -64,7 +64,6 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
     private String headimageloadurl = "https://euswag.com/picture/user/";
 
     private String postheadimageurl = "https://euswag.com/eu/upload/user";
-    private String returnheadimageurl = null;
 
     private final int REQUEST_PEOPLE = 110;
     private final int POST_HEADIMAGE = 111;
@@ -112,6 +111,10 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                 if (headimagepath!=null){
                     headimagefile = new File(headimagepath);
                     new Thread(new PostHeadimageRunnable()).start();
+                }else {
+                    changeinformationparamstring = "?uid="+peosonInformation.getUid()+"&nickname="+peosonInformation.getNickname()
+                            +"&userdescription="+peosonInformation.getPersonalexplaintion();
+                    new Thread(new ChangeInformationRunnable()).start();
                 }
             }
         });
@@ -223,12 +226,14 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                                 changeinformationparamstring = "?uid="+peosonInformation.getUid()+"&avatar="+postheadimagedata.substring(0,postheadimagedata.indexOf("."))
                                                             +"&nickname="+peosonInformation.getNickname()+"&userdescription="+peosonInformation.getPersonalexplaintion();
                                 new Thread(new ChangeInformationRunnable()).start();
+                            }else {
+                                Toast.makeText(ChangePeosonInformationActivity.this,"头像上传失败",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }else {
-                        Toast.makeText(ChangePeosonInformationActivity.this,"",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePeosonInformationActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case CHANGE_INFORMATION:
@@ -240,15 +245,15 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(changeinformtionresult);
                             result = jsonObject.getInt("status");
                             if (result == 200){
-                                Toast.makeText(ChangePeosonInformationActivity.this,"活动发布成功",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ChangePeosonInformationActivity.this,"信息修改成功",Toast.LENGTH_SHORT).show();
                             }else {
-                                Toast.makeText(ChangePeosonInformationActivity.this,"活动发布失败，请重试",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ChangePeosonInformationActivity.this,"修改信息失败，请重试",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }else {
-                        Toast.makeText(ChangePeosonInformationActivity.this,"",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePeosonInformationActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:break;

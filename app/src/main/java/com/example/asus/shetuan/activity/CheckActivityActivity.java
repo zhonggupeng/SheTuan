@@ -64,7 +64,11 @@ public class CheckActivityActivity extends AppCompatActivity {
             }
             binding.checkActivityActivitytime.setText(activityMsg.getActtime()+"~"+activityMsg.getActendtime());
             //需要知道已报名人数
-            binding.checkActivityPeople.setText("已报名"+"人/限"+activityMsg.getActexpectnum()+"人");
+            if (activityMsg.getActexpectnum()==0){
+                binding.checkActivityPeople.setText("已报名"+"人/不限");
+            }else {
+                binding.checkActivityPeople.setText("已报名" + "人/限" + activityMsg.getActexpectnum() + "人");
+            }
             binding.checkActivityBackground.setImageURI(activityMsg.getImageurl());
 
             click();
@@ -83,6 +87,14 @@ public class CheckActivityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        binding.checkActivityCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckActivityActivity.this,CheckListActivity.class);
+                intent.putExtra("actid",activityMsg.getActid());
+                CheckActivityActivity.this.startActivity(intent);
             }
         });
     }

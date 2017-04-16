@@ -137,18 +137,33 @@ public class PressActivityActivity extends AppCompatActivity {
                             Toast.makeText(PressActivityActivity.this, "请选择活动开始时间", Toast.LENGTH_SHORT).show();
                         } else if (pressActivity.getEndtime() == null || pressActivity.getEndtime().length() == 0) {
                             Toast.makeText(PressActivityActivity.this, "请选择活动结束时间", Toast.LENGTH_SHORT).show();
-                        } else if (pressActivity.getPrice() == null || pressActivity.getPrice().length() == 0) {
+                        }else if (pressActivity.getEnrolldeadline()==null||pressActivity.getEnrolldeadline().length()==0) {
+                            Toast.makeText(PressActivityActivity.this,"请选择活动报名截止时间",Toast.LENGTH_SHORT).show();
+                        }else if (pressActivity.getPrice() == null || pressActivity.getPrice().length() == 0) {
                             Toast.makeText(PressActivityActivity.this, "请填写活动费用", Toast.LENGTH_SHORT).show();
                         } else if (pressActivity.getPlace() == null || pressActivity.getPlace().length() == 0) {
                             Toast.makeText(PressActivityActivity.this, "请填写活动地址", Toast.LENGTH_SHORT).show();
-                        } else {
+                        }else if (Long.parseLong(DateUtils.data(pressActivity.getStarttime()))<Long.parseLong(DateUtils.data(DateUtils.getCurrentTime()))){
+                            Toast.makeText(PressActivityActivity.this,"活动开始时间早于当前时间，请重新选择",Toast.LENGTH_SHORT).show();
+                        }else if (Long.parseLong(DateUtils.data(pressActivity.getStarttime()))>Long.parseLong(DateUtils.data(pressActivity.getEndtime()))){
+                            Toast.makeText(PressActivityActivity.this,"活动开始时间晚于活动结束时间，请重新选择",Toast.LENGTH_SHORT).show();
+                        }else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline()))>Long.parseLong(DateUtils.data(pressActivity.getEndtime()))){
+                            Toast.makeText(PressActivityActivity.this,"活动报名截止时间晚于活动结束时间，请重新选择",Toast.LENGTH_SHORT).show();
+                        }else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline()))<Long.parseLong(DateUtils.getCurrentTime())){
+                            Toast.makeText(PressActivityActivity.this,"活动报名截止时间早于当前时间，，请重新选择",Toast.LENGTH_SHORT).show();
+                        }
+                        else {
                             if (binding.pressActivityIsregister.isChecked()) {
                                 pressActivity.setRegister("0");
                             } else {
                                 pressActivity.setRegister("-1");
                             }
                             if (imagepath == null) {
-                                string = "&avDetail=" + pressActivity.getDetail() + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum()) + "&avPlace=" + pressActivity.getPlace() + "&avPrice=" + Double.parseDouble(pressActivity.getPrice()) + "&avRegister=" + Integer.parseInt(pressActivity.getRegister()) + "&avTitle=" + pressActivity.getTitle() + "&avendtime=" + DateUtils.data(pressActivity.getEndtime()) + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline()) + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime()) + "&uid=" + uid;
+                                string = "&avDetail=" + pressActivity.getDetail() + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum())
+                                        + "&avPlace=" + pressActivity.getPlace() + "&avPrice=" + Double.parseDouble(pressActivity.getPrice())
+                                        + "&avRegister=" + Integer.parseInt(pressActivity.getRegister()) + "&avTitle=" + pressActivity.getTitle()
+                                        + "&avendtime=" + DateUtils.data(pressActivity.getEndtime()) + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline())
+                                        + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime()) + "&uid=" + uid;
                                 System.out.println(string);
                                 SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
                                 tocken = "?accesstoken=" + sharedPreferences.getString("accesstoken", "");

@@ -71,7 +71,8 @@
         <activity android:name=".clipimage.ClipActivity" />
         <activity android:name=".activity.ChangePeosonInformationActivity" />
         <activity android:name=".activity.FunctionActivity" />
-        <activity android:name=".activity.ActivityCollectionActivity"></activity>
+        <activity android:name=".activity.ActivityCollectionActivity" />
+        <activity android:name=".activity.CheckListActivity"></activity>
     </application>
 
 </manifest>

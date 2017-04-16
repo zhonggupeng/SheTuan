@@ -121,7 +121,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
             binding.activityDetailActivitytime.setText(activityMsg.getActtime()+"~"+activityMsg.getActendtime());
             //需要知道已报名人数
-            binding.activityDetailPeople.setText("已报名"+"人/限"+activityMsg.getActexpectnum()+"人");
+            if (activityMsg.getActexpectnum()==0){
+                binding.activityDetailPeople.setText("已报名"+"人/不限");
+            }else {
+                binding.activityDetailPeople.setText("已报名" + "人/限" + activityMsg.getActexpectnum() + "人");
+            }
             //设置参加按钮
             //通过验证来确定
             //请求是否已经参加该活动
