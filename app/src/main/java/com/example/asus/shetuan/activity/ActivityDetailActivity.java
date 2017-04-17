@@ -131,10 +131,13 @@ public class ActivityDetailActivity extends AppCompatActivity {
             //请求是否已经参加该活动
             if (intent.getStringExtra("isparticipate").equals("0")) {
                 binding.activityDetailIsenroll.setText("我要参加");
-            }else {
+            }else if (intent.getStringExtra("isparticipate").equals("4")){
+                binding.activityDetailIsenroll.setText("取消收藏");
+            } else {
                 binding.activityDetailIsenroll.setText("退出活动");
             }
             binding.activityDetailBackground.setImageURI(activityMsg.getImageurl());
+            hascollection = false;
             click();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -175,7 +178,17 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     new Thread(new ParticipateRunnable()).start();
                 }
             });
-        }else {
+        }else if (binding.activityDetailIsenroll.getText().equals("取消收藏")){
+            binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cancelcollecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
+                    cancelcollecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                    cancelcollecteparam3 = "&avid="+activityMsg.getActid();
+                    new Thread(new CancelCollecteRunnable()).start();
+                }
+            });
+        } else {
             binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -200,6 +213,16 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     collecteparam3 = "&avid="+activityMsg.getActid();
                     new Thread(new CollecteRunnable()).start();
                 }
+            }
+        });
+        binding.activityDetailQrcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityDetailActivity.this,DetailsQRcodeActivity.class);
+                intent.putExtra("title",activityMsg.getActtitle());
+                intent.putExtra("id",activityMsg.getActid());
+                intent.putExtra("type","act");
+                ActivityDetailActivity.this.startActivity(intent);
             }
         });
     }
@@ -393,8 +416,12 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(cancelcollecteresult);
                             result = jsonObject.getInt("status");
                             if (result == 200){
-                                Toast.makeText(ActivityDetailActivity.this,"已取消收藏",Toast.LENGTH_SHORT).show();
-                                binding.activityDetailCollection.setImageResource(R.drawable.ic_collection_before);
+                                if (binding.activityDetailIsenroll.getText().equals("取消收藏")){
+                                    ActivityDetailActivity.this.finish();
+                                }else {
+                                    Toast.makeText(ActivityDetailActivity.this, "已取消收藏", Toast.LENGTH_SHORT).show();
+                                    binding.activityDetailCollection.setImageResource(R.drawable.ic_collection_before);
+                                }
                             }else {
                                 Toast.makeText(ActivityDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
                             }

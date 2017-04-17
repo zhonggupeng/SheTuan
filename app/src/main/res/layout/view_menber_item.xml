@@ -9,12 +9,12 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/view_menber_baselayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/view_menber_baselayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -94,7 +94,8 @@
                 android:text="移除"
                 android:textSize="@dimen/title_font_size"
                 android:textColor="@color/white"
-                android:background="#FF3A30"/>
+                android:background="#FF3A30"
+                android:gravity="center"/>
         </LinearLayout>
 
         <LinearLayout

@@ -169,18 +169,23 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
                             jsonObject = new JSONObject(requestphoneresult);
                             result = jsonObject.getInt("status");
                             if (result == 200){
-                                JSONTokener memberjsonTokener = new JSONTokener(jsonObject.getString("data"));
-                                JSONArray memberjsonArray = (JSONArray) memberjsonTokener.nextValue();
                                 peosonData.clear();
-                                for (int i=0;i<memberjsonArray.length();i++){
-                                    PeosonInformation peosonInformation = new PeosonInformation();
-                                    peosonInformation.setUid(memberjsonArray.getJSONObject(i).getLong("uid"));
-                                    peosonInformation.setNickname(memberjsonArray.getJSONObject(i).getString("nickname"));
-                                    peosonInformation.setName(memberjsonArray.getJSONObject(i).getString("name"));
-                                    peosonInformation.setHeadimage(headimageloadurl+memberjsonArray.getJSONObject(i).getString("avatar")+".jpg");
-                                    peosonInformation.setReputation("节操值 "+memberjsonArray.getJSONObject(i).getInt("reputation"));
-                                    peosonInformation.setVerified(memberjsonArray.getJSONObject(i).getInt("verified"));
-                                    peosonData.add(peosonInformation);
+                                String requestphonedata = jsonObject.getString("data");
+                                //返回的时"null"，而不是null
+                                if (requestphonedata.equals("null")) {
+                                }else {
+                                    JSONTokener memberjsonTokener = new JSONTokener(requestphonedata);
+                                    JSONArray memberjsonArray = (JSONArray) memberjsonTokener.nextValue();
+                                    for (int i = 0; i < memberjsonArray.length(); i++) {
+                                        PeosonInformation peosonInformation = new PeosonInformation();
+                                        peosonInformation.setUid(memberjsonArray.getJSONObject(i).getLong("uid"));
+                                        peosonInformation.setNickname(memberjsonArray.getJSONObject(i).getString("nickname"));
+                                        peosonInformation.setName(memberjsonArray.getJSONObject(i).getString("name"));
+                                        peosonInformation.setHeadimage(headimageloadurl + memberjsonArray.getJSONObject(i).getString("avatar") + ".jpg");
+                                        peosonInformation.setReputation("节操值 " + memberjsonArray.getJSONObject(i).getInt("reputation"));
+                                        peosonInformation.setVerified(memberjsonArray.getJSONObject(i).getInt("verified"));
+                                        peosonData.add(peosonInformation);
+                                    }
                                 }
                                 adapter.setmData(null);
                                 adapter.setmData(peosonData);
@@ -198,6 +203,7 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
                     break;
                 case REFRESH:
                     new Thread(new RequestMemberRunnable()).start();
+                    binding.checkListRefresh.setRefreshing(false);
                     break;
                 case REJECT:
                     String rejectresult = (String) msg.obj;

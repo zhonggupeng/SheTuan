@@ -58,8 +58,7 @@ public abstract class RecyclerviewBaseAdapter2<T> extends RecyclerView.Adapter<R
                             intent.putExtra("datajson1",((ActivityMsg)(mData.get(position))).getActivityDetailJsonString());
                             intent.putExtra("isparticipate",((ActivityMsg)(mData.get(position))).getIsparticipate());
                             mContext.startActivity(intent);
-                        }
-                        else {
+                        } else {
                             Intent intent = new Intent(mContext, CheckActivityActivity.class);
                             intent.putExtra("datajson2",((ActivityMsg)(mData.get(position))).getActivityDetailJsonString());
                             mContext.startActivity(intent);

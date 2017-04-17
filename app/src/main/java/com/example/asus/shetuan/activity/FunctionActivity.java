@@ -1,5 +1,6 @@
 package com.example.asus.shetuan.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
@@ -8,12 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
-
-import com.acker.simplezxing.activity.CaptureActivity;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.funct.PressActivityActivity;
 import com.example.asus.shetuan.activity.funct.WriteNoticeActivity;
 import com.example.asus.shetuan.databinding.ActivityFunctionBinding;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 public class FunctionActivity extends AppCompatActivity {
 
@@ -85,7 +85,7 @@ public class FunctionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FunctionActivity.this,CaptureActivity.class);
-                FunctionActivity.this.startActivityForResult(intent,CaptureActivity.REQ_CODE);
+                FunctionActivity.this.startActivityForResult(intent,0);
             }
         });
     }
@@ -117,11 +117,9 @@ public class FunctionActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            Toast.makeText(this, data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT), Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this,"没有扫描二维码！",Toast.LENGTH_LONG).show();
+        if (resultCode == Activity.RESULT_OK){
+            Bundle bundle = data.getExtras();
+            Toast.makeText(this,bundle.getString("result"),Toast.LENGTH_SHORT).show();
         }
     }
 }

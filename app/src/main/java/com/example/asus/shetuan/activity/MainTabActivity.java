@@ -1,5 +1,6 @@
 package com.example.asus.shetuan.activity;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.acker.simplezxing.activity.CaptureActivity;
 import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.fragment.FindingFragment;
@@ -130,12 +129,12 @@ public class MainTabActivity extends FragmentActivity {
                     Toast.makeText(this, "SecurityExceptionnull", Toast.LENGTH_SHORT).show();
                 }
     }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            Toast.makeText(this, data.getStringExtra(CaptureActivity.EXTRA_SCAN_RESULT), Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this,"没有扫描二维码！",Toast.LENGTH_LONG).show();
+        if (resultCode == Activity.RESULT_OK){
+            Bundle bundle = data.getExtras();
+            Toast.makeText(this,bundle.getString("result"),Toast.LENGTH_SHORT).show();
         }
     }
 

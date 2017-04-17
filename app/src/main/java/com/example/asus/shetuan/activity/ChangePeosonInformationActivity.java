@@ -113,7 +113,7 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                     new Thread(new PostHeadimageRunnable()).start();
                 }else {
                     changeinformationparamstring = "?uid="+peosonInformation.getUid()+"&nickname="+peosonInformation.getNickname()
-                            +"&userdescription="+peosonInformation.getPersonalexplaintion();
+                            +"&userdescription="+peosonInformation.getPersonalexplaintion()+"&accesstoken=" + sharedPreferences.getString("accesstoken", "00");;
                     new Thread(new ChangeInformationRunnable()).start();
                 }
             }
@@ -224,7 +224,8 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                             if (result == 200){
                                 String postheadimagedata = jsonObject.getString("data");
                                 changeinformationparamstring = "?uid="+peosonInformation.getUid()+"&avatar="+postheadimagedata.substring(0,postheadimagedata.indexOf("."))
-                                                            +"&nickname="+peosonInformation.getNickname()+"&userdescription="+peosonInformation.getPersonalexplaintion();
+                                                            +"&nickname="+peosonInformation.getNickname()+"&userdescription="+peosonInformation.getPersonalexplaintion()
+                                                            +"&accesstoken=" + sharedPreferences.getString("accesstoken", "00");;
                                 new Thread(new ChangeInformationRunnable()).start();
                             }else {
                                 Toast.makeText(ChangePeosonInformationActivity.this,"头像上传失败",Toast.LENGTH_SHORT).show();
@@ -245,7 +246,7 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(changeinformtionresult);
                             result = jsonObject.getInt("status");
                             if (result == 200){
-                                Toast.makeText(ChangePeosonInformationActivity.this,"信息修改成功",Toast.LENGTH_SHORT).show();
+                                ChangePeosonInformationActivity.this.finish();
                             }else {
                                 Toast.makeText(ChangePeosonInformationActivity.this,"修改信息失败，请重试",Toast.LENGTH_SHORT).show();
                             }

@@ -97,5 +97,15 @@ public class CheckActivityActivity extends AppCompatActivity {
                 CheckActivityActivity.this.startActivity(intent);
             }
         });
+        binding.checkActivityQrcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckActivityActivity.this,DetailsQRcodeActivity.class);
+                intent.putExtra("title",activityMsg.getActtitle());
+                intent.putExtra("id",activityMsg.getActid());
+                intent.putExtra("type","act");
+                CheckActivityActivity.this.startActivity(intent);
+            }
+        });
     }
 }

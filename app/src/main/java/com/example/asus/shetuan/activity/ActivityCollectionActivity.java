@@ -8,6 +8,8 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
@@ -48,12 +50,28 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
         binding = DataBindingUtil.setContentView(this,R.layout.activity_collection);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         adapter = new NoLoadmoreActivityRecyclerviewAdapter(this);
+        binding.activityCollectionRecyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         loadcollectionparam1 = "?uid="+ sharedPreferences.getString("phonenumber", "0");
         loadcollectionparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
         onRefresh();
         binding.activityCollectionRefresh.setOnRefreshListener(this);
         binding.activityCollectionRefresh.setDistanceToTriggerSync(300);
         binding.activityCollectionRefresh.setSize(SwipeRefreshLayout.DEFAULT);
+        click();
+    }
+
+    private void click(){
+        binding.activityCollectionBackimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollectionActivity.this.onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -95,18 +113,23 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
                             jsonObject = new JSONObject(refreshresult);
                             result = jsonObject.getInt("status");
                             if (result == 200){
-                                String refreshdata;
-                                refreshdata = jsonObject.getString("data");
-                                JSONTokener activityRefreshJsonTokener = new JSONTokener(refreshdata);
-                                JSONArray activityRefreshJsonArray = null;
-                                activityRefreshJsonArray = (JSONArray) activityRefreshJsonTokener.nextValue();
-                                mData.clear();
-                                for (int i =0;i<activityRefreshJsonArray.length();i++){
-                                    //对于时间要进行处理，即时间格式的转换
-                                    ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"),activityRefreshJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")),imageloadurl+activityRefreshJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
-                                    activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
-                                    activityMsg.setIsparticipate("4");
-                                    mData.add(activityMsg);
+                                String refreshdata = jsonObject.getString("data");
+                                if (refreshdata.equals("null")){
+
+                                }else {
+                                    JSONTokener activityRefreshJsonTokener = new JSONTokener(refreshdata);
+                                    JSONArray activityRefreshJsonArray = null;
+                                    activityRefreshJsonArray = (JSONArray) activityRefreshJsonTokener.nextValue();
+                                    mData.clear();
+                                    for (int i = 0; i < activityRefreshJsonArray.length(); i++) {
+                                        //对于时间要进行处理，即时间格式的转换
+                                        ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"), activityRefreshJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl + activityRefreshJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
+                                        activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
+                                        System.out.println(activityRefreshJsonArray.getJSONObject(i).toString());
+                                        activityMsg.setIsbuild(0);
+                                        activityMsg.setIsparticipate("4");
+                                        mData.add(activityMsg);
+                                    }
                                 }
                                 adapter.setmData(null);
                                 adapter.setmData(mData);
@@ -126,4 +149,10 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onRefresh();
+    }
 }

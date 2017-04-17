@@ -29,8 +29,7 @@
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/activity_detail_background"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        fresco:placeholderImage="@drawable/activitydetailbackground"/>
+                        android:layout_height="match_parent" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -339,6 +338,56 @@
                                 android:textColor="@color/search_keyword_color"
                                 android:textSize="@dimen/font_size" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_module_space"
+                            android:background="@color/item_space_color"></LinearLayout>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="vertical"
+                                android:paddingLeft="@dimen/activity_horizontal_margin"
+                                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/module_item_height"
+                                    android:gravity="center_vertical"
+                                    android:text="活动专属二维码"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/title_font_size" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:lineSpacingMultiplier="1.2"
+                                    android:text="扫一扫了解详情"
+                                    android:textColor="@color/search_keyword_color"
+                                    android:textSize="@dimen/font_size" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/activity_detail_qrcode"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginRight="16dp"
+                                android:src="@drawable/qrcode" />
+                        </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_module_space"
+                            android:background="@color/item_space_color"></LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"></LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

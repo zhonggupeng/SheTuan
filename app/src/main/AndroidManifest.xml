@@ -72,7 +72,8 @@
         <activity android:name=".activity.ChangePeosonInformationActivity" />
         <activity android:name=".activity.FunctionActivity" />
         <activity android:name=".activity.ActivityCollectionActivity" />
-        <activity android:name=".activity.CheckListActivity"></activity>
+        <activity android:name=".activity.CheckListActivity" />
+        <activity android:name=".activity.DetailsQRcodeActivity"></activity>
     </application>
 
 </manifest>

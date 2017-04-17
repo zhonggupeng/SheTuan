@@ -6,13 +6,12 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
 import android.widget.Toast;
-
-import com.acker.simplezxing.activity.CaptureActivity;
 import com.example.asus.shetuan.activity.MainTabActivity;
 import com.example.asus.shetuan.activity.MoreActivityActivity;
 import com.example.asus.shetuan.activity.MyActivityActivity;
 import com.example.asus.shetuan.activity.MyShetuanActivity;
 import com.example.asus.shetuan.activity.SearchActivity;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 /**
  * Created by ASUS on 2017/2/18.
@@ -37,7 +36,7 @@ public class Homepage extends BaseObservable{
     }
     public void scanimageclick(View view){
         MainTabActivity activity = (MainTabActivity) context ;
-        Intent intent = new Intent(activity, CaptureActivity.class);
-        activity.startActivityForResult(intent,CaptureActivity.REQ_CODE);
+        Intent intent = new Intent(activity,CaptureActivity.class);
+        activity.startActivityForResult(intent, 0);
     }
 }
