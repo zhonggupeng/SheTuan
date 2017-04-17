@@ -31,16 +31,24 @@
                 android:textSize="@dimen/title_font_size" />
 
         </RelativeLayout>
-        <ScrollView
-            android:id="@+id/check_list_scrollview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/check_list_recyclerview"
+
+        <com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout
+            android:id="@+id/check_list_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ScrollView
+                android:id="@+id/check_list_scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </android.support.v7.widget.RecyclerView>
-        </ScrollView>
+                <com.example.asus.shetuan.weight.SlederDeleteRecyclerView
+                    android:id="@+id/check_list_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </com.example.asus.shetuan.weight.SlederDeleteRecyclerView>
+            </ScrollView>
+        </com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout>
     </LinearLayout>
 </layout>

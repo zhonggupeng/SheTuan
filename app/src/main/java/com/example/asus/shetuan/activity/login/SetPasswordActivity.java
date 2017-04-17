@@ -172,7 +172,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                                         + "&nickname=" + dataintent.getStringExtra("nickname") + "&gender=" + gender
                                         + "&professionclass=" + dataintent.getStringExtra("academe") + "&studentid=" + dataintent.getStringExtra("studentid")
                                         + "&name=" + dataintent.getStringExtra("name") + "&userdescription=" + dataintent.getStringExtra("personedit")
-                                        + "&password=" + setPassword.getConfirmpassword()+"&reputation="+100+"&verified="+1;
+                                        + "&password=" + setPassword.getConfirmpassword()+"&reputation="+100+"&verified="+0;
                                 System.out.println("发送数据"+sendparam);
                                 new Thread(new SendUserinfoRunnable()).start();
                             }else {

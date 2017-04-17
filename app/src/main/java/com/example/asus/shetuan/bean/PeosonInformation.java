@@ -80,4 +80,23 @@ public class PeosonInformation extends BaseObservable {
         this.personalexplaintion = personalexplaintion;
     }
 
+    public String getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(String reputation) {
+        this.reputation = reputation;
+    }
+
+    private String reputation;
+
+    public int getVerified() {
+        return verified;
+    }
+
+    public void setVerified(int verified) {
+        this.verified = verified;
+    }
+
+    private int verified;
 }

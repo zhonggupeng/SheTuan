@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="peosonInformation"
+            type="com.example.asus.shetuan.bean.PeosonInformation" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/view_menber_baselayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/view_menber_headimage"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp" />
+
+                    <LinearLayout
+                        android:layout_width="120dp"
+                        android:layout_height="55dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="4">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:text="@{peosonInformation.name}"
+                            android:textSize="@dimen/title_font_size"
+                            android:textColor="@color/black"/>
+                            <ImageView
+                                android:id="@+id/view_menber_verified"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="5dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="3"
+                            android:paddingLeft="10dp"
+                            android:text="@{peosonInformation.reputation}"
+                            android:textSize="@dimen/min_font_size"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/view_menber_uid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right"
+                        android:textSize="@dimen/font_size"
+                        android:textColor="@color/black"
+                        android:paddingRight="30dp"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_goto" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/view_menber_delete"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:text="移除"
+                android:textSize="@dimen/title_font_size"
+                android:textColor="@color/white"
+                android:background="#FF3A30"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bottom_line"
+            android:background="@color/gray"></LinearLayout>
+    </LinearLayout>
+</layout>
