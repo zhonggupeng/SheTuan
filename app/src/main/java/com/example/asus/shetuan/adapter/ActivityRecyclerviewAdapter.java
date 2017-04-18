@@ -21,6 +21,11 @@ public class ActivityRecyclerviewAdapter extends RecyclerviewBaseAdapter<Activit
     protected void convert(RecyclerView.ViewHolder holder, ActivityMsg item, int indexOfData) {
         ((NormalHolder)holder).getBinding().setVariable(BR.activitymsg,item);
         ((ViewActivityItemBinding)((NormalHolder)holder).getBinding()).activityItemImage.setImageURI(item.getImageurl());
+        if (item.getActprice()==0) {
+            ((ViewActivityItemBinding) ((NormalHolder) holder).getBinding()).actiivtyItemPrice.setText("免费");
+        }else {
+            ((ViewActivityItemBinding) ((NormalHolder) holder).getBinding()).actiivtyItemPrice.setText(String.valueOf(item.getActprice()));
+        }
         ((NormalHolder)holder).getBinding().executePendingBindings();
     }
 }

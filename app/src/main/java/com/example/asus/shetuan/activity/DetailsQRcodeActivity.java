@@ -33,7 +33,8 @@ public class DetailsQRcodeActivity extends AppCompatActivity {
         if (intent.getStringExtra("type").equals("act")){
             binding.detailsQrcodeDescription.setText("扫一扫二维码，了解活动详情");
         }
-        String qrstring = "www.euswag.com?avid="+intent.getStringExtra("id");
+        String qrstring = "www.euswag.com?avid="+intent.getIntExtra("id",0);
+        System.out.println("qrstring"+qrstring);
         Bitmap bitmap = EncodingUtils.createQRCode(qrstring,700,700, BitmapFactory.decodeResource(getResources(),0));
         binding.detailsQrcodeQriamge.setImageBitmap(bitmap);
         click();

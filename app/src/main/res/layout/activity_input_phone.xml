@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
-            android:padding="25dp"
+            android:padding="45dp"
             android:src="@drawable/phone"/>
         <TextView
             android:layout_width="match_parent"

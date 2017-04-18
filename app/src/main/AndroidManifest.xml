@@ -63,17 +63,28 @@
         <activity
             android:name=".activity.funct.PressActivityActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.funct.SelectContactsActivity" />
-        <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.AccountPasswordReviseActivity" />
-        <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.CheckActivityActivity" />
-        <activity android:name=".clipimage.ClipActivity" />
-        <activity android:name=".activity.ChangePeosonInformationActivity" />
-        <activity android:name=".activity.FunctionActivity" />
-        <activity android:name=".activity.ActivityCollectionActivity" />
-        <activity android:name=".activity.CheckListActivity" />
-        <activity android:name=".activity.DetailsQRcodeActivity"></activity>
+        <activity android:name=".activity.funct.SelectContactsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AccountPasswordReviseActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CheckActivityActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".clipimage.ClipActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ChangePeosonInformationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.FunctionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ActivityCollectionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CheckListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.DetailsQRcodeActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

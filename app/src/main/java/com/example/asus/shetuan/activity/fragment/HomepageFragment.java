@@ -189,6 +189,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                     ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"),activityRefreshJsonArray.getJSONObject(i).getString("avPlace"),DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")),imageloadurl+activityRefreshJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
                                     activityMsg.setIsparticipate("0");
+                                    activityMsg.setActprice(activityRefreshJsonArray.getJSONObject(i).getDouble("avPrice"));
                                     mData.add(activityMsg);
                                 }
 //                        mData.addAll(changeData);
@@ -233,6 +234,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                         ActivityMsg activityMsg = new ActivityMsg(activityLoadMoreJsonArray.getJSONObject(i).getString("avTitle"), activityLoadMoreJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityLoadMoreJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl+activityLoadMoreJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
                                         activityMsg.setActivityDetailJsonString(activityLoadMoreJsonArray.getJSONObject(i).toString());
                                         activityMsg.setIsparticipate("0");
+                                        activityMsg.setActprice(activityLoadMoreJsonArray.getJSONObject(i).getDouble("avPrice"));
                                         mData.add(activityMsg);
                                     }
                                     loadmoreParam = paramName2+DateUtils.data2(mData.get(mData.size()-1).getActtime());

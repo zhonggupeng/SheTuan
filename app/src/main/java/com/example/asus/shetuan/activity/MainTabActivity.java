@@ -10,6 +10,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.databinding.DataBindingUtil;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -27,10 +29,16 @@ import com.example.asus.shetuan.activity.fragment.HomepageFragment;
 import com.example.asus.shetuan.activity.fragment.MeFragment;
 import com.example.asus.shetuan.activity.fragment.MessageFragment;
 import com.example.asus.shetuan.databinding.ActivityMainTabBinding;
+import com.example.asus.shetuan.model.OKHttpConnect;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class MainTabActivity extends FragmentActivity {
 
-//    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     //定义一个布局
     private LayoutInflater layoutInflater;
@@ -44,11 +52,19 @@ public class MainTabActivity extends FragmentActivity {
     private String mTextviewArray[] = {"首页", "发现", "  ", "消息", "我的"};
     private ActivityMainTabBinding binding;
 
+    private OKHttpConnect okHttpConnect;
+    private String getactivityurl = "https://euswag.com/eu/activity/getactivity";
+    private String getactivityparam1;
+    private String getactivityparam2;
+
+    private final int GETACTIVITY = 110;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ViewServer.get(this).addWindow(this);
         //setContentView(R.layout.activity_main_tab);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_tab);
+        sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
 
 //        sharedPreferences = getSharedPreferences("LoginControl", Context.MODE_PRIVATE);
 //        sharedPreferences.edit().putBoolean("isLogin",true).commit();
@@ -134,7 +150,17 @@ public class MainTabActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK){
             Bundle bundle = data.getExtras();
-            Toast.makeText(this,bundle.getString("result"),Toast.LENGTH_SHORT).show();
+            String resultstring = bundle.getString("result");
+            if (resultstring.indexOf("www.euswag.com?")==0) {
+                String[] resultarray = resultstring.split("\\?|=");
+                if (resultarray[1].equals("avid")) {
+                    getactivityparam1 = "?avid="+resultarray[2];
+                    getactivityparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                    new Thread(new GetAcitivityRunnable()).start();
+                }
+            }else {
+                Toast.makeText(this, bundle.getString("result"), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -149,4 +175,53 @@ public class MainTabActivity extends FragmentActivity {
         super.onResume();
         ViewServer.get(this).addWindow(this);
     }
+
+    private class GetAcitivityRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(getactivityurl+getactivityparam1+getactivityparam2);
+                Message message = handler.obtainMessage();
+                message.what = GETACTIVITY;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case GETACTIVITY:
+                    String getactivityresult = (String) msg.obj;
+                    if (getactivityresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(getactivityresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Intent intent = new Intent(MainTabActivity.this,ActivityDetailActivity.class);
+                                intent.putExtra("datajson1",jsonObject.getString("data"));
+                                intent.putExtra("isparticipate","0");
+                                MainTabActivity.this.startActivity(intent);
+                            }else {
+                                Toast.makeText(MainTabActivity.this,"请求活动详情失败",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(MainTabActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:break;
+            }
+        }
+    };
 }
