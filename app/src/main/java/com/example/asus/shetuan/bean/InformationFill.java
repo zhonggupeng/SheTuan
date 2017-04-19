@@ -26,8 +26,6 @@ public class InformationFill extends BaseObservable{
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
         notifyPropertyChanged(BR.phonenumber);
-        //按照这种机制，同名会不会产生混乱，又或许可以利用这种机制
-        //做点事情
     }
 
     @Bindable
@@ -70,7 +68,6 @@ public class InformationFill extends BaseObservable{
         notifyPropertyChanged(BR.name);
     }
 
-    //显示部分个人说明信息，在另一个界面编辑，或者是直接在另一个界面显示或者编辑
     @Bindable
     public String getPersonalexplaintion() {
         return personalexplaintion;

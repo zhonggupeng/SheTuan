@@ -22,8 +22,10 @@ import com.example.asus.shetuan.databinding.ActivityActivityDetailBinding;
 import com.example.asus.shetuan.model.DateUtils;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.IOException;
 
@@ -42,6 +44,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private final int QUIT = 111;
     private final int COLLECTE = 100;
     private final int CANCELCOLLECTE = 121;
+    private final int GETNUMBER = 131;
 
     private String headimageloadurl = "https://euswag.com/picture/user/";
     private String activityimageloadurl = "https://euswag.com/picture/activity/";
@@ -66,6 +69,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private String cancelcollecteparam1;
     private String cancelcollecteparam2;
     private String cancelcollecteparam3;
+
+    private String participatenumberurl = "https://euswag.com/eu/activity/memberinfolist";
+    private String participatenumberparam1;
+    private String participatenumberparam2;
+    private String participatenumberparam3 = "&choice=0";
 
     //是否已经收藏该活动，
     private boolean hascollection;
@@ -121,11 +129,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
             binding.activityDetailActivitytime.setText(activityMsg.getActtime()+"~"+activityMsg.getActendtime());
             //需要知道已报名人数
-            if (activityMsg.getActexpectnum()==0){
-                binding.activityDetailPeople.setText("已报名"+"人/不限");
-            }else {
-                binding.activityDetailPeople.setText("已报名" + "人/限" + activityMsg.getActexpectnum() + "人");
-            }
+            //请求已报名人数
+            participatenumberparam1 = "?avid="+activityMsg.getActid();
+            participatenumberparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+            new Thread(new ParticipateNumberRunnable()).start();
+
             //设置参加按钮
             //通过验证来确定
             //请求是否已经参加该活动
@@ -226,6 +234,16 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         });
     }
+    private void click2(final String string){
+        binding.activityDetailPeople.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityDetailActivity.this,ParticipateMemberActivity.class);
+                intent.putExtra("memberjson",string);
+                ActivityDetailActivity.this.startActivity(intent);
+            }
+        });
+    }
 
     private class GetOriginatorRunnable implements Runnable{
 
@@ -305,6 +323,23 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 resultstring = okHttpConnect.getdata(cancelcollecteurl+cancelcollecteparam1+cancelcollecteparam2+cancelcollecteparam3);
                 Message message = handler.obtainMessage();
                 message.what = CANCELCOLLECTE;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class ParticipateNumberRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(participatenumberurl+participatenumberparam1+participatenumberparam2+participatenumberparam3);
+                Message message = handler.obtainMessage();
+                message.what = GETNUMBER;
                 message.obj = resultstring;
                 handler.sendMessage(message);
             } catch (IOException e) {
@@ -424,6 +459,38 @@ public class ActivityDetailActivity extends AppCompatActivity {
                                 }
                             }else {
                                 Toast.makeText(ActivityDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case GETNUMBER:
+                    String getnumberresult = (String) msg.obj;
+                    if (getnumberresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(getnumberresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                String getnumberdata = jsonObject.getString("data");
+                                int number;
+                                if (getnumberdata.equals("null")){
+                                    number = 0;
+                                }else {
+                                    JSONTokener memberjsonTokener = new JSONTokener(getnumberdata);
+                                    JSONArray memberjsonArray = (JSONArray) memberjsonTokener.nextValue();
+                                    number = memberjsonArray.length();
+                                }
+                                if (activityMsg.getActexpectnum()==0){
+                                    binding.activityDetailPeople.setText("已报名"+number+"人/不限");
+                                }else {
+                                    binding.activityDetailPeople.setText("已报名"+number + "人/限" + activityMsg.getActexpectnum() + "人");
+                                }
+                                click2(getnumberdata);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

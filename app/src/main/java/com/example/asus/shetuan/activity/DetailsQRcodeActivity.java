@@ -30,11 +30,17 @@ public class DetailsQRcodeActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_details_qrcode);
         intent = getIntent();
         binding.detailsQrcodeTitle.setText(intent.getStringExtra("title"));
+        String qrstring;
         if (intent.getStringExtra("type").equals("act")){
             binding.detailsQrcodeDescription.setText("扫一扫二维码，了解活动详情");
+            qrstring = "www.euswag.com?avid="+intent.getIntExtra("id",0);
+            System.out.println("qrstring"+qrstring);
+        }else if (intent.getStringExtra("type").equals("register")){
+            binding.detailsQrcodeDescription.setText("扫一扫二维码，完成活动签到");
+            qrstring = "www.euswag.com?avid="+intent.getIntExtra("id",0)+"&code="+intent.getStringExtra("registercode");
+        }else {
+            qrstring="";
         }
-        String qrstring = "www.euswag.com?avid="+intent.getIntExtra("id",0);
-        System.out.println("qrstring"+qrstring);
         Bitmap bitmap = EncodingUtils.createQRCode(qrstring,700,700, BitmapFactory.decodeResource(getResources(),0));
         binding.detailsQrcodeQriamge.setImageBitmap(bitmap);
         click();

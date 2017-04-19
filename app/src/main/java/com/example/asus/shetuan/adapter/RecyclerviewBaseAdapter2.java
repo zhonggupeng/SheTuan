@@ -53,16 +53,18 @@ public abstract class RecyclerviewBaseAdapter2<T> extends RecyclerView.Adapter<R
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        if (((ActivityMsg)(mData.get(position))).getIsbuild()==0){
+                    if (mLayoutResId == R.layout.view_activity_item) {
+                        if (((ActivityMsg) (mData.get(position))).getIsbuild() == 0) {
                             Intent intent = new Intent(mContext, ActivityDetailActivity.class);
-                            intent.putExtra("datajson1",((ActivityMsg)(mData.get(position))).getActivityDetailJsonString());
-                            intent.putExtra("isparticipate",((ActivityMsg)(mData.get(position))).getIsparticipate());
+                            intent.putExtra("datajson1", ((ActivityMsg) (mData.get(position))).getActivityDetailJsonString());
+                            intent.putExtra("isparticipate", ((ActivityMsg) (mData.get(position))).getIsparticipate());
                             mContext.startActivity(intent);
                         } else {
                             Intent intent = new Intent(mContext, CheckActivityActivity.class);
-                            intent.putExtra("datajson2",((ActivityMsg)(mData.get(position))).getActivityDetailJsonString());
+                            intent.putExtra("datajson2", ((ActivityMsg) (mData.get(position))).getActivityDetailJsonString());
                             mContext.startActivity(intent);
                         }
+                    }
                 }
             });
             convert(holder,mData.get(position),position);

@@ -63,28 +63,41 @@
         <activity
             android:name=".activity.funct.PressActivityActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.funct.SelectContactsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AccountPasswordReviseActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SearchActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CheckActivityActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".clipimage.ClipActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ChangePeosonInformationActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.FunctionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ActivityCollectionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CheckListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.DetailsQRcodeActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.funct.SelectContactsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AccountPasswordReviseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CheckActivityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".clipimage.ClipActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChangePeosonInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FunctionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ActivityCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CheckListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DetailsQRcodeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.RegisterDetailActivity" />
+        <activity android:name=".activity.ParticipateMemberActivity"></activity>
     </application>
 
 </manifest>

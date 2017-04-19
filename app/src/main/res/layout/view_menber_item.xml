@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -32,7 +33,8 @@
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/view_menber_headimage"
                         android:layout_width="55dp"
-                        android:layout_height="55dp" />
+                        android:layout_height="55dp"
+                        fresco:roundedCornerRadius="40dp"/>
 
                     <LinearLayout
                         android:layout_width="120dp"
@@ -43,14 +45,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="4">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="10dp"
-                            android:text="@{peosonInformation.name}"
-                            android:textSize="@dimen/title_font_size"
-                            android:textColor="@color/black"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="10dp"
+                                android:text="@{peosonInformation.name}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/title_font_size" />
+
                             <ImageView
                                 android:id="@+id/view_menber_verified"
                                 android:layout_width="wrap_content"
@@ -64,8 +68,8 @@
                             android:layout_weight="3"
                             android:paddingLeft="10dp"
                             android:text="@{peosonInformation.reputation}"
-                            android:textSize="@dimen/min_font_size"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/min_font_size" />
 
                     </LinearLayout>
 
@@ -74,28 +78,30 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical|right"
-                        android:textSize="@dimen/font_size"
+                        android:paddingRight="30dp"
                         android:textColor="@color/black"
-                        android:paddingRight="30dp"/>
+                        android:textSize="@dimen/font_size" />
 
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/view_menber_gotoimage"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_goto" />
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/view_menber_delete"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="移除"
-                android:textSize="@dimen/title_font_size"
-                android:textColor="@color/white"
                 android:background="#FF3A30"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="移除"
+                android:textColor="@color/white"
+                android:textSize="@dimen/title_font_size" />
         </LinearLayout>
 
         <LinearLayout
