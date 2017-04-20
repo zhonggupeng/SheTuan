@@ -6,13 +6,17 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.bean.ActivityMsg;
+import com.example.asus.shetuan.bean.PressActivity;
 import com.example.asus.shetuan.databinding.ActivityCheckActivityBinding;
 import com.example.asus.shetuan.model.DateUtils;
 import com.example.asus.shetuan.model.OKHttpConnect;
@@ -43,8 +47,14 @@ public class CheckActivityActivity extends AppCompatActivity {
     private String startregisterparam2;
     private String startregisterparam3;
 
+    private String deleteactivityurl = "https://euswag.com/eu/activity/deleteav";
+    private String deleteactivityparam1;
+    private String deleteactivityparam2;
+    private String deleteactivityparam3;
+
     private final int GETNUMBER = 110;
     private final int START_REGISTER = 100;
+    private final int DELETE_ACTIVITY = 101;
 
     private int number;
 
@@ -97,8 +107,11 @@ public class CheckActivityActivity extends AppCompatActivity {
             new Thread(new ParticipateNumberRunnable()).start();
 
             binding.checkActivityBackground.setImageURI(activityMsg.getImageurl());
-
-            click();
+            if (activityMsg.getActstate()==0) {
+                click();
+            }else {
+                binding.checkActivityChangeactivity.setText("活动已结束");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -113,7 +126,23 @@ public class CheckActivityActivity extends AppCompatActivity {
         binding.checkActivityMoreimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                PopupMenu popupMenu = new PopupMenu(CheckActivityActivity.this,v, ActionBar.LayoutParams.WRAP_CONTENT);
+                popupMenu.getMenuInflater().inflate(R.menu.popupmenu,popupMenu.getMenu());
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.popupmenu_delete:
+                                deleteactivityparam1 = "?avid="+activityMsg.getActid();
+                                deleteactivityparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+                                deleteactivityparam3 = "&uid="+activityMsg.getUid();
+                                new Thread(new DeleteActivityRunnable()).start();
+                                break;
+                        }
+                        return false;
+                    }
+                });
             }
         });
         binding.checkActivityCheck.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +171,12 @@ public class CheckActivityActivity extends AppCompatActivity {
                 startregisterparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
                 startregisterparam3 = "&avid="+activityMsg.getActid();
                 new Thread(new StartRegisterRunnable()).start();
+            }
+        });
+        binding.checkActivityChangeactivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckActivityActivity.this, PressActivity.class);
             }
         });
     }
@@ -183,6 +218,24 @@ public class CheckActivityActivity extends AppCompatActivity {
                 resultstring = okHttpConnect.getdata(startregisterurl+startregisterparam1+startregisterparam2+startregisterparam3);
                 Message message = handler.obtainMessage();
                 message.what = START_REGISTER;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class DeleteActivityRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                System.out.println(deleteactivityurl+deleteactivityparam1+deleteactivityparam2+deleteactivityparam3);
+                resultstring = okHttpConnect.getdata(deleteactivityurl+deleteactivityparam1+deleteactivityparam2+deleteactivityparam3);
+                Message message = handler.obtainMessage();
+                message.what = DELETE_ACTIVITY;
                 message.obj = resultstring;
                 handler.sendMessage(message);
             } catch (IOException e) {
@@ -242,6 +295,28 @@ public class CheckActivityActivity extends AppCompatActivity {
                                 CheckActivityActivity.this.startActivity(intent);
                             }else {
                                 Toast.makeText(CheckActivityActivity.this,"签到请求失败，请重试",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(CheckActivityActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case DELETE_ACTIVITY:
+                    String deleteactivityresult = (String) msg.obj;
+                    System.out.println("删除返回："+deleteactivityresult);
+                    if (deleteactivityresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(deleteactivityresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(CheckActivityActivity.this,"成功删除活动",Toast.LENGTH_SHORT).show();
+                                CheckActivityActivity.this.finish();
+                            }else {
+                                Toast.makeText(CheckActivityActivity.this,"删除活动失败，请重试",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

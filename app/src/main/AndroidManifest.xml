@@ -97,7 +97,8 @@
             android:name=".activity.DetailsQRcodeActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.RegisterDetailActivity" />
-        <activity android:name=".activity.ParticipateMemberActivity"></activity>
+        <activity android:name=".activity.ParticipateMemberActivity" />
+        <activity android:name=".activity.InputRegisterCodeActivity"></activity>
     </application>
 
 </manifest>

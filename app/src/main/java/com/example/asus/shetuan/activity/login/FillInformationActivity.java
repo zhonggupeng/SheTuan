@@ -237,4 +237,12 @@ public class FillInformationActivity extends AppCompatActivity {
         super.onResume();
         ViewServer.get(this).addWindow(this);
     }
+    @Override
+    public void onBackPressed() {
+        if (popWindow != null && popWindow.isShowing()) {
+            popWindow.dismiss();
+        }else{
+            super.onBackPressed();
+        }
+    }
 }

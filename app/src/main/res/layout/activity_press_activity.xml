@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -60,7 +61,8 @@
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/press_activity_activityimage"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp" />
+                    android:layout_height="180dp"
+                    fresco:placeholderImage="@drawable/activitydetailbackground"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

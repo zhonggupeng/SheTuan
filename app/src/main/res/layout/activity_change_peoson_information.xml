@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="peosonInformation"
             type="com.example.asus.shetuan.bean.PeosonInformation" />
@@ -92,45 +93,32 @@
                     android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/title_height"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:gravity="center_vertical"
+                        android:text="@string/nick_name"
+                        android:textColor="@color/search_keyword_color"
+                        android:textSize="@dimen/font_size" />
+
+                    <com.example.asus.shetuan.weight.EditTextWithDel
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:gravity="center_vertical"
-                            android:text="@string/nick_name"
-                            android:textColor="@color/search_keyword_color"
-                            android:textSize="@dimen/font_size" />
-
-                        <com.example.asus.shetuan.weight.EditTextWithDel
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:background="@null"
-                            android:gravity="center_vertical"
-                            android:padding="10dp"
-                            android:text="@={peosonInformation.nickname}"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@null"
-                            android:textSize="@dimen/font_size" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="7dp"
-                        android:src="@drawable/ic_goto" />
-                </RelativeLayout>
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:padding="10dp"
+                        android:text="@={peosonInformation.nickname}"
+                        android:textColor="@color/black"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/font_size" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -157,13 +145,13 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <TextView
+                        <com.example.asus.shetuan.weight.EditTextWithDel
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
                             android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="@{peosonInformation.gender}"
+                            android:text="@={peosonInformation.gender}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -193,14 +181,14 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <TextView
+                        <com.example.asus.shetuan.weight.EditTextWithDel
                             android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
                             android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="@{peosonInformation.academe}"
+                            android:text="@={peosonInformation.academe}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -231,13 +219,13 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <TextView
+                        <com.example.asus.shetuan.weight.EditTextWithDel
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
                             android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="@{peosonInformation.studentid}"
+                            android:text="@={peosonInformation.studentid}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -268,13 +256,13 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <TextView
+                        <com.example.asus.shetuan.weight.EditTextWithDel
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
                             android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="@{peosonInformation.name}"
+                            android:text="@={peosonInformation.name}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -285,37 +273,6 @@
                     android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/title_height"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:gravity="center_vertical"
-                        android:text="@string/person_edit"
-                        android:textColor="@color/search_keyword_color"
-                        android:textSize="@dimen/font_size" />
-                </LinearLayout>
-                <com.example.asus.shetuan.weight.EditTextWithDel
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@null"
-                    android:gravity="left|top"
-                    android:hint="请修改个人说明"
-                    android:lineSpacingMultiplier="1.2"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    android:text="@={peosonInformation.personalexplaintion}"
-                    android:textColor="@color/black"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/font_size" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/item_module_space"
-                    android:background="@color/item_space_color"></LinearLayout>
                 <TextView
                     android:id="@+id/change_inform_confirm"
                     android:layout_width="match_parent"
@@ -323,7 +280,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/button_background"
+                    android:background="@color/orange"
                     android:gravity="center"
                     android:text="确认"
                     android:textColor="@color/title_font_color"

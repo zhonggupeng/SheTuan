@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="InputPINTest"
+            type="com.example.asus.shetuan.bean.InputPINTest"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.asus.shetuan.activity.InputRegisterCodeActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/main_color">
+
+            <ImageView
+                android:layout_width="@dimen/title_image_width"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_back"
+                android:onClick="@{InputPINTest.backimage}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="输入签到码"
+                android:textColor="@color/title_font_color"
+                android:textSize="@dimen/title_font_size" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_above="@+id/input_register_code_confirm"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/input_pin_edit1"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/pin_edit_sharp"
+                android:focusable='@{(InputPINTest.edit1.length()==0)?true:false}'
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:text="@={InputPINTest.edit1}"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:layout_width="10dp"
+                android:layout_height="match_parent"></LinearLayout>
+
+            <EditText
+                android:id="@+id/input_pin_edit2"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/pin_edit_sharp"
+                android:focusable='@{((InputPINTest.edit1.length()==0 || (InputPINTest.edit2.length()==1)))?false:true}'
+                android:focusableInTouchMode='@{(InputPINTest.edit1.length()==1)?true:false}'
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:text="@={InputPINTest.edit2}"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:layout_width="10dp"
+                android:layout_height="match_parent"></LinearLayout>
+
+            <EditText
+                android:id="@+id/input_pin_edit3"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/pin_edit_sharp"
+                android:focusable='@{((InputPINTest.edit2.length()==0)|| (InputPINTest.edit3.length()==1))?false:true}'
+                android:focusableInTouchMode='@{(InputPINTest.edit2.length()==1)?true:false}'
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:text="@={InputPINTest.edit3}"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:layout_width="10dp"
+                android:layout_height="match_parent"></LinearLayout>
+
+            <EditText
+                android:id="@+id/input_pin_edit4"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/pin_edit_sharp"
+                android:focusable='@{((InputPINTest.edit3.length()==0))?false:true}'
+                android:focusableInTouchMode='@{(InputPINTest.edit3.length()==1)?true:false}'
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:text="@={InputPINTest.edit4}"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/input_register_code_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="80dp"
+            android:gravity="center"
+            android:text="确 定"
+            android:textSize="@dimen/title_font_size"
+            android:textColor="@{(InputPINTest.edit4.length()==0)?@color/gray:@color/black}"
+            android:clickable="@{(InputPINTest.edit4.length()==0)?false:true}"/>
+    </RelativeLayout>
+</layout>

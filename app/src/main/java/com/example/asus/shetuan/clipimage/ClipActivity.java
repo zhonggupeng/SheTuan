@@ -30,6 +30,7 @@ public class ClipActivity extends Activity{
         loadingDialog=new ProgressDialog(this);
         loadingDialog.setTitle("请稍后...");
 		path=getIntent().getStringExtra("path");
+		System.out.println("加载图片的url："+path);
 		if(TextUtils.isEmpty(path)||!(new File(path).exists())){
 			Toast.makeText(this, "图片加载失败",Toast.LENGTH_SHORT).show();
 			return;

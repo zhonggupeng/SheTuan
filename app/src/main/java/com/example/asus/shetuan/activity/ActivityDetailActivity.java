@@ -1,6 +1,7 @@
 package com.example.asus.shetuan.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,10 +10,17 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,30 +29,33 @@ import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.databinding.ActivityActivityDetailBinding;
 import com.example.asus.shetuan.model.DateUtils;
 import com.example.asus.shetuan.model.OKHttpConnect;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ActivityDetailActivity extends AppCompatActivity {
-    private ActivityActivityDetailBinding binding =null;
+    private ActivityActivityDetailBinding binding = null;
     private String datajsonstring;
-    private ActivityMsg activityMsg=null;
+    private ActivityMsg activityMsg = null;
 
     private OKHttpConnect okHttpConnect;
     private String getoriginatorurl = "https://euswag.com/eu/info/introinfo";
     private String getoriginatorparam1;
     private String getoriginatorparam2;
 
-    private final int GETORIGINATOR  = 110;
+    private final int GETORIGINATOR = 110;
     private final int PARTICIPATE = 101;
     private final int QUIT = 111;
     private final int COLLECTE = 100;
     private final int CANCELCOLLECTE = 121;
     private final int GETNUMBER = 131;
+    private final int REGISTER_FINISH = 141;
 
     private String headimageloadurl = "https://euswag.com/picture/user/";
     private String activityimageloadurl = "https://euswag.com/picture/activity/";
@@ -75,22 +86,32 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private String participatenumberparam2;
     private String participatenumberparam3 = "&choice=0";
 
+    private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
+    private String registerfinishparam1;
+    private String registerfinishparam2;
+    private String registerfinishparam3;
+
     //是否已经收藏该活动，
     private boolean hascollection;
 
     private SharedPreferences sharedPreferences;
 
+    private PopupWindow popWindow;
+    private LayoutInflater layoutInflater;
+    private TextView photograph, albums;
+    private LinearLayout cancel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_activity_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_activity_detail);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         Intent intent = getIntent();
         datajsonstring = intent.getStringExtra("datajson1");
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(datajsonstring);
-            activityMsg = new ActivityMsg(jsonObject.getString("avTitle"),jsonObject.getString("avPlace"),DateUtils.timet(jsonObject.getString("avStarttime")),activityimageloadurl+jsonObject.getString("avLogo")+".jpg");
+            activityMsg = new ActivityMsg(jsonObject.getString("avTitle"), jsonObject.getString("avPlace"), DateUtils.timet(jsonObject.getString("avStarttime")), activityimageloadurl + jsonObject.getString("avLogo") + ".jpg");
             activityMsg.setActendtime(DateUtils.timet(jsonObject.getString("avEndtime")));
             activityMsg.setUid(jsonObject.getLong("uid"));
             activityMsg.setActexpectnum(jsonObject.getInt("avExpectnum"));
@@ -101,37 +122,35 @@ public class ActivityDetailActivity extends AppCompatActivity {
             activityMsg.setActid(jsonObject.getInt("avid"));
             //报名截止时间
             activityMsg.setActenrolldeadline(jsonObject.getString("avEnrolldeadline"));
-            System.out.println("报名截止时间："+jsonObject.getString("avEnrolldeadline"));
+            System.out.println("报名截止时间：" + jsonObject.getString("avEnrolldeadline"));
 
             binding.setActivityDetailMsg(activityMsg);
 
             //请求发起活动者信息
-            getoriginatorparam1 = "?uid="+activityMsg.getUid();
-            getoriginatorparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-            System.out.println("getoriginatorparam1"+getoriginatorparam1);
-            System.out.println("getoriginatorparam2"+getoriginatorparam2);
+            getoriginatorparam1 = "?uid=" + activityMsg.getUid();
+            getoriginatorparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+            System.out.println("getoriginatorparam1" + getoriginatorparam1);
+            System.out.println("getoriginatorparam2" + getoriginatorparam2);
             new Thread(new GetOriginatorRunnable()).start();
 
-            if (activityMsg.getActregister()==-1){
+            if (activityMsg.getActregister() == -1) {
                 binding.activityDetailIsregister.setText("无需签到");
                 participateparam4 = "&verifystate=2";
-            }
-            else {
+            } else {
                 binding.activityDetailIsregister.setText("需要签到");
                 participateparam4 = "&verifystate=0";
             }
 
-            if(activityMsg.getActprice()==0){
+            if (activityMsg.getActprice() == 0) {
                 binding.activityDetailIsfree.setText("免费");
-            }
-            else {
+            } else {
                 binding.activityDetailIsfree.setText(String.valueOf(activityMsg.getActprice()));
             }
-            binding.activityDetailActivitytime.setText(activityMsg.getActtime()+"~"+activityMsg.getActendtime());
+            binding.activityDetailActivitytime.setText(activityMsg.getActtime() + "~" + activityMsg.getActendtime());
             //需要知道已报名人数
             //请求已报名人数
-            participatenumberparam1 = "?avid="+activityMsg.getActid();
-            participatenumberparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+            participatenumberparam1 = "?avid=" + activityMsg.getActid();
+            participatenumberparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
             new Thread(new ParticipateNumberRunnable()).start();
 
             //设置参加按钮
@@ -139,10 +158,13 @@ public class ActivityDetailActivity extends AppCompatActivity {
             //请求是否已经参加该活动
             if (intent.getStringExtra("isparticipate").equals("0")) {
                 binding.activityDetailIsenroll.setText("我要参加");
-            }else if (intent.getStringExtra("isparticipate").equals("4")){
+            } else if (intent.getStringExtra("isparticipate").equals("4")) {
                 binding.activityDetailIsenroll.setText("取消收藏");
             } else {
                 binding.activityDetailIsenroll.setText("退出活动");
+            }
+            if (activityMsg.getActregister() > 0) {
+                binding.activityDetailIsenroll.setText("我要签到");
             }
             binding.activityDetailBackground.setImageURI(activityMsg.getImageurl());
             hascollection = false;
@@ -153,13 +175,13 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     }
 
-    private void click(){
+    private void click() {
         binding.activityDetailCallphone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.activityDetailOriginator==null||binding.activityDetailOriginator.length()==0){
-                    Toast.makeText(ActivityDetailActivity.this,"数据未加载成功，你不能进行此操作",Toast.LENGTH_SHORT).show();
-                }else {
+                if (binding.activityDetailOriginator == null || binding.activityDetailOriginator.length() == 0) {
+                    Toast.makeText(ActivityDetailActivity.this, "数据未加载成功，你不能进行此操作", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + activityMsg.getUid()));
                     if (ActivityCompat.checkSelfPermission(ActivityDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
@@ -186,14 +208,26 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     new Thread(new ParticipateRunnable()).start();
                 }
             });
-        }else if (binding.activityDetailIsenroll.getText().equals("取消收藏")){
+        } else if (binding.activityDetailIsenroll.getText().equals("取消收藏")) {
             binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     cancelcollecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                     cancelcollecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    cancelcollecteparam3 = "&avid="+activityMsg.getActid();
+                    cancelcollecteparam3 = "&avid=" + activityMsg.getActid();
                     new Thread(new CancelCollecteRunnable()).start();
+                }
+            });
+        } else if (binding.activityDetailIsenroll.getText().equals("我要签到")) {
+            binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //如果状态已签到，则不在进入网络请求
+                    if (){
+                        showPopupWindow(binding.activityDetailIsenroll);
+                    }else {
+                        Toast.makeText(ActivityDetailActivity.this,"",Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         } else {
@@ -210,15 +244,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
         binding.activityDetailCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hascollection){
+                if (hascollection) {
                     cancelcollecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                     cancelcollecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    cancelcollecteparam3 = "&avid="+activityMsg.getActid();
+                    cancelcollecteparam3 = "&avid=" + activityMsg.getActid();
                     new Thread(new CancelCollecteRunnable()).start();
-                }else {
+                } else {
                     collecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                     collecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    collecteparam3 = "&avid="+activityMsg.getActid();
+                    collecteparam3 = "&avid=" + activityMsg.getActid();
                     new Thread(new CollecteRunnable()).start();
                 }
             }
@@ -226,33 +260,34 @@ public class ActivityDetailActivity extends AppCompatActivity {
         binding.activityDetailQrcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityDetailActivity.this,DetailsQRcodeActivity.class);
-                intent.putExtra("title",activityMsg.getActtitle());
-                intent.putExtra("id",activityMsg.getActid());
-                intent.putExtra("type","act");
+                Intent intent = new Intent(ActivityDetailActivity.this, DetailsQRcodeActivity.class);
+                intent.putExtra("title", activityMsg.getActtitle());
+                intent.putExtra("id", activityMsg.getActid());
+                intent.putExtra("type", "act");
                 ActivityDetailActivity.this.startActivity(intent);
             }
         });
     }
-    private void click2(final String string){
+
+    private void click2(final String string) {
         binding.activityDetailPeople.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityDetailActivity.this,ParticipateMemberActivity.class);
-                intent.putExtra("memberjson",string);
+                Intent intent = new Intent(ActivityDetailActivity.this, ParticipateMemberActivity.class);
+                intent.putExtra("memberjson", string);
                 ActivityDetailActivity.this.startActivity(intent);
             }
         });
     }
 
-    private class GetOriginatorRunnable implements Runnable{
+    private class GetOriginatorRunnable implements Runnable {
 
         @Override
         public void run() {
-            okHttpConnect =new OKHttpConnect();
+            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(getoriginatorurl+getoriginatorparam1+getoriginatorparam2);
+                resultstring = okHttpConnect.getdata(getoriginatorurl + getoriginatorparam1 + getoriginatorparam2);
                 Message message = handler.obtainMessage();
                 message.what = GETORIGINATOR;
                 message.obj = resultstring;
@@ -262,14 +297,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private class ParticipateRunnable implements Runnable{
+
+    private class ParticipateRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(participateurl+participateparam1+participateparam2+participateparam3+participateparam4);
+                resultstring = okHttpConnect.getdata(participateurl + participateparam1 + participateparam2 + participateparam3 + participateparam4);
                 Message message = handler.obtainMessage();
                 message.what = PARTICIPATE;
                 message.obj = resultstring;
@@ -279,14 +315,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private class QuitRunnable implements Runnable{
+
+    private class QuitRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(quiturl+quitparam1+quitparam2+quitparam3);
+                resultstring = okHttpConnect.getdata(quiturl + quitparam1 + quitparam2 + quitparam3);
                 Message message = handler.obtainMessage();
                 message.what = QUIT;
                 message.obj = resultstring;
@@ -296,14 +333,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private class CollecteRunnable implements Runnable{
+
+    private class CollecteRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(collecteurl+collecteparam1+collecteparam2+collecteparam3);
+                resultstring = okHttpConnect.getdata(collecteurl + collecteparam1 + collecteparam2 + collecteparam3);
                 Message message = handler.obtainMessage();
                 message.what = COLLECTE;
                 message.obj = resultstring;
@@ -313,14 +351,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private class CancelCollecteRunnable implements Runnable{
+
+    private class CancelCollecteRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(cancelcollecteurl+cancelcollecteparam1+cancelcollecteparam2+cancelcollecteparam3);
+                resultstring = okHttpConnect.getdata(cancelcollecteurl + cancelcollecteparam1 + cancelcollecteparam2 + cancelcollecteparam3);
                 Message message = handler.obtainMessage();
                 message.what = CANCELCOLLECTE;
                 message.obj = resultstring;
@@ -330,14 +369,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private class ParticipateNumberRunnable implements Runnable{
+
+    private class ParticipateNumberRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(participatenumberurl+participatenumberparam1+participatenumberparam2+participatenumberparam3);
+                resultstring = okHttpConnect.getdata(participatenumberurl + participatenumberparam1 + participatenumberparam2 + participatenumberparam3);
                 Message message = handler.obtainMessage();
                 message.what = GETNUMBER;
                 message.obj = resultstring;
@@ -347,160 +387,279 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private Handler handler = new Handler(){
+    private class RegisterFinishRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(registerfinishurl+registerfinishparam1+registerfinishparam2+registerfinishparam3);
+                Message message = handler.obtainMessage();
+                message.what = REGISTER_FINISH;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case GETORIGINATOR:
                     String getoringinatorresult = (String) msg.obj;
-                    if (getoringinatorresult.length()!=0){
+                    if (getoringinatorresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(getoringinatorresult);
                             result = jsonObject.getInt("status");
-                            System.out.println("result:"+result);
-                            if (result == 200){
+                            System.out.println("result:" + result);
+                            if (result == 200) {
                                 String oringingationdata;
                                 oringingationdata = jsonObject.getString("data");
                                 JSONObject jsonObject1 = new JSONObject(oringingationdata);
                                 binding.activityDetailOriginator.setText(jsonObject1.getString("name"));
-                                binding.activityDetailReputation.setText("节操值 "+jsonObject1.getString("reputation"));
-                                binding.activityDetailHeadimage.setImageURI(headimageloadurl+jsonObject1.getString("avatar")+".jpg");
-                            }
-                            else {
-                                Toast.makeText(ActivityDetailActivity.this,"活动发起人信息加载失败",Toast.LENGTH_SHORT).show();
+                                binding.activityDetailReputation.setText("节操值 " + jsonObject1.getString("reputation"));
+                                binding.activityDetailHeadimage.setImageURI(headimageloadurl + jsonObject1.getString("avatar") + ".jpg");
+                            } else {
+                                Toast.makeText(ActivityDetailActivity.this, "活动发起人信息加载失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case PARTICIPATE:
                     String participateresult = (String) msg.obj;
-                    if (participateresult.length()!=0){
+                    if (participateresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(participateresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                Toast.makeText(ActivityDetailActivity.this,"参加成功",Toast.LENGTH_SHORT).show();
-                            }else if (result == 500){
-                                Toast.makeText(ActivityDetailActivity.this,"你已参加了该活动，不要重复参加",Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                Toast.makeText(ActivityDetailActivity.this,"活动未参加成功",Toast.LENGTH_SHORT).show();
+                            if (result == 200) {
+                                Toast.makeText(ActivityDetailActivity.this, "参加成功", Toast.LENGTH_SHORT).show();
+                            } else if (result == 500) {
+                                Toast.makeText(ActivityDetailActivity.this, "你已参加了该活动，不要重复参加", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivityDetailActivity.this, "活动未参加成功", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case QUIT:
                     String quitresult = (String) msg.obj;
-                    if (quitresult.length()!=0){
+                    if (quitresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(quitresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                Toast.makeText(ActivityDetailActivity.this,"你已经退出该活动",Toast.LENGTH_SHORT).show();
+                            if (result == 200) {
+                                Toast.makeText(ActivityDetailActivity.this, "你已经退出该活动", Toast.LENGTH_SHORT).show();
                                 ActivityDetailActivity.this.finish();
-                            }else {
-                                Toast.makeText(ActivityDetailActivity.this,"退出失败，请重试",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivityDetailActivity.this, "退出失败，请重试", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case COLLECTE:
                     String collecteresult = (String) msg.obj;
-                    if (collecteresult.length()!=0){
+                    if (collecteresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(collecteresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                Toast.makeText(ActivityDetailActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+                            if (result == 200) {
+                                Toast.makeText(ActivityDetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
                                 binding.activityDetailCollection.setImageResource(R.drawable.ic_collection_after);
                                 hascollection = true;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case CANCELCOLLECTE:
                     String cancelcollecteresult = (String) msg.obj;
-                    if (cancelcollecteresult.length()!=0){
+                    if (cancelcollecteresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(cancelcollecteresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                if (binding.activityDetailIsenroll.getText().equals("取消收藏")){
+                            if (result == 200) {
+                                if (binding.activityDetailIsenroll.getText().equals("取消收藏")) {
                                     ActivityDetailActivity.this.finish();
-                                }else {
+                                } else {
                                     Toast.makeText(ActivityDetailActivity.this, "已取消收藏", Toast.LENGTH_SHORT).show();
                                     binding.activityDetailCollection.setImageResource(R.drawable.ic_collection_before);
                                 }
-                            }else {
-                                Toast.makeText(ActivityDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivityDetailActivity.this, "取消失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case GETNUMBER:
                     String getnumberresult = (String) msg.obj;
-                    if (getnumberresult.length()!=0){
+                    if (getnumberresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(getnumberresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String getnumberdata = jsonObject.getString("data");
                                 int number;
-                                if (getnumberdata.equals("null")){
+                                if (getnumberdata.equals("null")) {
                                     number = 0;
-                                }else {
+                                } else {
                                     JSONTokener memberjsonTokener = new JSONTokener(getnumberdata);
                                     JSONArray memberjsonArray = (JSONArray) memberjsonTokener.nextValue();
                                     number = memberjsonArray.length();
                                 }
-                                if (activityMsg.getActexpectnum()==0){
-                                    binding.activityDetailPeople.setText("已报名"+number+"人/不限");
-                                }else {
-                                    binding.activityDetailPeople.setText("已报名"+number + "人/限" + activityMsg.getActexpectnum() + "人");
+                                if (activityMsg.getActexpectnum() == 0) {
+                                    binding.activityDetailPeople.setText("已报名" + number + "人/不限");
+                                } else {
+                                    binding.activityDetailPeople.setText("已报名" + number + "人/限" + activityMsg.getActexpectnum() + "人");
                                 }
                                 click2(getnumberdata);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    } else {
+                        Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case REGISTER_FINISH:
+                    String registerfinishresult = (String) msg.obj;
+                    if (registerfinishresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(registerfinishresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(ActivityDetailActivity.this,"签到成功",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(ActivityDetailActivity.this,"签到失败，请重试",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }else {
                         Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
                     }
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };
+
+    private void showPopupWindow(View parent) {
+        if (popWindow == null) {
+            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.pop_select_photo, null);
+            popWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+            initPop(view);
+        }
+        popWindow.setAnimationStyle(android.R.style.Animation_InputMethod);
+        popWindow.setFocusable(true);
+        popWindow.setOutsideTouchable(true);
+        popWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        popWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
+    }
+
+    public void initPop(View view) {
+        photograph = (TextView) view.findViewById(R.id.photograph);
+        photograph.setText("输入签到码签到");
+        albums = (TextView) view.findViewById(R.id.albums);
+        albums.setText("扫描二维码签到");
+        cancel = (LinearLayout) view.findViewById(R.id.cancel);
+        photograph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                popWindow.dismiss();
+                Intent intent = new Intent(ActivityDetailActivity.this,InputRegisterCodeActivity.class);
+                intent.putExtra("register",activityMsg.getActregister());
+                intent.putExtra("actid",activityMsg.getActid());
+                ActivityDetailActivity.this.startActivity(intent);
+            }
+        });
+        albums.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                popWindow.dismiss();
+                Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
+                ActivityDetailActivity.this.startActivityForResult(intent,0);
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                popWindow.dismiss();
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK){
+            Bundle bundle = data.getExtras();
+            String resultstring = bundle.getString("result");
+            if (resultstring.indexOf("www.euswag.com?")==0) {
+                String[] resultarray = resultstring.split("\\?|=|&");
+                if (resultarray.length==5) {
+                    if (resultarray[2].equals(String.valueOf(activityMsg.getActid()))&&resultarray[4].equals(String.valueOf(activityMsg.getActid()))){
+                        registerfinishparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
+                        registerfinishparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                        registerfinishparam3 = "&avid=" + activityMsg.getActid();
+                        new Thread(new RegisterFinishRunnable()).start();
+                    }else {
+                        Toast.makeText(this,"扫描的二维码不是本活动的签到码",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(this,"扫描的二维码不是签到码",Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(this,"扫描的二维码不是签到码", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (popWindow != null && popWindow.isShowing()) {
+            popWindow.dismiss();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

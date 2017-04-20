@@ -323,11 +323,13 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                     return;
                 }
                 uri = data.getData();
+                System.out.println("相册回调uri"+uri.toString());
                 String[] proj = { MediaStore.Images.Media.DATA };
                 Cursor cursor = getContentResolver().query(uri, proj, null, null,null);//获得或者选择图片
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
                 path = cursor.getString(column_index);//得到一个图片
+                System.out.println("图片路径："+path);
                 Intent intent3=new Intent(this, ClipActivity.class);
                 intent3.putExtra("path", path);
                 startActivityForResult(intent3, IMAGE_COMPLETE);
@@ -351,5 +353,13 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+    @Override
+    public void onBackPressed() {
+        if (popWindow != null && popWindow.isShowing()) {
+            popWindow.dismiss();
+        }else{
+            super.onBackPressed();
+        }
     }
 }

@@ -149,7 +149,7 @@ public class PressActivityActivity extends AppCompatActivity {
                             Toast.makeText(PressActivityActivity.this,"活动开始时间晚于活动结束时间，请重新选择",Toast.LENGTH_SHORT).show();
                         }else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline()))>Long.parseLong(DateUtils.data(pressActivity.getEndtime()))){
                             Toast.makeText(PressActivityActivity.this,"活动报名截止时间晚于活动结束时间，请重新选择",Toast.LENGTH_SHORT).show();
-                        }else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline()))<Long.parseLong(DateUtils.getCurrentTime())){
+                        }else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline()))<Long.parseLong(DateUtils.data(DateUtils.getCurrentTime()))){
                             Toast.makeText(PressActivityActivity.this,"活动报名截止时间早于当前时间，，请重新选择",Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -187,13 +187,16 @@ public class PressActivityActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        new AlertDialog.Builder(this).setTitle("提示").setMessage("您确定放弃发布活动吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                backPressed();
-            }
-        }).setNegativeButton("取消", null).show();
+        if (popWindow != null && popWindow.isShowing()) {
+            popWindow.dismiss();
+        }else {
+            new AlertDialog.Builder(this).setTitle("提示").setMessage("您确定放弃发布活动吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    backPressed();
+                }
+            }).setNegativeButton("取消", null).show();
+        }
     }
 
     public void backPressed() {

@@ -161,4 +161,10 @@ public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshL
             }
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
+    }
 }

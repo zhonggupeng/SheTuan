@@ -1,11 +1,13 @@
 package com.example.asus.shetuan.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,9 +42,14 @@ public class RegisterDetailActivity extends AppCompatActivity {
     private String participatenumberparam2;
     private String participatenumberparam3 = "&choice=-1";
 
+    private String closeactivityurl = "https://euswag.com/eu/activity/closeav";
+    private String closeactivityparam1;
+    private String closeactivityparam2;
+
     private String headimageloadurl = "https://euswag.com/picture/user/";
 
     private final int GETNUMBER = 110;
+    private final int CLOSE_ACTIVITY = 100;
 
     private ArrayList<PeosonInformation> peosonData = new ArrayList<PeosonInformation>();
     private ParticipateMemberAdapter adapter;
@@ -70,6 +77,12 @@ public class RegisterDetailActivity extends AppCompatActivity {
         click();
     }
     private void click(){
+        binding.registerDetailBackimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterDetailActivity.this.onBackPressed();
+            }
+        });
         binding.registerDetailQrcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,13 +94,22 @@ public class RegisterDetailActivity extends AppCompatActivity {
                 RegisterDetailActivity.this.startActivity(intent);
             }
         });
-        binding.registerDetailBackimage.setOnClickListener(new View.OnClickListener() {
+        binding.registerDetailFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegisterDetailActivity.this.onBackPressed();
+                new AlertDialog.Builder(RegisterDetailActivity.this).setTitle("提示").setMessage("你确定要结束活动吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        closeactivityparam1 = "?avid="+actid;
+                        closeactivityparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+                        new Thread(new CloseActivityRunnable()).start();
+                    }
+                }).setNegativeButton("取消",null).show();
+
             }
         });
     }
+
     private class ParticipateNumberRunnable implements Runnable{
 
         @Override
@@ -98,6 +120,23 @@ public class RegisterDetailActivity extends AppCompatActivity {
                 resultstring = okHttpConnect.getdata(participatenumberurl+participatenumberparam1+participatenumberparam2+participatenumberparam3);
                 Message message = handler.obtainMessage();
                 message.what = GETNUMBER;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class CloseActivityRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(closeactivityurl+closeactivityparam1+closeactivityparam2);
+                Message message = handler.obtainMessage();
+                message.what = CLOSE_ACTIVITY;
                 message.obj = resultstring;
                 handler.sendMessage(message);
             } catch (IOException e) {
@@ -146,6 +185,27 @@ public class RegisterDetailActivity extends AppCompatActivity {
                         Toast.makeText(RegisterDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
                     }
                     binding.registerDetailRecyclerview.setAdapter(adapter);
+                    break;
+                case CLOSE_ACTIVITY:
+                    String closeactivityresult = (String) msg.obj;
+                    if (closeactivityresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(closeactivityresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(RegisterDetailActivity.this,"活动已关闭",Toast.LENGTH_SHORT).show();
+                                RegisterDetailActivity.this.finish();
+                            }else {
+                                Toast.makeText(RegisterDetailActivity.this,"关闭活动失败",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(RegisterDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 default:break;
             }
