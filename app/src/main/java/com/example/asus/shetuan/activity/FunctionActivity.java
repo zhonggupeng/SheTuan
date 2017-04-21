@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.funct.PressActivityActivity;
 import com.example.asus.shetuan.databinding.ActivityFunctionBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
@@ -33,7 +34,13 @@ public class FunctionActivity extends AppCompatActivity {
     private String getactivityparam1;
     private String getactivityparam2;
 
+    private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
+    private String registerfinishparam1;
+    private String registerfinishparam2;
+    private String registerfinishparam3;
+
     private final int GETACTIVITY = 110;
+    private final int REGISTER = 100;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -139,10 +146,24 @@ public class FunctionActivity extends AppCompatActivity {
             String resultstring = bundle.getString("result");
             if (resultstring.indexOf("www.euswag.com?")==0) {
                 String[] resultarray = resultstring.split("\\?|=");
-                if (resultarray[1].equals("avid")) {
-                    getactivityparam1 = "?avid="+resultarray[2];
-                    getactivityparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    new Thread(new GetAcitivityRunnable()).start();
+                if (resultarray.length==3) {
+                    if (resultarray[1].equals("avid")) {
+                        getactivityparam1 = "?avid=" + resultarray[2];
+                        getactivityparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                        if (NetWorkState.checkNetWorkState(FunctionActivity.this)) {
+                            new Thread(new GetAcitivityRunnable()).start();
+                        }
+                    }else {
+                        //
+                        //转到社团
+                    }
+                } else {
+                    registerfinishparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
+                    registerfinishparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                    registerfinishparam3 = "&avid="+resultarray[2];
+                    if (NetWorkState.checkNetWorkState(FunctionActivity.this)) {
+                        new Thread(new RegisterFinishRunnable()).start();
+                    }
                 }
             }else {
                 Toast.makeText(this, bundle.getString("result"), Toast.LENGTH_SHORT).show();
@@ -161,6 +182,23 @@ public class FunctionActivity extends AppCompatActivity {
                 message.what = GETACTIVITY;
                 message.obj = resultstring;
                 nethandler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class RegisterFinishRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(registerfinishurl+registerfinishparam1+registerfinishparam2+registerfinishparam3);
+                Message message = handler.obtainMessage();
+                message.what = REGISTER;
+                message.obj = resultstring;
+                handler.sendMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -186,6 +224,26 @@ public class FunctionActivity extends AppCompatActivity {
                                 FunctionActivity.this.startActivity(intent);
                             }else {
                                 Toast.makeText(FunctionActivity.this,"请求活动详情失败",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(FunctionActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case REGISTER:
+                    String registerresult = (String) msg.obj;
+                    if (registerresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(registerresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(FunctionActivity.this,"签到成功",Toast.LENGTH_SHORT).show();
+                            }else if (result == 400){
+                                Toast.makeText(FunctionActivity.this,"你未参加该活动或该签到二维码已失效",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

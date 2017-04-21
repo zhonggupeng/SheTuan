@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.databinding.ActivityAccountPasswordReviseBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -62,7 +63,9 @@ public class AccountPasswordReviseActivity extends AppCompatActivity {
                     passwordreviseparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
                     passwordreviseparam3 = "&oldpwd="+binding.accountPasswordReviseOldpassword.getText();
                     passwordreviseparam4 = "&newpwd="+binding.accountPasswordReviseNewpassword.getText();
-                    new Thread(new PasswordReviseRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(AccountPasswordReviseActivity.this)) {
+                        new Thread(new PasswordReviseRunnable()).start();
+                    }
                 }
             }
         });

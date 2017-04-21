@@ -19,6 +19,7 @@ import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.bean.PressActivity;
 import com.example.asus.shetuan.databinding.ActivityCheckActivityBinding;
 import com.example.asus.shetuan.model.DateUtils;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONArray;
@@ -104,7 +105,9 @@ public class CheckActivityActivity extends AppCompatActivity {
             //需要知道已报名人数
             participatenumberparam1 = "?avid="+activityMsg.getActid();
             participatenumberparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-            new Thread(new ParticipateNumberRunnable()).start();
+            if (NetWorkState.checkNetWorkState(CheckActivityActivity.this)) {
+                new Thread(new ParticipateNumberRunnable()).start();
+            }
 
             binding.checkActivityBackground.setImageURI(activityMsg.getImageurl());
             if (activityMsg.getActstate()==0) {
@@ -137,7 +140,9 @@ public class CheckActivityActivity extends AppCompatActivity {
                                 deleteactivityparam1 = "?avid="+activityMsg.getActid();
                                 deleteactivityparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
                                 deleteactivityparam3 = "&uid="+activityMsg.getUid();
-                                new Thread(new DeleteActivityRunnable()).start();
+                                if (NetWorkState.checkNetWorkState(CheckActivityActivity.this)) {
+                                    new Thread(new DeleteActivityRunnable()).start();
+                                }
                                 break;
                         }
                         return false;
@@ -170,7 +175,9 @@ public class CheckActivityActivity extends AppCompatActivity {
                 startregisterparam1 = "?uid="+activityMsg.getUid();
                 startregisterparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
                 startregisterparam3 = "&avid="+activityMsg.getActid();
-                new Thread(new StartRegisterRunnable()).start();
+                if (NetWorkState.checkNetWorkState(CheckActivityActivity.this)) {
+                    new Thread(new StartRegisterRunnable()).start();
+                }
             }
         });
         binding.checkActivityChangeactivity.setOnClickListener(new View.OnClickListener() {

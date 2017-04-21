@@ -25,6 +25,7 @@ import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.bean.Homepage;
 import com.example.asus.shetuan.databinding.FragmentHomepageBinding;
 import com.example.asus.shetuan.model.DateUtils;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 import com.example.asus.shetuan.model.ViewPagerJson;
 import com.example.asus.shetuan.weight.MyScrollView;
@@ -97,12 +98,19 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                     //需要更新的UI操作
                     //比如
                     //加载数据线程放到刷新中
-                    new Thread(new ViewpagerRunnable()).start();
-                    new Thread(new ActivityRefreshRunable()).start();
+                    if (NetWorkState.checkNetWorkState(inflater.getContext())) {
+                        new Thread(new ViewpagerRunnable()).start();
+                        new Thread(new ActivityRefreshRunable()).start();
+                    }
                     binding.homepageSwipeRefresh.setRefreshing(false);
                     break;
                 case LOAD_MORE:
-                    new Thread(new ActivityLoadMoreRunable()).start();
+                    if (NetWorkState.checkNetWorkState(inflater.getContext())) {
+                        new Thread(new ActivityLoadMoreRunable()).start();
+                    }else {
+                        homepageActivityAdapter.setStatus(LOADERROR);
+                        changeAdapterState(LOADERROR);
+                    }
                     break;
                 case LOADVIEWPAGER:
                     String loadviewpagerresult = (String) msg.obj;

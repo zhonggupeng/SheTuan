@@ -17,6 +17,7 @@ import com.example.asus.shetuan.adapter.NoLoadmoreActivityRecyclerviewAdapter;
 import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.databinding.ActivityCollectionBinding;
 import com.example.asus.shetuan.model.DateUtils;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 import com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout;
 
@@ -101,7 +102,9 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case REFRESH:
-                    new Thread(new RefreshCollectionRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(ActivityCollectionActivity.this)) {
+                        new Thread(new RefreshCollectionRunnable()).start();
+                    }
                     binding.activityCollectionRefresh.setRefreshing(false);
                     break;
                 case LOADCOLLECTION:

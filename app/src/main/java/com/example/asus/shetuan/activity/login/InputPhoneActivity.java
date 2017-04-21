@@ -14,6 +14,7 @@ import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.bean.Phone;
 import com.example.asus.shetuan.databinding.ActivityInputPhoneBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -40,7 +41,6 @@ public class InputPhoneActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewServer.get(this).addWindow(this);
         //
         //新设置的图片影响了背景
         binding = DataBindingUtil.setContentView(this,R.layout.activity_input_phone);
@@ -74,7 +74,9 @@ public class InputPhoneActivity extends AppCompatActivity {
                 }else {
                     requesturl = stringurl+param1+1+param2+phonenumber;
                 }
-                new Thread(new SendVercodeRunnable()).start();
+                if (NetWorkState.checkNetWorkState(InputPhoneActivity.this)) {
+                    new Thread(new SendVercodeRunnable()).start();
+                }
             }
         });
     }
@@ -161,16 +163,4 @@ public class InputPhoneActivity extends AppCompatActivity {
             }
         }
     };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ViewServer.get(this).addWindow(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ViewServer.get(this).addWindow(this);
-    }
 }

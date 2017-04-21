@@ -19,6 +19,7 @@ import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.adapter.FindingRecyclerviewAdapter;
 import com.example.asus.shetuan.bean.ShetuanMsg;
 import com.example.asus.shetuan.databinding.FragmentFindingBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONArray;
@@ -149,13 +150,15 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case REFRESH_COMPLETE:
-                    new Thread(new ShetuanRunable()).start();
-
+                    if (NetWorkState.checkNetWorkState(inflater.getContext())) {
+                        new Thread(new ShetuanRunable()).start();
+                    }
                     binding.findFragmentSwiperRefreshlayout.setRefreshing(false);
                     break;
                 case LOAD_MORE:
-                    new Thread(new ShetuanLoadmoreRunable()).start();
-
+                    if (NetWorkState.checkNetWorkState(inflater.getContext())) {
+                        new Thread(new ShetuanLoadmoreRunable()).start();
+                    }
                     break;
                 case LOADSHETUAN:
                     String loadshetuanresult = (String) msg.obj;

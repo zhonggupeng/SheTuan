@@ -28,6 +28,7 @@ import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.databinding.ActivityActivityDetailBinding;
 import com.example.asus.shetuan.model.DateUtils;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
@@ -131,7 +132,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
             getoriginatorparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
             System.out.println("getoriginatorparam1" + getoriginatorparam1);
             System.out.println("getoriginatorparam2" + getoriginatorparam2);
-            new Thread(new GetOriginatorRunnable()).start();
+            if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
+                new Thread(new GetOriginatorRunnable()).start();
+            }
 
             if (activityMsg.getActregister() == -1) {
                 binding.activityDetailIsregister.setText("无需签到");
@@ -151,7 +154,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
             //请求已报名人数
             participatenumberparam1 = "?avid=" + activityMsg.getActid();
             participatenumberparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-            new Thread(new ParticipateNumberRunnable()).start();
+            if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
+                new Thread(new ParticipateNumberRunnable()).start();
+            }
 
             //设置参加按钮
             //通过验证来确定
@@ -212,7 +217,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     participateparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                     participateparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
                     participateparam3 = "&avid=" + activityMsg.getActid();
-                    new Thread(new ParticipateRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
+                        new Thread(new ParticipateRunnable()).start();
+                    }
                 }
             });
         } else if (binding.activityDetailIsenroll.getText().equals("取消收藏")) {
@@ -222,7 +229,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     cancelcollecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                     cancelcollecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
                     cancelcollecteparam3 = "&avid=" + activityMsg.getActid();
-                    new Thread(new CancelCollecteRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
+                        new Thread(new CancelCollecteRunnable()).start();
+                    }
                 }
             });
         } else if (binding.activityDetailIsenroll.getText().equals("我要签到")) {
@@ -239,7 +248,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     quitparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                     quitparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
                     quitparam3 = "&avid=" + activityMsg.getActid();
-                    new Thread(new QuitRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
+                        new Thread(new QuitRunnable()).start();
+                    }
                 }
             });
         }
@@ -250,12 +261,16 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     cancelcollecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                     cancelcollecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
                     cancelcollecteparam3 = "&avid=" + activityMsg.getActid();
-                    new Thread(new CancelCollecteRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
+                        new Thread(new CancelCollecteRunnable()).start();
+                    }
                 } else {
                     collecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                     collecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
                     collecteparam3 = "&avid=" + activityMsg.getActid();
-                    new Thread(new CollecteRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
+                        new Thread(new CollecteRunnable()).start();
+                    }
                 }
             }
         });
@@ -641,7 +656,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         registerfinishparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
                         registerfinishparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
                         registerfinishparam3 = "&avid=" + activityMsg.getActid();
-                        new Thread(new RegisterFinishRunnable()).start();
+                        if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
+                            new Thread(new RegisterFinishRunnable()).start();
+                        }
                     }else {
                         Toast.makeText(this,"扫描的二维码不是本活动的签到码",Toast.LENGTH_SHORT).show();
                     }

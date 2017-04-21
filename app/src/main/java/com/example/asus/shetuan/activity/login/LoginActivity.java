@@ -18,6 +18,7 @@ import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.MainTabActivity;
 import com.example.asus.shetuan.bean.Login;
 import com.example.asus.shetuan.databinding.ActivityLoginBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -47,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewServer.get(this).addWindow(this);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
         login = new Login(LoginActivity.this);
         binding.setLogin(login);
@@ -65,7 +65,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loginparam1 = "?uid="+login.getAccountnumber();
                 loginparam2 = "&password="+login.getPassword();
-                new Thread(new LoginRunnable()).start();
+                if (NetWorkState.checkNetWorkState(LoginActivity.this)) {
+                    new Thread(new LoginRunnable()).start();
+                }
             }
         });
 
@@ -79,7 +81,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
                     phonenumber = login.getAccountnumber();
-                    new Thread(new SendVercodeRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(LoginActivity.this)) {
+                        new Thread(new SendVercodeRunnable()).start();
+                    }
                 }
             }
         });
@@ -199,16 +203,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ViewServer.get(this).addWindow(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ViewServer.get(this).addWindow(this);
-    }
 }

@@ -26,6 +26,7 @@ import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.bean.PeosonInformation;
 import com.example.asus.shetuan.clipimage.ClipActivity;
 import com.example.asus.shetuan.databinding.ActivityChangePeosonInformationBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -77,7 +78,9 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
         peosonInformation = new PeosonInformation();
         requestpeoinformationparam1 = "?uid="+sharedPreferences.getString("phonenumber", "0");
         requestpeoinformationparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-        new Thread(new RequestPeopleRunnable()).start();
+        if (NetWorkState.checkNetWorkState(ChangePeosonInformationActivity.this)) {
+            new Thread(new RequestPeopleRunnable()).start();
+        }
         File file = new File(Environment.getExternalStorageDirectory(),"SheTuan/cache");
         if (!file.exists()) {
             Toast.makeText(this,"无法使用存储器，修改头像无法正常使用",Toast.LENGTH_LONG).show();
@@ -110,11 +113,15 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (headimagepath!=null){
                     headimagefile = new File(headimagepath);
-                    new Thread(new PostHeadimageRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(ChangePeosonInformationActivity.this)) {
+                        new Thread(new PostHeadimageRunnable()).start();
+                    }
                 }else {
                     changeinformationparamstring = "?uid="+peosonInformation.getUid()+"&nickname="+peosonInformation.getNickname()
                             +"&userdescription="+peosonInformation.getPersonalexplaintion()+"&accesstoken=" + sharedPreferences.getString("accesstoken", "00");;
-                    new Thread(new ChangeInformationRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(ChangePeosonInformationActivity.this)) {
+                        new Thread(new ChangeInformationRunnable()).start();
+                    }
                 }
             }
         });
@@ -226,7 +233,9 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                                 changeinformationparamstring = "?uid="+peosonInformation.getUid()+"&avatar="+postheadimagedata.substring(0,postheadimagedata.indexOf("."))
                                                             +"&nickname="+peosonInformation.getNickname()+"&userdescription="+peosonInformation.getPersonalexplaintion()
                                                             +"&accesstoken=" + sharedPreferences.getString("accesstoken", "00");;
-                                new Thread(new ChangeInformationRunnable()).start();
+                                if (NetWorkState.checkNetWorkState(ChangePeosonInformationActivity.this)) {
+                                    new Thread(new ChangeInformationRunnable()).start();
+                                }
                             }else {
                                 Toast.makeText(ChangePeosonInformationActivity.this,"头像上传失败",Toast.LENGTH_SHORT).show();
                             }

@@ -21,6 +21,7 @@ import com.example.asus.shetuan.adapter.NoLoadmoreActivityRecyclerviewAdapter;
 import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.databinding.FragmentActivityBinding;
 import com.example.asus.shetuan.model.DateUtils;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 import com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout;
 
@@ -113,7 +114,9 @@ public class ActivityFragment2 extends Fragment implements VerticalSwipeRefreshL
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case REFRESH_COMPLETE:
-                    new Thread(new CreatedRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(inflater.getContext())) {
+                        new Thread(new CreatedRunnable()).start();
+                    }
                     binding.fragmentActivityRefresh.setRefreshing(false);
                     break;
                 case ACTIVITYREFRESH:

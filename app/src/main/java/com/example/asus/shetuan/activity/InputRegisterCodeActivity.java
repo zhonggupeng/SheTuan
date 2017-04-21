@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.bean.InputPINTest;
 import com.example.asus.shetuan.databinding.ActivityInputRegisterCodeBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -57,7 +58,9 @@ public class InputRegisterCodeActivity extends AppCompatActivity {
                     registerfinishparam1 = "?uid="+sharedPreferences.getString("phonenumber","0");
                     registerfinishparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
                     registerfinishparam3 = "&avid="+actid;
-                    new Thread(new RegisterFinishRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(InputRegisterCodeActivity.this)) {
+                        new Thread(new RegisterFinishRunnable()).start();
+                    }
                 }else {
                     Toast.makeText(InputRegisterCodeActivity.this,"签到码错误",Toast.LENGTH_SHORT).show();
                 }

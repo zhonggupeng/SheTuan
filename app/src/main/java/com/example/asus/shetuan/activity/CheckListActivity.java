@@ -18,6 +18,7 @@ import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.adapter.MemberSliderDeleteAdapter;
 import com.example.asus.shetuan.bean.PeosonInformation;
 import com.example.asus.shetuan.databinding.ActivityCheckListBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 import com.example.asus.shetuan.model.OnItemActionListener;
 import com.example.asus.shetuan.weight.EditTextWithDel;
@@ -107,7 +108,9 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
                                     rejectparam4 = "&verifystate=-1";
                                     rejectparam5 = "&reason="+editTextWithDel.getText();
                                     itemposition = position;
-                                    new Thread(new RejectRunnable()).start();
+                                    if (NetWorkState.checkNetWorkState(CheckListActivity.this)) {
+                                        new Thread(new RejectRunnable()).start();
+                                    }
                                 }
                             }
                         })
@@ -202,7 +205,9 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
                     binding.checkListRecyclerview.setAdapter(adapter);
                     break;
                 case REFRESH:
-                    new Thread(new RequestMemberRunnable()).start();
+                    if (NetWorkState.checkNetWorkState(CheckListActivity.this)) {
+                        new Thread(new RequestMemberRunnable()).start();
+                    }
                     binding.checkListRefresh.setRefreshing(false);
                     break;
                 case REJECT:

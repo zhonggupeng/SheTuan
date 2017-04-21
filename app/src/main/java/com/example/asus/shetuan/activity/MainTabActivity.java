@@ -29,6 +29,7 @@ import com.example.asus.shetuan.activity.fragment.HomepageFragment;
 import com.example.asus.shetuan.activity.fragment.MeFragment;
 import com.example.asus.shetuan.activity.fragment.MessageFragment;
 import com.example.asus.shetuan.databinding.ActivityMainTabBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -57,11 +58,16 @@ public class MainTabActivity extends FragmentActivity {
     private String getactivityparam1;
     private String getactivityparam2;
 
+    private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
+    private String registerfinishparam1;
+    private String registerfinishparam2;
+    private String registerfinishparam3;
+
     private final int GETACTIVITY = 110;
+    private final int REGISTER = 100;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewServer.get(this).addWindow(this);
         //setContentView(R.layout.activity_main_tab);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_tab);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
@@ -153,27 +159,30 @@ public class MainTabActivity extends FragmentActivity {
             String resultstring = bundle.getString("result");
             if (resultstring.indexOf("www.euswag.com?")==0) {
                 String[] resultarray = resultstring.split("\\?|=");
-                if (resultarray[1].equals("avid")) {
-                    getactivityparam1 = "?avid="+resultarray[2];
-                    getactivityparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    new Thread(new GetAcitivityRunnable()).start();
+                if (resultarray.length==3) {
+                    if (resultarray[1].equals("avid")) {
+                        getactivityparam1 = "?avid=" + resultarray[2];
+                        getactivityparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                        if (NetWorkState.checkNetWorkState(MainTabActivity.this)) {
+                            new Thread(new GetAcitivityRunnable()).start();
+                        }
+                    }
+                    else {
+                        //
+                        //转到社团
+                    }
+                }else {
+                    registerfinishparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
+                    registerfinishparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                    registerfinishparam3 = "&avid="+resultarray[2];
+                    if (NetWorkState.checkNetWorkState(MainTabActivity.this)) {
+                        new Thread(new RegisterFinishRunnable()).start();
+                    }
                 }
             }else {
                 Toast.makeText(this, bundle.getString("result"), Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ViewServer.get(this).addWindow(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ViewServer.get(this).addWindow(this);
     }
 
     private class GetAcitivityRunnable implements Runnable{
@@ -186,6 +195,23 @@ public class MainTabActivity extends FragmentActivity {
                 resultstring = okHttpConnect.getdata(getactivityurl+getactivityparam1+getactivityparam2);
                 Message message = handler.obtainMessage();
                 message.what = GETACTIVITY;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class RegisterFinishRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.getdata(registerfinishurl+registerfinishparam1+registerfinishparam2+registerfinishparam3);
+                Message message = handler.obtainMessage();
+                message.what = REGISTER;
                 message.obj = resultstring;
                 handler.sendMessage(message);
             } catch (IOException e) {
@@ -212,6 +238,26 @@ public class MainTabActivity extends FragmentActivity {
                                 MainTabActivity.this.startActivity(intent);
                             }else {
                                 Toast.makeText(MainTabActivity.this,"请求活动详情失败",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(MainTabActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case REGISTER:
+                    String registerresult = (String) msg.obj;
+                    if (registerresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(registerresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(MainTabActivity.this,"签到成功",Toast.LENGTH_SHORT).show();
+                            }else if (result == 400){
+                                Toast.makeText(MainTabActivity.this,"你未参加该活动或该签到二维码已失效",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

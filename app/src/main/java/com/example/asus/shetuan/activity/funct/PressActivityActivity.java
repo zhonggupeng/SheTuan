@@ -33,6 +33,7 @@ import com.example.asus.shetuan.clipimage.ClipActivity;
 import com.example.asus.shetuan.databinding.ActivityPressActivityBinding;
 import com.example.asus.shetuan.dateselector.DataSelect;
 import com.example.asus.shetuan.model.DateUtils;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONArray;
@@ -86,7 +87,6 @@ public class PressActivityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewServer.get(this).addWindow(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_press_activity);
         inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         pressActivity = new PressActivity(this);
@@ -167,10 +167,14 @@ public class PressActivityActivity extends AppCompatActivity {
                                 System.out.println(string);
                                 SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
                                 tocken = "?accesstoken=" + sharedPreferences.getString("accesstoken", "");
-                                new Thread(new PressActivityRunable()).start();
+                                if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
+                                    new Thread(new PressActivityRunable()).start();
+                                }
                             }else {
                                 imagefile = new File(imagepath);
-                                new Thread(new PressImageRunnable()).start();
+                                if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
+                                    new Thread(new PressImageRunnable()).start();
+                                }
                             }
                         }
                     }
@@ -285,7 +289,9 @@ public class PressActivityActivity extends AppCompatActivity {
                                         + "&uid=" + uid;
                                 SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
                                 tocken = "?accesstoken=" + sharedPreferences.getString("accesstoken", "");
-                                new Thread(new PressActivityRunable()).start();
+                                if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
+                                    new Thread(new PressActivityRunable()).start();
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -389,15 +395,4 @@ public class PressActivityActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ViewServer.get(this).addWindow(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ViewServer.get(this).addWindow(this);
-    }
 }

@@ -18,6 +18,7 @@ import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.adapter.ParticipateMemberAdapter;
 import com.example.asus.shetuan.bean.PeosonInformation;
 import com.example.asus.shetuan.databinding.ActivityRegisterDetailBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONArray;
@@ -73,7 +74,9 @@ public class RegisterDetailActivity extends AppCompatActivity {
         });
         participatenumberparam1 = "?avid="+actid;
         participatenumberparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-        new Thread(new ParticipateNumberRunnable()).start();
+        if (NetWorkState.checkNetWorkState(RegisterDetailActivity.this)) {
+            new Thread(new ParticipateNumberRunnable()).start();
+        }
         click();
     }
     private void click(){
@@ -102,7 +105,9 @@ public class RegisterDetailActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         closeactivityparam1 = "?avid="+actid;
                         closeactivityparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-                        new Thread(new CloseActivityRunnable()).start();
+                        if (NetWorkState.checkNetWorkState(RegisterDetailActivity.this)) {
+                            new Thread(new CloseActivityRunnable()).start();
+                        }
                     }
                 }).setNegativeButton("取消",null).show();
 

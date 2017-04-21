@@ -18,6 +18,7 @@ import com.example.asus.shetuan.activity.ActivityCollectionActivity;
 import com.example.asus.shetuan.activity.ChangePeosonInformationActivity;
 import com.example.asus.shetuan.activity.MyActivityActivity;
 import com.example.asus.shetuan.databinding.FragmentMeBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -51,7 +52,9 @@ public class MeFragment extends Fragment{
             SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
             loadpersonparam1 = "?uid="+sharedPreferences.getString("phonenumber","0");
             loadpersonparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-            new Thread(new LoadPersonRunnable()).start();
+            if (NetWorkState.checkNetWorkState(inflater.getContext())) {
+                new Thread(new LoadPersonRunnable()).start();
+            }
             click();
         }
         return binding.getRoot();
