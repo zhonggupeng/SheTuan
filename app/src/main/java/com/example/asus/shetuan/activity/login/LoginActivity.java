@@ -32,8 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     private String sendvercodeparam2 = "&phone=";
 
     private String loginurl = "https://euswag.com/eu/user/login";
-    private String loginparam1 = "?uid=";
-    private String loginparam2 = "&password=";
+    private String loginparam1;
+    private String loginparam2;
 
     private OKHttpConnect okHttpConnect;
 
@@ -63,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginparam1 = loginparam1+login.getAccountnumber();
-                loginparam2 = loginparam2+login.getPassword();
+                loginparam1 = "?uid="+login.getAccountnumber();
+                loginparam2 = "&password="+login.getPassword();
                 new Thread(new LoginRunnable()).start();
             }
         });

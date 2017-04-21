@@ -161,10 +161,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             } else if (intent.getStringExtra("isparticipate").equals("4")) {
                 binding.activityDetailIsenroll.setText("取消收藏");
             } else {
-                binding.activityDetailIsenroll.setText("退出活动");
-            }
-            if (activityMsg.getActregister() > 0) {
-                binding.activityDetailIsenroll.setText("我要签到");
+                if (activityMsg.getActregister() > 0) {
+                    binding.activityDetailIsenroll.setText("我要签到");
+                }else {
+                    binding.activityDetailIsenroll.setText("退出活动");
+                }
             }
             binding.activityDetailBackground.setImageURI(activityMsg.getImageurl());
             hascollection = false;
@@ -176,6 +177,12 @@ public class ActivityDetailActivity extends AppCompatActivity {
     }
 
     private void click() {
+        binding.activitydetailBackimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityDetailActivity.this.onBackPressed();
+            }
+        });
         binding.activityDetailCallphone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,12 +229,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //如果状态已签到，则不在进入网络请求
-                    if (){
-                        showPopupWindow(binding.activityDetailIsenroll);
-                    }else {
-                        Toast.makeText(ActivityDetailActivity.this,"",Toast.LENGTH_SHORT).show();
-                    }
+                    showPopupWindow(binding.activityDetailIsenroll);
                 }
             });
         } else {
@@ -623,7 +625,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 popWindow.dismiss();
-
             }
         });
     }
@@ -654,12 +655,13 @@ public class ActivityDetailActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (popWindow != null && popWindow.isShowing()) {
-            popWindow.dismiss();
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (popWindow != null && popWindow.isShowing()) {
+//            System.out.println("pop显示状态"+popWindow.isShowing());
+//            popWindow.dismiss();
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 }

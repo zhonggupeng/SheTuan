@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Toast;
+
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
@@ -38,18 +39,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class HomepageFragment extends Fragment implements MyScrollView.OnScrollListener,VerticalSwipeRefreshLayout.OnRefreshListener,ViewPagerEx.OnPageChangeListener{
+public class HomepageFragment extends Fragment implements MyScrollView.OnScrollListener, VerticalSwipeRefreshLayout.OnRefreshListener, ViewPagerEx.OnPageChangeListener {
 
     private FragmentHomepageBinding binding = null;
-//    private String[] urls = new String[]{"http://img.redocn.com/sheji/20151107/youmengxiangjiuxingdongqilaibaxianzaiweishibuwanhengbanhaibao_5270355.jpg",
+    //    private String[] urls = new String[]{"http://img.redocn.com/sheji/20151107/youmengxiangjiuxingdongqilaibaxianzaiweishibuwanhengbanhaibao_5270355.jpg",
 //                                            "http://i2.sinaimg.cn/hs/2011/1021/U6011P667DT20111021104629.jpg",
 //                                            "http://pic.58pic.com/58pic/13/02/50/57N58PICQIC.jpg",
 //                                             "http://att2.citysbs.com/hangzhou/2014/05/21/22/middle_630x357-222331_13761400682211555_d78cdd4647741d487ef05ed3fbb43c35.jpg"};
     //测试，可用detailurl替代
     private String[] sliderdetailurls = new String[]{
-        "https://www.baidu.com/","http://euswag.com",
-        "http://baijia.baidu.com/",
-        "https://www.taobao.com/"};
+            "https://www.baidu.com/", "http://euswag.com",
+            "http://baijia.baidu.com/",
+            "https://www.taobao.com/"};
 
     private ArrayList<ActivityMsg> mData = new ArrayList<ActivityMsg>();
 //    private ArrayList<ActivityMsg> changeData = new ArrayList<ActivityMsg>();
@@ -65,9 +66,9 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
     private String[] imagetitle;
     private TextSliderView textSliderView;
 
-    private String activityurl="https://euswag.com/eu/activity/commonav";
+    private String activityurl = "https://euswag.com/eu/activity/commonav";
     private String paramName2 = "?maxtime=";
-    private String loadmoreParam = paramName2+"99495884120000";
+    private String loadmoreParam = paramName2 + "99495884120000";
     private OKHttpConnect activityRefreshOkHttpConnect;
     private OKHttpConnect activityLoadMoreOkHttpConnect;
     private String imageloadurl = "https://euswag.com/picture/activity/";
@@ -82,22 +83,21 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
     private final int NORMAL = 110;
     private final int LOADING = 111;
     private final int THEEND = 100;
-    private final int LOADERROR =101;
+    private final int LOADERROR = 101;
 
     private LayoutInflater inflater;
 
     private int jjj;
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case REFRESH_COMPLETE:
                     //需要更新的UI操作
                     //比如
                     //加载数据线程放到刷新中
                     new Thread(new ViewpagerRunnable()).start();
-
                     new Thread(new ActivityRefreshRunable()).start();
                     binding.homepageSwipeRefresh.setRefreshing(false);
                     break;
@@ -107,13 +107,13 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                 case LOADVIEWPAGER:
                     String loadviewpagerresult = (String) msg.obj;
                     int length;
-                    if(loadviewpagerresult.length()!=0) {
+                    if (loadviewpagerresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(loadviewpagerresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String viewpagerdatastring;
                                 viewpagerdatastring = jsonObject.getString("data");
                                 viewPagerJson = new ViewPagerJson();
@@ -153,29 +153,28 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                 binding.homepageSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
                                 //设置持续时间
                                 binding.homepageSlider.setDuration(2000);
-                            }else {
-                                Toast.makeText(inflater.getContext(),"加载失败，刷新试试！",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(inflater.getContext(), "加载失败，刷新试试！", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else {
+                    } else {
 
-                        Toast.makeText(inflater.getContext(),"网络异常",Toast.LENGTH_LONG).show();
+                        Toast.makeText(inflater.getContext(), "网络异常", Toast.LENGTH_LONG).show();
                         //当没有网的时候，就加载一张图片作为背景放在这里
 //                        binding.homepageSlider.setBackgroundResource(R.drawable.welcome);
                     }
                     break;
                 case ACTIVITYREFRESH:
                     String activityrefreshresult = (String) msg.obj;
-                    if(activityrefreshresult.length()!=0){
+                    if (activityrefreshresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(activityrefreshresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String activityrefreshdatastring;
                                 activityrefreshdatastring = jsonObject.getString("data");
                                 JSONTokener activityRefreshJsonTokener = new JSONTokener(activityrefreshdatastring);
@@ -184,74 +183,70 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
 //                        changeData.clear();
 //                        changeData.addAll(mData);
                                 mData.clear();
-                                for (int i =0;i<activityRefreshJsonArray.length();i++){
-                                        //对于时间要进行处理，即时间格式的转换
-                                    ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"),activityRefreshJsonArray.getJSONObject(i).getString("avPlace"),DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")),imageloadurl+activityRefreshJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
+                                for (int i = 0; i < activityRefreshJsonArray.length(); i++) {
+                                    //对于时间要进行处理，即时间格式的转换
+                                    ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"), activityRefreshJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl + activityRefreshJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
                                     activityMsg.setIsparticipate("0");
                                     activityMsg.setActprice(activityRefreshJsonArray.getJSONObject(i).getDouble("avPrice"));
                                     mData.add(activityMsg);
                                 }
 //                        mData.addAll(changeData);
-                                loadmoreParam = paramName2+DateUtils.data2(mData.get(mData.size()-1).getActtime());
+                                loadmoreParam = paramName2 + DateUtils.data2(mData.get(mData.size() - 1).getActtime());
                                 homepageActivityAdapter.setmData(null);
                                 homepageActivityAdapter.setmData(mData);
-                            }
-                            else {
-                                Toast.makeText(inflater.getContext(),"加载失败，刷新试试！",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(inflater.getContext(), "加载失败，刷新试试！", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                    }
-                    else {
-                        Toast.makeText(inflater.getContext(),"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(inflater.getContext(), "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     binding.homepageActivityRecyclerView.removeAllViews();
                     binding.homepageActivityRecyclerView.setAdapter(homepageActivityAdapter);
                     break;
                 case ACTIVITYLOADMORE:
                     String activityloadmoreresult = (String) msg.obj;
-                    if (activityloadmoreresult.length()!=0){
-                        JSONObject jsonObject ;
+                    System.out.println("加载更多返回" + activityloadmoreresult);
+                    if (activityloadmoreresult.length() != 0) {
+                        JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(activityloadmoreresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String activityloadmoredatastring;
                                 activityloadmoredatastring = jsonObject.getString("data");
                                 JSONTokener activityLoadMoreJsonTokener = new JSONTokener(activityloadmoredatastring);
                                 JSONArray activityLoadMoreJsonArray = null;
                                 activityLoadMoreJsonArray = (JSONArray) activityLoadMoreJsonTokener.nextValue();
-                                if (activityLoadMoreJsonArray.length()==0){
+                                if (activityLoadMoreJsonArray.length() == 0) {
                                     homepageActivityAdapter.setStatus(THEEND);
                                     changeAdapterState(THEEND);
-                                }
-                                else {
+                                } else {
                                     for (int i = 0; i < activityLoadMoreJsonArray.length(); i++) {
-                                        ActivityMsg activityMsg = new ActivityMsg(activityLoadMoreJsonArray.getJSONObject(i).getString("avTitle"), activityLoadMoreJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityLoadMoreJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl+activityLoadMoreJsonArray.getJSONObject(i).getString("avLogo")+".jpg");
+                                        ActivityMsg activityMsg = new ActivityMsg(activityLoadMoreJsonArray.getJSONObject(i).getString("avTitle"), activityLoadMoreJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityLoadMoreJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl + activityLoadMoreJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
                                         activityMsg.setActivityDetailJsonString(activityLoadMoreJsonArray.getJSONObject(i).toString());
                                         activityMsg.setIsparticipate("0");
                                         activityMsg.setActprice(activityLoadMoreJsonArray.getJSONObject(i).getDouble("avPrice"));
                                         mData.add(activityMsg);
                                     }
-                                    loadmoreParam = paramName2+DateUtils.data2(mData.get(mData.size()-1).getActtime());
+                                    loadmoreParam = paramName2 + DateUtils.data2(mData.get(mData.size() - 1).getActtime());
                                     homepageActivityAdapter.setStatus(NORMAL);
                                     changeAdapterState(NORMAL);
                                 }
-                            }
-                            else {
-                                Toast.makeText(inflater.getContext(),"加载失败",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(inflater.getContext(), "加载失败", Toast.LENGTH_SHORT).show();
                                 homepageActivityAdapter.setStatus(LOADERROR);
                                 changeAdapterState(LOADERROR);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else {
+                    } else {
 //                        Toast.makeText(inflater.getContext(),"网络较慢，刷新试试！",Toast.LENGTH_SHORT).show();
                         homepageActivityAdapter.setStatus(LOADERROR);
 //                        homepageActivityAdapter.setStatus(THEEND);
@@ -259,15 +254,17 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                     }
                     homepageActivityAdapter.notifyDataSetChanged();
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if(binding == null) {
+        if (binding == null) {
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_homepage, container, false);
             homepageActivityAdapter = new ActivityRecyclerviewAdapter(inflater.getContext());
@@ -298,15 +295,14 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
             binding.homepageScrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                 @Override
                 public void onScrollChanged() {
-                    binding.homepageSwipeRefresh.setEnabled(binding.homepageScrollview.getScrollY()==0);
+                    binding.homepageSwipeRefresh.setEnabled(binding.homepageScrollview.getScrollY() == 0);
                     View childView = binding.homepageScrollview.getChildAt(0);
-                    if ((childView.getMeasuredHeight() <binding.homepageScrollview.getScrollY() +binding.homepageScrollview.getHeight())&&(homepageActivityAdapter.getStatus()==NORMAL)){
+                    if ((childView.getMeasuredHeight() < binding.homepageScrollview.getScrollY() + binding.homepageScrollview.getHeight()) && (homepageActivityAdapter.getStatus() == NORMAL)) {
                         homepageActivityAdapter.setStatus(LOADING);
                         changeAdapterState(LOADING);
                         LoadMore();
-                    }
-                    else {
-                        if (homepageActivityAdapter.getStatus()==THEEND||homepageActivityAdapter.getStatus()==LOADERROR) {
+                    } else {
+                        if (homepageActivityAdapter.getStatus() == THEEND || homepageActivityAdapter.getStatus() == LOADERROR) {
                             homepageActivityAdapter.setStatus(NORMAL);
                         }
                     }
@@ -319,8 +315,9 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
         }
         return binding.getRoot();
     }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         //fragment 销毁前调用，来停止图片轮询
         binding.homepageSlider.stopAutoCycle();
         super.onDestroy();
@@ -329,11 +326,10 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
 
     @Override
     public void onScroll(int scrollY) {
-        if(scrollY>(binding.homepageSlider.getHeight()-binding.homepageTitleLayout.getHeight())){
+        if (scrollY > (binding.homepageSlider.getHeight() - binding.homepageTitleLayout.getHeight())) {
             binding.homepageTitleLayout.setBackgroundResource(R.color.main_color);
             binding.homepageTitleSearchView.setBackgroundResource(R.color.search_view_color);
-        }
-        else {
+        } else {
             binding.homepageTitleLayout.setBackgroundResource(0);
             binding.homepageTitleSearchView.setBackgroundResource(0);
         }
@@ -343,12 +339,14 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
     public void onRefresh() {
         handler.sendEmptyMessage(REFRESH_COMPLETE);
     }
+
     public void LoadMore() {
         //不延迟进行加载请求
         handler.sendEmptyMessage(LOAD_MORE);
     }
-    protected void changeAdapterState(int status){
-        if (homepageActivityAdapter!=null&&homepageActivityAdapter.footerHolder!=null){
+
+    protected void changeAdapterState(int status) {
+        if (homepageActivityAdapter != null && homepageActivityAdapter.footerHolder != null) {
             homepageActivityAdapter.footerHolder.setData(status);
         }
     }
@@ -360,7 +358,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
 
     @Override
     public void onPageSelected(int position) {
-        jjj=position;
+        jjj = position;
     }
 
     @Override
@@ -369,7 +367,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
     }
 //        //活动Item的响应，可以Intent携带数据跳转到下一个界面，数据好像全部都是在mData里面
 
-    private class ViewpagerRunnable implements Runnable{
+    private class ViewpagerRunnable implements Runnable {
 
         @Override
         public void run() {
@@ -386,7 +384,8 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
             }
         }
     }
-    private class ActivityRefreshRunable implements Runnable{
+
+    private class ActivityRefreshRunable implements Runnable {
 
         @Override
         public void run() {
@@ -403,15 +402,16 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
             }
         }
     }
-    private class ActivityLoadMoreRunable implements Runnable{
+
+    private class ActivityLoadMoreRunable implements Runnable {
 
         @Override
         public void run() {
             activityLoadMoreOkHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                System.out.println("loadmoreParam  "+loadmoreParam);
-                resultstring = activityLoadMoreOkHttpConnect.getdata(activityurl+loadmoreParam);
+                System.out.println("loadmoreParam  " + loadmoreParam);
+                resultstring = activityLoadMoreOkHttpConnect.getdata(activityurl + loadmoreParam);
                 Message message = handler.obtainMessage();
                 message.what = ACTIVITYLOADMORE;
                 message.obj = resultstring;

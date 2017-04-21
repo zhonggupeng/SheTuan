@@ -43,6 +43,7 @@
                             android:padding="8dp">
 
                             <ImageView
+                                android:id="@+id/activity_detail_backimage"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/ic_background_gray"
