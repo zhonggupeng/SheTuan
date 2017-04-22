@@ -1,12 +1,14 @@
 package com.example.asus.shetuan.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -29,6 +31,9 @@ import org.json.JSONTokener;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class CheckActivityActivity extends AppCompatActivity {
 
     private ActivityCheckActivityBinding binding;
@@ -39,19 +44,13 @@ public class CheckActivityActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
     private String participatenumberurl = "https://euswag.com/eu/activity/memberinfolist";
-    private String participatenumberparam1;
-    private String participatenumberparam2;
-    private String participatenumberparam3 = "&choice=0";
+    private RequestBody participatenumberbody;
 
     private String startregisterurl = "https://euswag.com/eu/activity/startregister";
-    private String startregisterparam1;
-    private String startregisterparam2;
-    private String startregisterparam3;
+    private RequestBody startregisterbody;
 
     private String deleteactivityurl = "https://euswag.com/eu/activity/deleteav";
-    private String deleteactivityparam1;
-    private String deleteactivityparam2;
-    private String deleteactivityparam3;
+    private RequestBody deleteactivitybody;
 
     private final int GETNUMBER = 110;
     private final int START_REGISTER = 100;
@@ -103,8 +102,11 @@ public class CheckActivityActivity extends AppCompatActivity {
             }
             binding.checkActivityActivitytime.setText(activityMsg.getActtime()+"~"+activityMsg.getActendtime());
             //需要知道已报名人数
-            participatenumberparam1 = "?avid="+activityMsg.getActid();
-            participatenumberparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+            participatenumberbody = new FormBody.Builder()
+                    .add("avid",String.valueOf(activityMsg.getActid()))
+                    .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                    .add("choice","0")
+                    .build();
             if (NetWorkState.checkNetWorkState(CheckActivityActivity.this)) {
                 new Thread(new ParticipateNumberRunnable()).start();
             }
@@ -137,9 +139,11 @@ public class CheckActivityActivity extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.popupmenu_delete:
-                                deleteactivityparam1 = "?avid="+activityMsg.getActid();
-                                deleteactivityparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-                                deleteactivityparam3 = "&uid="+activityMsg.getUid();
+                                deleteactivitybody = new FormBody.Builder()
+                                        .add("avid",String.valueOf(activityMsg.getActid()))
+                                        .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                                        .add("uid",String.valueOf(activityMsg.getUid()))
+                                        .build();
                                 if (NetWorkState.checkNetWorkState(CheckActivityActivity.this)) {
                                     new Thread(new DeleteActivityRunnable()).start();
                                 }
@@ -171,18 +175,47 @@ public class CheckActivityActivity extends AppCompatActivity {
         binding.checkActivityRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //判断临近时间，如果临近时间一天，则之间签到，否则弹出提示对话框
-                startregisterparam1 = "?uid="+activityMsg.getUid();
-                startregisterparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-                startregisterparam3 = "&avid="+activityMsg.getActid();
-                if (NetWorkState.checkNetWorkState(CheckActivityActivity.this)) {
-                    new Thread(new StartRegisterRunnable()).start();
+
+                if (activityMsg.getActregister()>0) {
+                    Intent intent = new Intent(CheckActivityActivity.this,RegisterDetailActivity.class);
+                    intent.putExtra("registercode",String.valueOf(activityMsg.getActregister()));
+                    intent.putExtra("number",number);
+                    intent.putExtra("actid",activityMsg.getActid());
+                    CheckActivityActivity.this.startActivity(intent);
+                }else {
+                    //判断临近时间，如果临近时间一天，则之间签到，否则弹出提示对话框
+                    if (DateUtils.timediff(activityMsg.getActtime())>1){
+                        new AlertDialog.Builder(CheckActivityActivity.this).setTitle("提示").setMessage("该活动开始时间距今还有"+DateUtils.timediff(activityMsg.getActtime())+"天，你确定要打开签到吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startregisterbody = new FormBody.Builder()
+                                        .add("uid",String.valueOf(activityMsg.getUid()))
+                                        .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                                        .add("avid",String.valueOf(activityMsg.getActid()))
+                                        .build();
+                                if (NetWorkState.checkNetWorkState(CheckActivityActivity.this)) {
+                                    new Thread(new StartRegisterRunnable()).start();
+                                }
+                            }
+                        }).setNegativeButton("取消",null).show();
+                    }else{
+                        startregisterbody = new FormBody.Builder()
+                                .add("uid",String.valueOf(activityMsg.getUid()))
+                                .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                                .add("avid",String.valueOf(activityMsg.getActid()))
+                                .build();
+                        if (NetWorkState.checkNetWorkState(CheckActivityActivity.this)) {
+                            new Thread(new StartRegisterRunnable()).start();
+                        }
+                    }
+
                 }
             }
         });
         binding.checkActivityChangeactivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //修改活动
                 Intent intent = new Intent(CheckActivityActivity.this, PressActivity.class);
             }
         });
@@ -205,7 +238,7 @@ public class CheckActivityActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(participatenumberurl+participatenumberparam1+participatenumberparam2+participatenumberparam3);
+                resultstring = okHttpConnect.postdata(participatenumberurl,participatenumberbody);
                 Message message = handler.obtainMessage();
                 message.what = GETNUMBER;
                 message.obj = resultstring;
@@ -222,7 +255,7 @@ public class CheckActivityActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(startregisterurl+startregisterparam1+startregisterparam2+startregisterparam3);
+                resultstring = okHttpConnect.postdata(startregisterurl,startregisterbody);
                 Message message = handler.obtainMessage();
                 message.what = START_REGISTER;
                 message.obj = resultstring;
@@ -239,8 +272,7 @@ public class CheckActivityActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                System.out.println(deleteactivityurl+deleteactivityparam1+deleteactivityparam2+deleteactivityparam3);
-                resultstring = okHttpConnect.getdata(deleteactivityurl+deleteactivityparam1+deleteactivityparam2+deleteactivityparam3);
+                resultstring = okHttpConnect.postdata(deleteactivityurl,deleteactivitybody);
                 Message message = handler.obtainMessage();
                 message.what = DELETE_ACTIVITY;
                 message.obj = resultstring;

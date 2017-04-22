@@ -26,15 +26,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class LoginActivity extends AppCompatActivity {
 
     private String sendvercodeurl = "https://euswag.com/eu/user/verifyphone";
-    private String sendvercodeparam1 = "?choice=1";
-    private String sendvercodeparam2 = "&phone=";
+    private RequestBody sendvercodebody;
 
     private String loginurl = "https://euswag.com/eu/user/login";
-    private String loginparam1;
-    private String loginparam2;
+    private RequestBody loginbody;
 
     private OKHttpConnect okHttpConnect;
 
@@ -63,8 +64,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginparam1 = "?uid="+login.getAccountnumber();
-                loginparam2 = "&password="+login.getPassword();
+                loginbody = new FormBody.Builder()
+                        .add("uid",login.getAccountnumber())
+                        .add("password",login.getPassword())
+                        .build();
                 if (NetWorkState.checkNetWorkState(LoginActivity.this)) {
                     new Thread(new LoginRunnable()).start();
                 }
@@ -82,6 +85,10 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     phonenumber = login.getAccountnumber();
                     if (NetWorkState.checkNetWorkState(LoginActivity.this)) {
+                        sendvercodebody = new FormBody.Builder()
+                                .add("choice","1")
+                                .add("phone",phonenumber)
+                                .build();
                         new Thread(new SendVercodeRunnable()).start();
                     }
                 }
@@ -96,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(loginurl+loginparam1+loginparam2);
+                resultstring = okHttpConnect.postdata(loginurl,loginbody);
                 Message message = handler.obtainMessage();
                 message.what = LOGIN;
                 message.obj = resultstring;
@@ -114,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(sendvercodeurl+sendvercodeparam1+sendvercodeparam2+phonenumber);
+                resultstring = okHttpConnect.postdata(sendvercodeurl,sendvercodebody);
                 Message message = handler.obtainMessage();
                 message.what = SENDVERCODE;
                 message.obj = resultstring;

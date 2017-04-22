@@ -17,6 +17,7 @@ import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.MainTabActivity;
 import com.example.asus.shetuan.bean.SetPassword;
 import com.example.asus.shetuan.databinding.ActivitySetPasswordBinding;
+import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -25,18 +26,21 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class SetPasswordActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
     private String sendurl = "https://euswag.com/eu/user/newuser";
     private String sendparam;
+    private RequestBody sendbody;
 
     //头像上传网址
     private String sendavatarurl = "https://euswag.com/eu/upload/user";
 
     private String changepasswordurl = "https://euswag.com/eu/user/changepwdbyphone";
-    private String changepasswordparam1;
-    private String changepasswordparam2;
+    private RequestBody changepasswordbody;
 
     private ActivitySetPasswordBinding binding;
     private SetPassword setPassword;
@@ -72,15 +76,19 @@ public class SetPasswordActivity extends AppCompatActivity {
                     if (dataintent.getStringExtra("isregister").equals("0")) {
                         //先进行图片的发送，即头像的发送
                         file = new File(dataintent.getStringExtra("headimagepath"));
-                        new Thread(new SendAvatarRunnable()).start();
+                        if (NetWorkState.checkNetWorkState(SetPasswordActivity.this)) {
+                            new Thread(new SendAvatarRunnable()).start();
+                        }
                         //然后进行数据的发送
                     } else if (dataintent.getStringExtra("isregister").equals("1")) {
                         //仅仅修改密码，返回新的tocken
-                        changepasswordparam1 = "?uid=" + dataintent.getStringExtra("phonenumber");
-                        System.out.println("phonenumber:    " + changepasswordparam1);
-                        changepasswordparam2 = "&newpwd=" + setPassword.getConfirmpassword();
-                        System.out.println("new password:    " + changepasswordparam2);
-                        new Thread(new ChangePasswordRunnable()).start();
+                        changepasswordbody = new FormBody.Builder()
+                                .add("uid",dataintent.getStringExtra("phonenumber"))
+                                .add("newpwd",setPassword.getConfirmpassword())
+                                .build();
+                        if (NetWorkState.checkNetWorkState(SetPasswordActivity.this)) {
+                            new Thread(new ChangePasswordRunnable()).start();
+                        }
                     }
                 }
             }
@@ -94,7 +102,7 @@ public class SetPasswordActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(sendurl+sendparam);
+                resultstring = okHttpConnect.postdata(sendurl,sendbody);
                 Message message = handler.obtainMessage();
                 message.what = SENDUSERINFO;
                 message.obj = resultstring;
@@ -130,7 +138,7 @@ public class SetPasswordActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String changepasswordresult;
             try {
-                changepasswordresult = okHttpConnect.getdata(changepasswordurl + changepasswordparam1 + changepasswordparam2);
+                changepasswordresult = okHttpConnect.postdata(changepasswordurl,changepasswordbody);
                 Message message = handler.obtainMessage();
                 message.what = CHANGEPASSWORD;
                 message.obj = changepasswordresult;
@@ -167,13 +175,23 @@ public class SetPasswordActivity extends AppCompatActivity {
                                 }else {
                                     gender = 2;
                                 }
-                                sendparam = "?uid=" + dataintent.getStringExtra("phonenumber") + "&avatar=" + returnstring.substring(0,returnstring.indexOf("."))
-                                        + "&nickname=" + dataintent.getStringExtra("nickname") + "&gender=" + gender
-                                        + "&professionclass=" + dataintent.getStringExtra("academe") + "&studentid=" + dataintent.getStringExtra("studentid")
-                                        + "&name=" + dataintent.getStringExtra("name") + "&userdescription=" + dataintent.getStringExtra("personedit")
-                                        + "&password=" + setPassword.getConfirmpassword()+"&reputation="+100+"&verified="+0;
-                                System.out.println("发送数据"+sendparam);
-                                new Thread(new SendUserinfoRunnable()).start();
+                                sendbody = new FormBody.Builder()
+                                        .add("uid",dataintent.getStringExtra("phonenumber"))
+                                        .add("avatar",returnstring.substring(0,returnstring.indexOf(".")))
+                                        .add("nickname",dataintent.getStringExtra("nickname"))
+                                        .add("gender",String.valueOf(gender))
+                                        .add("professionclass",dataintent.getStringExtra("academe"))
+                                        .add("studentid",dataintent.getStringExtra("studentid"))
+                                        .add("name",dataintent.getStringExtra("name"))
+                                        //用入学年份替换个人说明
+                                        .add("userdescription",dataintent.getStringExtra("personedit"))
+                                        .add("password",setPassword.getConfirmpassword())
+                                        .add("reputation","100")
+                                        .add("verified","0")
+                                        .build();
+                                if (NetWorkState.checkNetWorkState(SetPasswordActivity.this)) {
+                                    new Thread(new SendUserinfoRunnable()).start();
+                                }
                             }else {
                                 Toast.makeText(SetPasswordActivity.this,"上传头像失败，请重试",Toast.LENGTH_SHORT).show();
                             }

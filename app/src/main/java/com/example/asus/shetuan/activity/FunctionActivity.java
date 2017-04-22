@@ -24,6 +24,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class FunctionActivity extends AppCompatActivity {
 
     private ActivityFunctionBinding binding;
@@ -31,13 +34,10 @@ public class FunctionActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
     private String getactivityurl = "https://euswag.com/eu/activity/getactivity";
-    private String getactivityparam1;
-    private String getactivityparam2;
+    private RequestBody getactivitybody;
 
     private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
-    private String registerfinishparam1;
-    private String registerfinishparam2;
-    private String registerfinishparam3;
+    private RequestBody registerfinishbody;
 
     private final int GETACTIVITY = 110;
     private final int REGISTER = 100;
@@ -148,8 +148,10 @@ public class FunctionActivity extends AppCompatActivity {
                 String[] resultarray = resultstring.split("\\?|=");
                 if (resultarray.length==3) {
                     if (resultarray[1].equals("avid")) {
-                        getactivityparam1 = "?avid=" + resultarray[2];
-                        getactivityparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+                        getactivitybody = new FormBody.Builder()
+                                .add("avid",resultarray[2])
+                                .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                                .build();
                         if (NetWorkState.checkNetWorkState(FunctionActivity.this)) {
                             new Thread(new GetAcitivityRunnable()).start();
                         }
@@ -158,9 +160,11 @@ public class FunctionActivity extends AppCompatActivity {
                         //转到社团
                     }
                 } else {
-                    registerfinishparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
-                    registerfinishparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    registerfinishparam3 = "&avid="+resultarray[2];
+                    registerfinishbody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid",resultarray[2])
+                            .build();
                     if (NetWorkState.checkNetWorkState(FunctionActivity.this)) {
                         new Thread(new RegisterFinishRunnable()).start();
                     }
@@ -177,7 +181,7 @@ public class FunctionActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(getactivityurl+getactivityparam1+getactivityparam2);
+                resultstring = okHttpConnect.postdata(getactivityurl,getactivitybody);
                 Message message = nethandler.obtainMessage();
                 message.what = GETACTIVITY;
                 message.obj = resultstring;
@@ -194,11 +198,11 @@ public class FunctionActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(registerfinishurl+registerfinishparam1+registerfinishparam2+registerfinishparam3);
-                Message message = handler.obtainMessage();
+                resultstring = okHttpConnect.postdata(registerfinishurl,registerfinishbody);
+                Message message = nethandler.obtainMessage();
                 message.what = REGISTER;
                 message.obj = resultstring;
-                handler.sendMessage(message);
+                nethandler.sendMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -244,6 +248,8 @@ public class FunctionActivity extends AppCompatActivity {
                                 Toast.makeText(FunctionActivity.this,"签到成功",Toast.LENGTH_SHORT).show();
                             }else if (result == 400){
                                 Toast.makeText(FunctionActivity.this,"你未参加该活动或该签到二维码已失效",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(FunctionActivity.this,"签到失败",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

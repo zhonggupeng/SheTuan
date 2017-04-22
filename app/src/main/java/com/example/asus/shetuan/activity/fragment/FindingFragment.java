@@ -30,21 +30,22 @@ import org.json.JSONTokener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 
 public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private FragmentFindingBinding binding = null ;
+    private SharedPreferences sharedPreferences;
 
     private ArrayList<ShetuanMsg> mData = new ArrayList<>();
     private FindingRecyclerviewAdapter findingRecyclerviewAdapter;
     private LayoutInflater inflater;
     private OKHttpConnect okHttpConnect;
-    private OKHttpConnect loadmoreOkHttpConnect;
-    private String url="https://euswag.com/eu/community/commoncm";
-    private String token;
-    private String paramName1 = "&page=";
+    private String shetuanurl="https://euswag.com/eu/community/commoncm";
     private int page = 2;
-    private String pageparam = paramName1+page;
+    private RequestBody shetuanbody;
 
     private final int REFRESH_COMPLETE = 0x1100;
     private final int LOAD_MORE = 0x1111;
@@ -62,8 +63,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_finding, container, false);
             findingRecyclerviewAdapter = new FindingRecyclerviewAdapter(inflater.getContext());
-            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
-            token = "?accesstoken="+sharedPreferences.getString("accesstoken","");
+            sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
             onRefresh();
             binding.shetuanItemRecyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext(), LinearLayoutManager.VERTICAL, false) {
                 @Override
@@ -118,7 +118,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(url+ token);
+                resultstring = okHttpConnect.postdata(shetuanurl,shetuanbody);
                 Message message = handler.obtainMessage();
                 message.what = LOADSHETUAN;
                 message.obj = resultstring;
@@ -132,10 +132,10 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         @Override
         public void run() {
-            loadmoreOkHttpConnect = new OKHttpConnect();
+            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = loadmoreOkHttpConnect.getdata(url+ token +pageparam);
+                resultstring = okHttpConnect.postdata(shetuanurl,shetuanbody);
                 Message message = handler.obtainMessage();
                 message.what = LOAD_MORE_SHETUAN;
                 message.obj = resultstring;
@@ -150,12 +150,19 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case REFRESH_COMPLETE:
+                    shetuanbody = new FormBody.Builder()
+                            .add("accesstoken",sharedPreferences.getString("accesstoken",""))
+                            .build();
                     if (NetWorkState.checkNetWorkState(inflater.getContext())) {
                         new Thread(new ShetuanRunable()).start();
                     }
                     binding.findFragmentSwiperRefreshlayout.setRefreshing(false);
                     break;
                 case LOAD_MORE:
+                    shetuanbody = new FormBody.Builder()
+                            .add("accesstoken",sharedPreferences.getString("accesstoken",""))
+                            .add("page",String.valueOf(page))
+                            .build();
                     if (NetWorkState.checkNetWorkState(inflater.getContext())) {
                         new Thread(new ShetuanLoadmoreRunable()).start();
                     }
@@ -218,7 +225,6 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                     //可能会有逻辑上的错误
                                     //
                                     page++;
-                                    pageparam = paramName1+page;
                                     findingRecyclerviewAdapter.setStatus(NORMAL);
                                     changeAdapterState(NORMAL);
                                 }

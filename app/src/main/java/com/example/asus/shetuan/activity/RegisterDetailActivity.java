@@ -29,6 +29,9 @@ import org.json.JSONTokener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class RegisterDetailActivity extends AppCompatActivity {
     private ActivityRegisterDetailBinding binding;
     private SharedPreferences sharedPreferences;
@@ -39,13 +42,10 @@ public class RegisterDetailActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
     private String participatenumberurl = "https://euswag.com/eu/activity/memberinfolist";
-    private String participatenumberparam1;
-    private String participatenumberparam2;
-    private String participatenumberparam3 = "&choice=-1";
+    private RequestBody participatenumberbody;
 
     private String closeactivityurl = "https://euswag.com/eu/activity/closeav";
-    private String closeactivityparam1;
-    private String closeactivityparam2;
+    private RequestBody closeactivitybody;
 
     private String headimageloadurl = "https://euswag.com/picture/user/";
 
@@ -72,8 +72,11 @@ public class RegisterDetailActivity extends AppCompatActivity {
                 return false;
             }
         });
-        participatenumberparam1 = "?avid="+actid;
-        participatenumberparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+        participatenumberbody = new FormBody.Builder()
+                .add("avid",String.valueOf(actid))
+                .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                .add("choice","-1")
+                .build();
         if (NetWorkState.checkNetWorkState(RegisterDetailActivity.this)) {
             new Thread(new ParticipateNumberRunnable()).start();
         }
@@ -103,8 +106,10 @@ public class RegisterDetailActivity extends AppCompatActivity {
                 new AlertDialog.Builder(RegisterDetailActivity.this).setTitle("提示").setMessage("你确定要结束活动吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        closeactivityparam1 = "?avid="+actid;
-                        closeactivityparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+                        closeactivitybody = new FormBody.Builder()
+                                .add("avid",String.valueOf(actid))
+                                .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                                .build();
                         if (NetWorkState.checkNetWorkState(RegisterDetailActivity.this)) {
                             new Thread(new CloseActivityRunnable()).start();
                         }
@@ -122,7 +127,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(participatenumberurl+participatenumberparam1+participatenumberparam2+participatenumberparam3);
+                resultstring = okHttpConnect.postdata(participatenumberurl,participatenumberbody);
                 Message message = handler.obtainMessage();
                 message.what = GETNUMBER;
                 message.obj = resultstring;
@@ -139,7 +144,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(closeactivityurl+closeactivityparam1+closeactivityparam2);
+                resultstring = okHttpConnect.postdata(closeactivityurl,closeactivitybody);
                 Message message = handler.obtainMessage();
                 message.what = CLOSE_ACTIVITY;
                 message.obj = resultstring;

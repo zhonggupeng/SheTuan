@@ -35,6 +35,9 @@ import org.json.JSONTokener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 
 public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshLayout.OnRefreshListener{
     private FragmentActivityBinding binding = null ;
@@ -44,17 +47,11 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
 
     private OKHttpConnect okHttpConnect;
     private String participatingurl = "https://euswag.com/eu/activity/joinedav";
-    private String participatingparam1;
-    private String participatingparam2;
+    private RequestBody participatingbody;
     private String imageloadurl = "https://euswag.com/picture/activity/";
-    private String phonenumber;
-    private String accesstocken;
 
     private final int REFRESH_COMPLETE = 0x1101;
-    private final int LOAD_MORE = 0x1111;
-    private final int LOADVIEWPAGER = 0x1000;
     private final int ACTIVITYREFRESH = 0x1010;
-    private final int ACTIVITYLOADMORE = 0x1100;
 
 
     private LayoutInflater inflater;
@@ -67,10 +64,10 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_activity, container, false);
             adapter = new NoLoadmoreActivityRecyclerviewAdapter(inflater.getContext());
             SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
-            phonenumber = sharedPreferences.getString("phonenumber","0");
-            accesstocken = sharedPreferences.getString("accesstoken","00");
-            participatingparam1 = "?uid="+phonenumber;
-            participatingparam2 = "&accesstoken="+accesstocken;
+            participatingbody = new FormBody.Builder()
+                    .add("uid",sharedPreferences.getString("phonenumber","0"))
+                    .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                    .build();
             onRefresh();
             binding.fragmentActivityRecyclerview.setLayoutManager(new LinearLayoutManager(inflater.getContext(), LinearLayoutManager.VERTICAL, false) {
                 @Override
@@ -101,7 +98,7 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(participatingurl+participatingparam1+participatingparam2);
+                resultstring = okHttpConnect.postdata(participatingurl,participatingbody);
                 Message message = handler.obtainMessage();
                 message.what = ACTIVITYREFRESH;
                 message.obj = resultstring;

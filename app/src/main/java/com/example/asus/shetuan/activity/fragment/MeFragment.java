@@ -26,6 +26,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 
 public class MeFragment extends Fragment{
 
@@ -34,8 +37,7 @@ public class MeFragment extends Fragment{
 
     private OKHttpConnect okHttpConnect;
     private String loadpersonurl = "https://euswag.com/eu/info/introinfo";
-    private String loadpersonparam1;
-    private String loadpersonparam2;
+    private RequestBody loadpersonbody;
 
     private String imageloadurl = "https://euswag.com/picture/user/";
 
@@ -50,8 +52,10 @@ public class MeFragment extends Fragment{
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_me, container, false);
             SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
-            loadpersonparam1 = "?uid="+sharedPreferences.getString("phonenumber","0");
-            loadpersonparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+            loadpersonbody = new FormBody.Builder()
+                    .add("uid",sharedPreferences.getString("phonenumber","0"))
+                    .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                    .build();
             if (NetWorkState.checkNetWorkState(inflater.getContext())) {
                 new Thread(new LoadPersonRunnable()).start();
             }
@@ -90,7 +94,7 @@ public class MeFragment extends Fragment{
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(loadpersonurl+loadpersonparam1+loadpersonparam2);
+                resultstring = okHttpConnect.postdata(loadpersonurl,loadpersonbody);
                 Message message = handler.obtainMessage();
                 message.what = LOADPERSON;
                 message.obj = resultstring;

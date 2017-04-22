@@ -22,15 +22,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 //第一次启动APP进入这个界面，或者退出账号后重新登陆时进入这个界面
 
 public class InputPhoneActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
-    private String requesturl;
     private String stringurl = "https://euswag.com/eu/user/verifyphone";
-    private String param1 = "?choice=";
-    private String param2 = "&phone=";
+    private RequestBody body;
     private String phonenumber;
 
     private ActivityInputPhoneBinding binding;
@@ -70,9 +71,17 @@ public class InputPhoneActivity extends AppCompatActivity {
             public void onClick(View v) {
                 phonenumber = phone.getPhonenumber();
                 if (phone.getIsregister().equals("0")){
-                    requesturl = stringurl+param1+0+param2+phonenumber;
+//                    requesturl = stringurl+param1+0+param2+phonenumber;
+                     body= new FormBody.Builder()
+                            .add("choice","0")
+                            .add("phone",phonenumber)
+                            .build();
                 }else {
-                    requesturl = stringurl+param1+1+param2+phonenumber;
+//                    requesturl = stringurl+param1+1+param2+phonenumber;
+                    body= new FormBody.Builder()
+                            .add("choice","1")
+                            .add("phone",phonenumber)
+                            .build();
                 }
                 if (NetWorkState.checkNetWorkState(InputPhoneActivity.this)) {
                     new Thread(new SendVercodeRunnable()).start();
@@ -88,7 +97,7 @@ public class InputPhoneActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(requesturl);
+                resultstring = okHttpConnect.postdata(stringurl,body);
                 Message message = handler.obtainMessage();
                 message.what = SENDVERCODE;
                 message.obj = resultstring;

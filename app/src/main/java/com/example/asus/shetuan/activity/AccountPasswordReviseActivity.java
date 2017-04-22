@@ -20,16 +20,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class AccountPasswordReviseActivity extends AppCompatActivity {
     private ActivityAccountPasswordReviseBinding binding;
     private SharedPreferences sharedPreferences;
 
     private OKHttpConnect okHttpConnect;
     private String passwordreviseurl="https://euswag.com/eu/user/changepwd";
-    private String passwordreviseparam1;
-    private String passwordreviseparam2;
-    private String passwordreviseparam3;
-    private String passwordreviseparam4;
+    private RequestBody passwordrevisebody;
 
     private final int PASSWORD_REVISE = 110;
 
@@ -59,10 +59,12 @@ public class AccountPasswordReviseActivity extends AppCompatActivity {
                 }else if (!(binding.accountPasswordReviseNewpassword.getText().equals(binding.accountPasswordReviseNewpasswordConfirm.getText()))){
                     Toast.makeText(AccountPasswordReviseActivity.this,"新密码不一致",Toast.LENGTH_SHORT).show();
                 }else {
-                    passwordreviseparam1 = "?uid="+sharedPreferences.getString("phonenumber", "0");
-                    passwordreviseparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-                    passwordreviseparam3 = "&oldpwd="+binding.accountPasswordReviseOldpassword.getText();
-                    passwordreviseparam4 = "&newpwd="+binding.accountPasswordReviseNewpassword.getText();
+                    passwordrevisebody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                            .add("oldpwd",binding.accountPasswordReviseOldpassword.getText().toString())
+                            .add("newpwd",binding.accountPasswordReviseNewpassword.getText().toString())
+                            .build();
                     if (NetWorkState.checkNetWorkState(AccountPasswordReviseActivity.this)) {
                         new Thread(new PasswordReviseRunnable()).start();
                     }
@@ -78,7 +80,7 @@ public class AccountPasswordReviseActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(passwordreviseurl+passwordreviseparam1+passwordreviseparam2+passwordreviseparam3+passwordreviseparam4);
+                resultstring = okHttpConnect.postdata(passwordreviseurl,passwordrevisebody);
                 Message message = handler.obtainMessage();
                 message.what = PASSWORD_REVISE;
                 message.obj = resultstring;

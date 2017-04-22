@@ -27,10 +27,7 @@ public class OKHttpConnect {
         }
     }
 
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-    public String postdata(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
+    public String postdata(String url, RequestBody body) throws IOException {
         Request request = new Request.Builder()
             .url(url)
             .post(body)

@@ -22,6 +22,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class InputRegisterCodeActivity extends AppCompatActivity {
     private ActivityInputRegisterCodeBinding binding;
     private int registercode;
@@ -30,9 +33,7 @@ public class InputRegisterCodeActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
     private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
-    private String registerfinishparam1;
-    private String registerfinishparam2;
-    private String registerfinishparam3;
+    private RequestBody registerfinishbody;
 
     private final int REGISTER_FINISH = 110;
 
@@ -55,9 +56,11 @@ public class InputRegisterCodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (String.valueOf(registercode).equals(inputPINTest.getEdit1()+inputPINTest.getEdit2()+inputPINTest.getEdit3()+inputPINTest.getEdit4())){
-                    registerfinishparam1 = "?uid="+sharedPreferences.getString("phonenumber","0");
-                    registerfinishparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    registerfinishparam3 = "&avid="+actid;
+                    registerfinishbody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber","0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid",String.valueOf(actid))
+                            .build();
                     if (NetWorkState.checkNetWorkState(InputRegisterCodeActivity.this)) {
                         new Thread(new RegisterFinishRunnable()).start();
                     }
@@ -74,7 +77,7 @@ public class InputRegisterCodeActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(registerfinishurl+registerfinishparam1+registerfinishparam2+registerfinishparam3);
+                resultstring = okHttpConnect.postdata(registerfinishurl,registerfinishbody);
                 Message message = handler.obtainMessage();
                 message.what = REGISTER_FINISH;
                 message.obj = resultstring;

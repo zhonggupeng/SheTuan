@@ -29,14 +29,16 @@ import org.json.JSONTokener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class ActivityCollectionActivity extends AppCompatActivity implements VerticalSwipeRefreshLayout.OnRefreshListener{
     private ActivityCollectionBinding binding;
     private SharedPreferences sharedPreferences;
     private OKHttpConnect okHttpConnect;
 
     private String loadcollectionurl = "https://euswag.com/eu/activity/collectedav";
-    private String loadcollectionparam1;
-    private String loadcollectionparam2;
+    private RequestBody loadcollectionbody;
     private String imageloadurl = "https://euswag.com/picture/activity/";
 
     private final int REFRESH = 100;
@@ -57,8 +59,6 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
                 return false;
             }
         });
-        loadcollectionparam1 = "?uid="+ sharedPreferences.getString("phonenumber", "0");
-        loadcollectionparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
         onRefresh();
         binding.activityCollectionRefresh.setOnRefreshListener(this);
         binding.activityCollectionRefresh.setDistanceToTriggerSync(300);
@@ -87,7 +87,7 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(loadcollectionurl+loadcollectionparam1+loadcollectionparam2);
+                resultstring = okHttpConnect.postdata(loadcollectionurl,loadcollectionbody);
                 Message message = handler.obtainMessage();
                 message.what = LOADCOLLECTION;
                 message.obj = resultstring;
@@ -102,6 +102,10 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case REFRESH:
+                    loadcollectionbody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .build();
                     if (NetWorkState.checkNetWorkState(ActivityCollectionActivity.this)) {
                         new Thread(new RefreshCollectionRunnable()).start();
                     }

@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
@@ -32,6 +33,9 @@ import org.json.JSONTokener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class CheckListActivity extends AppCompatActivity implements VerticalSwipeRefreshLayout.OnRefreshListener{
 
     private ActivityCheckListBinding binding;
@@ -41,18 +45,12 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
 
     private OKHttpConnect okHttpConnect;
     private String requestmemberurl = "https://euswag.com/eu/activity/memberinfolist";
-    private String requestmemberparam1;
-    private String requestmemberparam2;
-    private String requestmemberparam3 = "&choice=0";
+    private RequestBody requestmemberbody;
 
     private String headimageloadurl = "https://euswag.com/picture/user/";
 
     private String rejecturl = "https://euswag.com/eu/activity/manage";
-    private String rejectparam1;
-    private String rejectparam2;
-    private String rejectparam3;
-    private String rejectparam4;
-    private String rejectparam5;
+    private RequestBody rejectbody;
 
     private final int REQUEST_PHONE = 110;
     private final int REFRESH = 101;
@@ -75,9 +73,11 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
             }
         });
         intent = getIntent();
-        requestmemberparam1 = "?avid="+intent.getIntExtra("actid",-1);
-        System.out.println("requestphoneparam1: "+requestmemberparam1);
-        requestmemberparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
+        requestmemberbody = new FormBody.Builder()
+                .add("avid",String.valueOf(intent.getIntExtra("actid",-1)))
+                .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                .add("choice","0")
+                .build();
         onRefresh();
         binding.checkListRefresh.setOnRefreshListener(this);
         binding.checkListRefresh.setDistanceToTriggerSync(300);
@@ -102,12 +102,14 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
                                 if (editTextWithDel.getText()==null||editTextWithDel.getText().length()==0){
                                     Toast.makeText(CheckListActivity.this,"请填写理由",Toast.LENGTH_SHORT).show();
                                 }else {
-                                    rejectparam1 = "?uid="+peosonData.get(position).getUid();
-                                    rejectparam2 = "&accesstoken="+sharedPreferences.getString("accesstoken","00");
-                                    rejectparam3 = "&avid="+intent.getIntExtra("actid",-1);;
-                                    rejectparam4 = "&verifystate=-1";
-                                    rejectparam5 = "&reason="+editTextWithDel.getText();
                                     itemposition = position;
+                                    rejectbody = new FormBody.Builder()
+                                            .add("uid",String.valueOf(peosonData.get(position).getUid()))
+                                            .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                                            .add("avid",String.valueOf(intent.getIntExtra("actid",-1)))
+                                            .add("verifystate","-1")
+                                            .add("reason",editTextWithDel.getText().toString())
+                                            .build();
                                     if (NetWorkState.checkNetWorkState(CheckListActivity.this)) {
                                         new Thread(new RejectRunnable()).start();
                                     }
@@ -116,6 +118,12 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
                         })
                         .setNegativeButton("取消",null)
                         .show();
+            }
+        });
+        binding.checkListBackimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckListActivity.this.onBackPressed();
             }
         });
     }
@@ -132,7 +140,7 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(requestmemberurl +requestmemberparam1+requestmemberparam2+requestmemberparam3);
+                resultstring = okHttpConnect.postdata(requestmemberurl,requestmemberbody);
                 Message message = handler.obtainMessage();
                 message.what = REQUEST_PHONE;
                 message.obj = resultstring;
@@ -149,7 +157,7 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(rejecturl+rejectparam1+rejectparam2+rejectparam3+rejectparam4+rejectparam5);
+                resultstring = okHttpConnect.postdata(rejecturl,rejectbody);
                 Message message = handler.obtainMessage();
                 message.what = REJECT;
                 message.obj = resultstring;

@@ -39,6 +39,9 @@ import org.json.JSONTokener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 
 public class HomepageFragment extends Fragment implements MyScrollView.OnScrollListener, VerticalSwipeRefreshLayout.OnRefreshListener, ViewPagerEx.OnPageChangeListener {
 
@@ -62,16 +65,16 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
     private OKHttpConnect okHttpConnect;
     private ViewPagerJson viewPagerJson;
     private String viewpagerurl = "https://euswag.com/eu/viewpager/show";
+    private RequestBody viewpagebody;
     private String[] imageurl;
     private String[] detailurl;
     private String[] imagetitle;
     private TextSliderView textSliderView;
 
     private String activityurl = "https://euswag.com/eu/activity/commonav";
-    private String paramName2 = "?maxtime=";
-    private String loadmoreParam = paramName2 + "99495884120000";
-    private OKHttpConnect activityRefreshOkHttpConnect;
-    private OKHttpConnect activityLoadMoreOkHttpConnect;
+    private RequestBody activitybody;
+    private RequestBody activityloadmorebody;
+    private String loadmoreParam = "99495884120000";
     private String imageloadurl = "https://euswag.com/picture/activity/";
 
 
@@ -98,6 +101,10 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                     //需要更新的UI操作
                     //比如
                     //加载数据线程放到刷新中
+                    viewpagebody = new FormBody.Builder()
+                            .build();
+                    activitybody = new FormBody.Builder()
+                            .build();
                     if (NetWorkState.checkNetWorkState(inflater.getContext())) {
                         new Thread(new ViewpagerRunnable()).start();
                         new Thread(new ActivityRefreshRunable()).start();
@@ -105,6 +112,9 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                     binding.homepageSwipeRefresh.setRefreshing(false);
                     break;
                 case LOAD_MORE:
+                    activityloadmorebody = new FormBody.Builder()
+                            .add("maxtime",loadmoreParam)
+                            .build();
                     if (NetWorkState.checkNetWorkState(inflater.getContext())) {
                         new Thread(new ActivityLoadMoreRunable()).start();
                     }else {
@@ -200,7 +210,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                     mData.add(activityMsg);
                                 }
 //                        mData.addAll(changeData);
-                                loadmoreParam = paramName2 + DateUtils.data2(mData.get(mData.size() - 1).getActtime());
+                                loadmoreParam = DateUtils.data2(mData.get(mData.size() - 1).getActtime());
                                 homepageActivityAdapter.setmData(null);
                                 homepageActivityAdapter.setmData(mData);
                             } else {
@@ -242,7 +252,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                         activityMsg.setActprice(activityLoadMoreJsonArray.getJSONObject(i).getDouble("avPrice"));
                                         mData.add(activityMsg);
                                     }
-                                    loadmoreParam = paramName2 + DateUtils.data2(mData.get(mData.size() - 1).getActtime());
+                                    loadmoreParam = DateUtils.data2(mData.get(mData.size() - 1).getActtime());
                                     homepageActivityAdapter.setStatus(NORMAL);
                                     changeAdapterState(NORMAL);
                                 }
@@ -382,7 +392,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(viewpagerurl);
+                resultstring = okHttpConnect.postdata(viewpagerurl,viewpagebody);
                 Message message = handler.obtainMessage();
                 message.what = LOADVIEWPAGER;
                 message.obj = resultstring;
@@ -397,10 +407,10 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
 
         @Override
         public void run() {
-            activityRefreshOkHttpConnect = new OKHttpConnect();
+            okHttpConnect = new OKHttpConnect();
             String restultstring;
             try {
-                restultstring = activityRefreshOkHttpConnect.getdata(activityurl);
+                restultstring = okHttpConnect.postdata(activityurl,activitybody);
                 Message message = handler.obtainMessage();
                 message.what = ACTIVITYREFRESH;
                 message.obj = restultstring;
@@ -415,11 +425,10 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
 
         @Override
         public void run() {
-            activityLoadMoreOkHttpConnect = new OKHttpConnect();
+            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                System.out.println("loadmoreParam  " + loadmoreParam);
-                resultstring = activityLoadMoreOkHttpConnect.getdata(activityurl + loadmoreParam);
+                resultstring = okHttpConnect.postdata(activityurl,activityloadmorebody);
                 Message message = handler.obtainMessage();
                 message.what = ACTIVITYLOADMORE;
                 message.obj = resultstring;

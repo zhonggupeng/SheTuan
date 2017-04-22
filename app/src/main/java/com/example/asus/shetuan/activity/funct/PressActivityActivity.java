@@ -43,6 +43,10 @@ import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 
 public class PressActivityActivity extends AppCompatActivity {
 
@@ -68,12 +72,12 @@ public class PressActivityActivity extends AppCompatActivity {
     private final int PRESSIMAGE = 0x1100;
 
     private OKHttpConnect okHttpConnect;
-    private String url = "https://euswag.com/eu/activity/createav";
-    private String tocken;
-    private String string;
-    private long uid = Long.parseLong("15061884797");
+    private String creaturl = "https://euswag.com/eu/activity/createav";
+    private RequestBody creatbody;
 
     private String pressimageurl = "https://euswag.com/eu/upload/activity";
+
+    private SharedPreferences sharedPreferences;
 
     private PressActivity pressActivity;
 
@@ -88,6 +92,7 @@ public class PressActivityActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_press_activity);
+        sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         pressActivity = new PressActivity(this);
         binding.setPressactivity(pressActivity);
@@ -159,14 +164,19 @@ public class PressActivityActivity extends AppCompatActivity {
                                 pressActivity.setRegister("-1");
                             }
                             if (imagepath == null) {
-                                string = "&avDetail=" + pressActivity.getDetail() + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum())
-                                        + "&avPlace=" + pressActivity.getPlace() + "&avPrice=" + Double.parseDouble(pressActivity.getPrice())
-                                        + "&avRegister=" + Integer.parseInt(pressActivity.getRegister()) + "&avTitle=" + pressActivity.getTitle()
-                                        + "&avendtime=" + DateUtils.data(pressActivity.getEndtime()) + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline())
-                                        + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime()) + "&uid=" + uid;
-                                System.out.println(string);
-                                SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
-                                tocken = "?accesstoken=" + sharedPreferences.getString("accesstoken", "");
+                                creatbody = new FormBody.Builder()
+                                        .add("accesstoken",sharedPreferences.getString("accesstoken", ""))
+                                        .add("avDetail",pressActivity.getDetail())
+                                        .add("avExpectnum",pressActivity.getExpectnum())
+                                        .add("avPlace",pressActivity.getPlace())
+                                        .add("avPrice",pressActivity.getPrice())
+                                        .add("avRegister",pressActivity.getRegister())
+                                        .add("avTitle",pressActivity.getTitle())
+                                        .add("avendtime",DateUtils.data(pressActivity.getEndtime()))
+                                        .add("avenrolldeadline",DateUtils.data(pressActivity.getEnrolldeadline()))
+                                        .add("avstarttime",DateUtils.data(pressActivity.getStarttime()))
+                                        .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                                        .build();
                                 if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
                                     new Thread(new PressActivityRunable()).start();
                                 }
@@ -214,7 +224,7 @@ public class PressActivityActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(url + tocken + string);
+                resultstring = okHttpConnect.postdata(creaturl,creatbody);
                 Message message = handler.obtainMessage();
                 message.what = PRESSACTIVITY;
                 message.obj = resultstring;
@@ -281,14 +291,20 @@ public class PressActivityActivity extends AppCompatActivity {
                             result = jsonObject.getInt("status");
                             if (result == 200){
                                 String pressimagedata = jsonObject.getString("data");
-                                string ="&avLogo="+pressimagedata.substring(0,pressimagedata.indexOf("."))+ "&avDetail=" + pressActivity.getDetail()
-                                        + "&avExpectnum=" + Integer.parseInt(pressActivity.getExpectnum()) + "&avPlace=" + pressActivity.getPlace()
-                                        + "&avPrice=" + Double.parseDouble(pressActivity.getPrice()) + "&avRegister=" + Integer.parseInt(pressActivity.getRegister())
-                                        + "&avTitle=" + pressActivity.getTitle() + "&avendtime=" + DateUtils.data(pressActivity.getEndtime())
-                                        + "&avenrolldeadline=" + DateUtils.data(pressActivity.getEnrolldeadline()) + "&avstarttime=" + DateUtils.data(pressActivity.getStarttime())
-                                        + "&uid=" + uid;
-                                SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
-                                tocken = "?accesstoken=" + sharedPreferences.getString("accesstoken", "");
+                                creatbody = new FormBody.Builder()
+                                        .add("accesstoken",sharedPreferences.getString("accesstoken", ""))
+                                        .add("avLogo",pressimagedata.substring(0,pressimagedata.indexOf(".")))
+                                        .add("avDetail",pressActivity.getDetail())
+                                        .add("avExpectnum",pressActivity.getExpectnum())
+                                        .add("avPlace",pressActivity.getPlace())
+                                        .add("avPrice",pressActivity.getPrice())
+                                        .add("avRegister",pressActivity.getRegister())
+                                        .add("avTitle",pressActivity.getTitle())
+                                        .add("avendtime",DateUtils.data(pressActivity.getEndtime()))
+                                        .add("avenrolldeadline",DateUtils.data(pressActivity.getEnrolldeadline()))
+                                        .add("avstarttime",DateUtils.data(pressActivity.getStarttime()))
+                                        .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                                        .build();
                                 if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
                                     new Thread(new PressActivityRunable()).start();
                                 }

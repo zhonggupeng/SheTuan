@@ -24,11 +24,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class InputPINActivity extends AppCompatActivity {
 
     private String stringurl = "https://euswag.com/eu/user/verifyphone";
-    private String param1 = "&choice=0";
-    private String param2 = "&phone=";
+    private RequestBody body;
     private OKHttpConnect okHttpConnect;
 
     private String phonenumber;
@@ -67,6 +69,10 @@ public class InputPINActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (NetWorkState.checkNetWorkState(InputPINActivity.this)) {
+                    body = new FormBody.Builder()
+                            .add("choice","0")
+                            .add("phone",phonenumber)
+                            .build();
                     new Thread(new ResendVercodeRunnable()).start();
                 }
             }
@@ -152,7 +158,7 @@ public class InputPINActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(stringurl+param1+param2+phonenumber);
+                resultstring = okHttpConnect.postdata(stringurl,body);
                 Message message = handler.obtainMessage();
                 message.what = RESENDVERCODE;
                 message.obj = resultstring;

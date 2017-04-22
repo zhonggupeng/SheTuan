@@ -40,6 +40,9 @@ import org.json.JSONTokener;
 import java.io.File;
 import java.io.IOException;
 
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
 public class ActivityDetailActivity extends AppCompatActivity {
     private ActivityActivityDetailBinding binding = null;
     private String datajsonstring;
@@ -62,35 +65,23 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private String activityimageloadurl = "https://euswag.com/picture/activity/";
 
     private String participateurl = "https://euswag.com/eu/activity/participateav";
-    private String participateparam1;
-    private String participateparam2;
-    private String participateparam3;
-    private String participateparam4;
+    private String participateparam;
+    private RequestBody participatebody;
 
     private String quiturl = "https://euswag.com/eu/activity/quitav";
-    private String quitparam1;
-    private String quitparam2;
-    private String quitparam3;
+    private RequestBody quitbody;
 
     private String collecteurl = "https://euswag.com/eu/activity/collectav";
-    private String collecteparam1;
-    private String collecteparam2;
-    private String collecteparam3;
+    private RequestBody collectebody;
 
     private String cancelcollecteurl = "https://euswag.com/eu/activity/discollectav";
-    private String cancelcollecteparam1;
-    private String cancelcollecteparam2;
-    private String cancelcollecteparam3;
+    private RequestBody cancelcollectebody;
 
     private String participatenumberurl = "https://euswag.com/eu/activity/memberinfolist";
-    private String participatenumberparam1;
-    private String participatenumberparam2;
-    private String participatenumberparam3 = "&choice=0";
+    private RequestBody participatenumberbody;
 
     private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
-    private String registerfinishparam1;
-    private String registerfinishparam2;
-    private String registerfinishparam3;
+    private RequestBody registerfinishbody;
 
     //是否已经收藏该活动，
     private boolean hascollection;
@@ -138,10 +129,10 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
             if (activityMsg.getActregister() == -1) {
                 binding.activityDetailIsregister.setText("无需签到");
-                participateparam4 = "&verifystate=2";
+                participateparam = "2";
             } else {
                 binding.activityDetailIsregister.setText("需要签到");
-                participateparam4 = "&verifystate=0";
+                participateparam = "0";
             }
 
             if (activityMsg.getActprice() == 0) {
@@ -152,8 +143,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             binding.activityDetailActivitytime.setText(activityMsg.getActtime() + "~" + activityMsg.getActendtime());
             //需要知道已报名人数
             //请求已报名人数
-            participatenumberparam1 = "?avid=" + activityMsg.getActid();
-            participatenumberparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
+            participatenumberbody = new FormBody.Builder()
+                    .add("avid",String.valueOf(activityMsg.getActid()))
+                    .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                    .add("choice","0")
+                    .build();
             if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
                 new Thread(new ParticipateNumberRunnable()).start();
             }
@@ -214,9 +208,12 @@ public class ActivityDetailActivity extends AppCompatActivity {
             binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    participateparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
-                    participateparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    participateparam3 = "&avid=" + activityMsg.getActid();
+                    participatebody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .add("verifystate",participateparam)
+                            .build();
                     if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
                         new Thread(new ParticipateRunnable()).start();
                     }
@@ -226,9 +223,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    cancelcollecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
-                    cancelcollecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    cancelcollecteparam3 = "&avid=" + activityMsg.getActid();
+                    cancelcollectebody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .build();
                     if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
                         new Thread(new CancelCollecteRunnable()).start();
                     }
@@ -245,9 +244,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    quitparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
-                    quitparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    quitparam3 = "&avid=" + activityMsg.getActid();
+                    quitbody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .build();
                     if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
                         new Thread(new QuitRunnable()).start();
                     }
@@ -258,16 +259,20 @@ public class ActivityDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (hascollection) {
-                    cancelcollecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
-                    cancelcollecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    cancelcollecteparam3 = "&avid=" + activityMsg.getActid();
+                    cancelcollectebody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .build();
                     if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
                         new Thread(new CancelCollecteRunnable()).start();
                     }
                 } else {
-                    collecteparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
-                    collecteparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                    collecteparam3 = "&avid=" + activityMsg.getActid();
+                    collectebody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .build();
                     if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
                         new Thread(new CollecteRunnable()).start();
                     }
@@ -322,7 +327,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(participateurl + participateparam1 + participateparam2 + participateparam3 + participateparam4);
+                resultstring = okHttpConnect.postdata(participateurl,participatebody);
                 Message message = handler.obtainMessage();
                 message.what = PARTICIPATE;
                 message.obj = resultstring;
@@ -340,7 +345,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(quiturl + quitparam1 + quitparam2 + quitparam3);
+                resultstring = okHttpConnect.postdata(quiturl,quitbody);
                 Message message = handler.obtainMessage();
                 message.what = QUIT;
                 message.obj = resultstring;
@@ -358,7 +363,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(collecteurl + collecteparam1 + collecteparam2 + collecteparam3);
+                resultstring = okHttpConnect.postdata(collecteurl,collectebody);
                 Message message = handler.obtainMessage();
                 message.what = COLLECTE;
                 message.obj = resultstring;
@@ -376,7 +381,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(cancelcollecteurl + cancelcollecteparam1 + cancelcollecteparam2 + cancelcollecteparam3);
+                resultstring = okHttpConnect.postdata(cancelcollecteurl,cancelcollectebody);
                 Message message = handler.obtainMessage();
                 message.what = CANCELCOLLECTE;
                 message.obj = resultstring;
@@ -394,7 +399,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(participatenumberurl + participatenumberparam1 + participatenumberparam2 + participatenumberparam3);
+                resultstring = okHttpConnect.postdata(participatenumberurl,participatenumberbody);
                 Message message = handler.obtainMessage();
                 message.what = GETNUMBER;
                 message.obj = resultstring;
@@ -411,7 +416,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.getdata(registerfinishurl+registerfinishparam1+registerfinishparam2+registerfinishparam3);
+                resultstring = okHttpConnect.postdata(registerfinishurl,registerfinishbody);
                 Message message = handler.obtainMessage();
                 message.what = REGISTER_FINISH;
                 message.obj = resultstring;
@@ -653,9 +658,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 String[] resultarray = resultstring.split("\\?|=|&");
                 if (resultarray.length==5) {
                     if (resultarray[2].equals(String.valueOf(activityMsg.getActid()))&&resultarray[4].equals(String.valueOf(activityMsg.getActid()))){
-                        registerfinishparam1 = "?uid=" + sharedPreferences.getString("phonenumber", "0");
-                        registerfinishparam2 = "&accesstoken=" + sharedPreferences.getString("accesstoken", "00");
-                        registerfinishparam3 = "&avid=" + activityMsg.getActid();
+                        registerfinishbody = new FormBody.Builder()
+                                .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                                .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                                .add("avid",String.valueOf(activityMsg.getActid()))
+                                .build();
                         if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
                             new Thread(new RegisterFinishRunnable()).start();
                         }
