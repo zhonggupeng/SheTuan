@@ -217,6 +217,9 @@ public class CheckActivityActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //修改活动
                 Intent intent = new Intent(CheckActivityActivity.this, PressActivity.class);
+                intent.putExtra("presstype",1);
+                intent.putExtra("datajson",datajsonstring);
+                CheckActivityActivity.this.startActivity(intent);
             }
         });
     }

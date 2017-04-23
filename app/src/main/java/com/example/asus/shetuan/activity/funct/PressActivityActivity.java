@@ -28,6 +28,7 @@ import android.widget.ViewSwitcher;
 import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.ChangePeosonInformationActivity;
+import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.bean.PressActivity;
 import com.example.asus.shetuan.clipimage.ClipActivity;
 import com.example.asus.shetuan.databinding.ActivityPressActivityBinding;
@@ -70,12 +71,17 @@ public class PressActivityActivity extends AppCompatActivity {
 
     private final int PRESSACTIVITY = 0x1000;
     private final int PRESSIMAGE = 0x1100;
+    private final int CHANGE_ACTIVTIY = 0x1110;
 
     private OKHttpConnect okHttpConnect;
     private String creaturl = "https://euswag.com/eu/activity/createav";
     private RequestBody creatbody;
 
+    private String changeurl = "https://euswag.com/eu/activity/changeav";
+    private RequestBody changebody;
+
     private String pressimageurl = "https://euswag.com/eu/upload/activity";
+    private String activityimageloadurl = "https://euswag.com/picture/activity/";
 
     private SharedPreferences sharedPreferences;
 
@@ -88,6 +94,8 @@ public class PressActivityActivity extends AppCompatActivity {
     private ActivityPressActivityBinding binding = null;
     private File imagefile;
 
+    private int presstype;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +104,37 @@ public class PressActivityActivity extends AppCompatActivity {
         inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         pressActivity = new PressActivity(this);
         binding.setPressactivity(pressActivity);
+
+        Intent intent = getIntent();
+        presstype = intent.getIntExtra("presstype",0);
+        if (presstype == 1){
+            JSONObject jsonObject;
+            try {
+                jsonObject = new JSONObject(intent.getStringExtra("datajson"));
+                pressActivity.setTitle(jsonObject.getString("avTitle"));
+                pressActivity.setPlace(jsonObject.getString("avPlace"));
+                pressActivity.setPrice(String.valueOf(jsonObject.getDouble("avPrice")));
+                pressActivity.setDetail(jsonObject.getString("avDetail"));
+                if (jsonObject.getInt("avExpectnum")==0){
+                    pressActivity.setExpectnum("不限");
+                }else {
+                    pressActivity.setExpectnum(String.valueOf(jsonObject.getInt("avExpectnum")));
+                }
+                binding.pressActivityActivityimage.setImageURI(activityimageloadurl+jsonObject.getString("avLogo")+".jpg");
+                binding.pressActivitySelectStarttime.setText(DateUtils.timet(jsonObject.getString("avStarttime")));
+                binding.pressActivitySelectEndtime.setText(DateUtils.timet(jsonObject.getString("avEndtime")));
+                binding.pressActivitySelectEnrolldeadtime.setText(DateUtils.timet(jsonObject.getString("avEnrolldeadline")));
+                if (jsonObject.getInt("avRegister")==-1){
+                    binding.pressActivityIsregister.setChecked(false);
+                }else {
+                    binding.pressActivityIsregister.setChecked(true);
+                }
+                pressActivity.setAvid(jsonObject.getInt("avid"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         dataSelect = new DataSelect(this);
 
         File file = new File(Environment.getExternalStorageDirectory(), "SheTuan/cache");
@@ -164,21 +203,41 @@ public class PressActivityActivity extends AppCompatActivity {
                                 pressActivity.setRegister("-1");
                             }
                             if (imagepath == null) {
-                                creatbody = new FormBody.Builder()
-                                        .add("accesstoken",sharedPreferences.getString("accesstoken", ""))
-                                        .add("avDetail",pressActivity.getDetail())
-                                        .add("avExpectnum",pressActivity.getExpectnum())
-                                        .add("avPlace",pressActivity.getPlace())
-                                        .add("avPrice",pressActivity.getPrice())
-                                        .add("avRegister",pressActivity.getRegister())
-                                        .add("avTitle",pressActivity.getTitle())
-                                        .add("avendtime",DateUtils.data(pressActivity.getEndtime()))
-                                        .add("avenrolldeadline",DateUtils.data(pressActivity.getEnrolldeadline()))
-                                        .add("avstarttime",DateUtils.data(pressActivity.getStarttime()))
-                                        .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                                        .build();
-                                if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
-                                    new Thread(new PressActivityRunable()).start();
+                                if (presstype == 0) {
+                                    creatbody = new FormBody.Builder()
+                                            .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
+                                            .add("avDetail", pressActivity.getDetail())
+                                            .add("avExpectnum", pressActivity.getExpectnum())
+                                            .add("avPlace", pressActivity.getPlace())
+                                            .add("avPrice", pressActivity.getPrice())
+                                            .add("avRegister", pressActivity.getRegister())
+                                            .add("avTitle", pressActivity.getTitle())
+                                            .add("avendtime", DateUtils.data(pressActivity.getEndtime()))
+                                            .add("avenrolldeadline", DateUtils.data(pressActivity.getEnrolldeadline()))
+                                            .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
+                                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                                            .build();
+                                    if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
+                                        new Thread(new PressActivityRunable()).start();
+                                    }
+                                }else {
+                                    changebody = new FormBody.Builder()
+                                            .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
+                                            .add("avid",String.valueOf(pressActivity.getAvid()))
+                                            .add("avDetail", pressActivity.getDetail())
+                                            .add("avExpectnum", pressActivity.getExpectnum())
+                                            .add("avPlace", pressActivity.getPlace())
+                                            .add("avPrice", pressActivity.getPrice())
+                                            .add("avRegister", pressActivity.getRegister())
+                                            .add("avTitle", pressActivity.getTitle())
+                                            .add("avendtime", DateUtils.data(pressActivity.getEndtime()))
+                                            .add("avenrolldeadline", DateUtils.data(pressActivity.getEnrolldeadline()))
+                                            .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
+                                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                                            .build();
+                                    if (NetWorkState.checkNetWorkState(PressActivityActivity.this)){
+                                        new Thread(new ChangeActivityRunnable()).start();
+                                    }
                                 }
                             }else {
                                 imagefile = new File(imagepath);
@@ -251,6 +310,23 @@ public class PressActivityActivity extends AppCompatActivity {
             }
         }
     }
+    private class ChangeActivityRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.postdata(changeurl,changebody);
+                Message message = handler.obtainMessage();
+                message.what = CHANGE_ACTIVTIY;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private Handler handler = new Handler(){
         @Override
@@ -291,22 +367,43 @@ public class PressActivityActivity extends AppCompatActivity {
                             result = jsonObject.getInt("status");
                             if (result == 200){
                                 String pressimagedata = jsonObject.getString("data");
-                                creatbody = new FormBody.Builder()
-                                        .add("accesstoken",sharedPreferences.getString("accesstoken", ""))
-                                        .add("avLogo",pressimagedata.substring(0,pressimagedata.indexOf(".")))
-                                        .add("avDetail",pressActivity.getDetail())
-                                        .add("avExpectnum",pressActivity.getExpectnum())
-                                        .add("avPlace",pressActivity.getPlace())
-                                        .add("avPrice",pressActivity.getPrice())
-                                        .add("avRegister",pressActivity.getRegister())
-                                        .add("avTitle",pressActivity.getTitle())
-                                        .add("avendtime",DateUtils.data(pressActivity.getEndtime()))
-                                        .add("avenrolldeadline",DateUtils.data(pressActivity.getEnrolldeadline()))
-                                        .add("avstarttime",DateUtils.data(pressActivity.getStarttime()))
-                                        .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                                        .build();
-                                if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
-                                    new Thread(new PressActivityRunable()).start();
+                                if(presstype == 0) {
+                                    creatbody = new FormBody.Builder()
+                                            .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
+                                            .add("avLogo", pressimagedata.substring(0, pressimagedata.indexOf(".")))
+                                            .add("avDetail", pressActivity.getDetail())
+                                            .add("avExpectnum", pressActivity.getExpectnum())
+                                            .add("avPlace", pressActivity.getPlace())
+                                            .add("avPrice", pressActivity.getPrice())
+                                            .add("avRegister", pressActivity.getRegister())
+                                            .add("avTitle", pressActivity.getTitle())
+                                            .add("avendtime", DateUtils.data(pressActivity.getEndtime()))
+                                            .add("avenrolldeadline", DateUtils.data(pressActivity.getEnrolldeadline()))
+                                            .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
+                                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                                            .build();
+                                    if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
+                                        new Thread(new PressActivityRunable()).start();
+                                    }
+                                }else {
+                                    changebody = new FormBody.Builder()
+                                            .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
+                                            .add("avLogo", pressimagedata.substring(0, pressimagedata.indexOf(".")))
+                                            .add("avid",String.valueOf(pressActivity.getAvid()))
+                                            .add("avDetail", pressActivity.getDetail())
+                                            .add("avExpectnum", pressActivity.getExpectnum())
+                                            .add("avPlace", pressActivity.getPlace())
+                                            .add("avPrice", pressActivity.getPrice())
+                                            .add("avRegister", pressActivity.getRegister())
+                                            .add("avTitle", pressActivity.getTitle())
+                                            .add("avendtime", DateUtils.data(pressActivity.getEndtime()))
+                                            .add("avenrolldeadline", DateUtils.data(pressActivity.getEnrolldeadline()))
+                                            .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
+                                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                                            .build();
+                                    if (NetWorkState.checkNetWorkState(PressActivityActivity.this)){
+                                        new Thread(new ChangeActivityRunnable()).start();
+                                    }
                                 }
                             }
                         } catch (JSONException e) {

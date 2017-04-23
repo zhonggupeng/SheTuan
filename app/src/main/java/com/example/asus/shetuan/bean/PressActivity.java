@@ -140,4 +140,14 @@ public class PressActivity extends BaseObservable {
     private String logo;
     private String detail;
 
+    public int getAvid() {
+        return avid;
+    }
+
+    public void setAvid(int avid) {
+        this.avid = avid;
+    }
+
+    private int avid;
+
 }

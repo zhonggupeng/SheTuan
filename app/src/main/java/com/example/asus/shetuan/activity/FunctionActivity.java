@@ -94,6 +94,7 @@ public class FunctionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FunctionActivity.this, PressActivityActivity.class);
+                intent.putExtra("presstype",0);
                 FunctionActivity.this.startActivity(intent);
             }
         });
