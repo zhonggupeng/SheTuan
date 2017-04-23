@@ -10,12 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.asus.shetuan.R;
-import com.example.asus.shetuan.activity.ActivityDetailActivity;
-import com.example.asus.shetuan.activity.CheckActivityActivity;
-import com.example.asus.shetuan.activity.ShetuanInformationActivity;
+import com.example.asus.shetuan.activity.act.ActivityDetailActivity;
+import com.example.asus.shetuan.activity.act.CheckActivityActivity;
 import com.example.asus.shetuan.bean.ActivityMsg;
-import com.example.asus.shetuan.bean.ShetuanMsg;
-import com.example.asus.shetuan.databinding.ViewActivityFooterHolderBinding;
 
 import java.util.ArrayList;
 

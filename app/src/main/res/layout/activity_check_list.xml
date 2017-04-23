@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.example.asus.shetuan.activity.CheckListActivity">
+        tools:context="com.example.asus.shetuan.activity.act.CheckListActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"

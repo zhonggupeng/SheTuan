@@ -22,12 +22,14 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.android.debug.hv.ViewServer;
+
 import com.example.asus.shetuan.R;
+import com.example.asus.shetuan.activity.act.ActivityDetailActivity;
 import com.example.asus.shetuan.activity.fragment.FindingFragment;
 import com.example.asus.shetuan.activity.fragment.HomepageFragment;
 import com.example.asus.shetuan.activity.fragment.MeFragment;
 import com.example.asus.shetuan.activity.fragment.MessageFragment;
+import com.example.asus.shetuan.activity.funct.FunctionActivity;
 import com.example.asus.shetuan.databinding.ActivityMainTabBinding;
 import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;

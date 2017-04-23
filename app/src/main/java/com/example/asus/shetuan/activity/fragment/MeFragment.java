@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
-import com.example.asus.shetuan.activity.ActivityCollectionActivity;
-import com.example.asus.shetuan.activity.ChangePeosonInformationActivity;
-import com.example.asus.shetuan.activity.MyActivityActivity;
+import com.example.asus.shetuan.activity.act.ActivityCollectionActivity;
+import com.example.asus.shetuan.activity.person.ChangePeosonInformationActivity;
+import com.example.asus.shetuan.activity.act.MyActivityActivity;
 import com.example.asus.shetuan.databinding.FragmentMeBinding;
 import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;

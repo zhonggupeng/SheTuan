@@ -69,21 +69,22 @@ public class InformationFill extends BaseObservable{
     }
 
     @Bindable
-    public String getPersonalexplaintion() {
-        return personalexplaintion;
+    public String getEntryyear() {
+        return entryyear;
     }
 
-    public void setPersonalexplaintion(String personalexplaintion) {
-        this.personalexplaintion = personalexplaintion;
-        notifyPropertyChanged(BR.personalexplaintion);
+    public void setEntryyear(String entryyear) {
+        this.entryyear = entryyear;
+        notifyPropertyChanged(BR.entryyear);
     }
+
 
     private String phonenumber;
     private String nickname;
     private String academe;
     private String studentid;
     private String name;
-    private String personalexplaintion;
+    private String entryyear;
 
     private Activity activity;
 

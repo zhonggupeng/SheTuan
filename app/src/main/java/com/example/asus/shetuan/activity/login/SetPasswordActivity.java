@@ -184,7 +184,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                                         .add("studentid",dataintent.getStringExtra("studentid"))
                                         .add("name",dataintent.getStringExtra("name"))
                                         //用入学年份替换个人说明
-                                        .add("userdescription",dataintent.getStringExtra("personedit"))
+                                        .add("grade",dataintent.getStringExtra("entryyear"))
                                         .add("password",setPassword.getConfirmpassword())
                                         .add("reputation","100")
                                         .add("verified","0")

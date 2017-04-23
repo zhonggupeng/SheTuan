@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.asus.shetuan.BR;
-import com.example.asus.shetuan.activity.MoreActivityActivity;
+import com.example.asus.shetuan.activity.act.MoreActivityActivity;
 import com.example.asus.shetuan.model.SearchDataBase;
 
 /**

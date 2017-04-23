@@ -104,6 +104,23 @@ public class PressActivity extends BaseObservable {
         return register;
     }
 
+    @Override
+    public String toString() {
+        return "PressActivity{" +
+                "title='" + title + '\'' +
+                ", starttime='" +  DateUtils.data(starttime) + '\'' +
+                ", endtime='" + DateUtils.data(endtime) + '\'' +
+                ", place='" + place + '\'' +
+                ", enrolldeadline='" + DateUtils.data(enrolldeadline) + '\'' +
+                ", price='" + price + '\'' +
+                ", expectnum='" + expectnum + '\'' +
+                ", register='" + register + '\'' +
+                ", logo='" + logo + '\'' +
+                ", detail='" + detail + '\'' +
+                ", avid=" + avid +
+                '}';
+    }
+
     public void setRegister(String register) {
         this.register = register;
         notifyPropertyChanged(BR.register);

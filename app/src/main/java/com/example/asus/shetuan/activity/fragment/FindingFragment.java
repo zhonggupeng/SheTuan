@@ -47,6 +47,9 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private int page = 2;
     private RequestBody shetuanbody;
 
+    private String shetuanlogourl = "https://euswag.com/picture/community/logo/";
+    private String shetuanbackgroundurl = "https://euswag.com/picture/community/background/";
+
     private final int REFRESH_COMPLETE = 0x1100;
     private final int LOAD_MORE = 0x1111;
     private final int LOADSHETUAN = 0x1000;
@@ -71,22 +74,6 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     return false;
                 }
             });
-            binding.findFragmentScrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                @Override
-                public void onScrollChanged() {
-                    View childView = binding.findFragmentScrollview.getChildAt(0);
-                    if ((childView.getMeasuredHeight() <binding.findFragmentScrollview.getScrollY() +binding.findFragmentScrollview.getHeight())&&(findingRecyclerviewAdapter.getStatus()==NORMAL)){
-                        findingRecyclerviewAdapter.setStatus(LOADING);
-                        changeAdapterState(LOADING);
-                        LoadMore();
-                    }
-                    else {
-                        if (findingRecyclerviewAdapter.getStatus()==THEEND||findingRecyclerviewAdapter.getStatus()==LOADERROR) {
-                            findingRecyclerviewAdapter.setStatus(NORMAL);
-                        }
-                    }
-                }
-            });
             changeAdapterState(NORMAL);
             findingRecyclerviewAdapter.setStatus(NORMAL);
             binding.findFragmentSwiperRefreshlayout.setOnRefreshListener(this);
@@ -104,12 +91,6 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void LoadMore() {
         handler.sendEmptyMessage(LOAD_MORE);
     }
-
-//    @Override
-//    public void onItemClick(View view, int indexOfData) {
-//        Toast.makeText(inflater.getContext(), "点击了第" + indexOfData + "条", Toast.LENGTH_LONG).show();
-//    }
-
 
     private class ShetuanRunable implements Runnable{
 
@@ -182,7 +163,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 jsonArray = (JSONArray) jsonTokener.nextValue();
                                 mData.clear();
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    ShetuanMsg shetuanMsg = new ShetuanMsg(jsonArray.getJSONObject(i).getString("cmName"), jsonArray.getJSONObject(i).getString("cmDetail"), jsonArray.getJSONObject(i).getString("cmBackground"), jsonArray.getJSONObject(i).getString("cmLogo"));
+                                    ShetuanMsg shetuanMsg = new ShetuanMsg(jsonArray.getJSONObject(i).getString("cmName"), jsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl+jsonArray.getJSONObject(i).getString("cmBackground")+".jpg", shetuanlogourl+jsonArray.getJSONObject(i).getString("cmLogo"));
                                     shetuanMsg.setShetuanJsonString(jsonArray.getJSONObject(i).toString());
                                     mData.add(shetuanMsg);
                                 }
@@ -201,6 +182,22 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     binding.shetuanItemRecyclerView.removeAllViews();
                     binding.shetuanItemRecyclerView.setAdapter(findingRecyclerviewAdapter);
                     System.out.println("page1:  "+page);
+                    binding.findFragmentScrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                        @Override
+                        public void onScrollChanged() {
+                            View childView = binding.findFragmentScrollview.getChildAt(0);
+                            if ((childView.getMeasuredHeight() <binding.findFragmentScrollview.getScrollY() +binding.findFragmentScrollview.getHeight())&&(findingRecyclerviewAdapter.getStatus()==NORMAL)){
+                                findingRecyclerviewAdapter.setStatus(LOADING);
+                                changeAdapterState(LOADING);
+                                LoadMore();
+                            }
+                            else {
+                                if (findingRecyclerviewAdapter.getStatus()==THEEND||findingRecyclerviewAdapter.getStatus()==LOADERROR) {
+                                    findingRecyclerviewAdapter.setStatus(NORMAL);
+                                }
+                            }
+                        }
+                    });
                     break;
                 case LOAD_MORE_SHETUAN:
                     String loadmoreshetuanresult = (String) msg.obj;
@@ -217,7 +214,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 loadmoreJsonArray = (JSONArray) loadmoreJsonTokener.nextValue();
                                 if (loadmoreJsonArray.length()!=0){
                                     for (int i = 0; i < loadmoreJsonArray.length(); i++) {
-                                        ShetuanMsg shetuanMsg = new ShetuanMsg(loadmoreJsonArray.getJSONObject(i).getString("cmName"), loadmoreJsonArray.getJSONObject(i).getString("cmDetail"), loadmoreJsonArray.getJSONObject(i).getString("cmBackground"), loadmoreJsonArray.getJSONObject(i).getString("cmLogo"));
+                                        ShetuanMsg shetuanMsg = new ShetuanMsg(loadmoreJsonArray.getJSONObject(i).getString("cmName"), loadmoreJsonArray.getJSONObject(i).getString("cmDetail"),shetuanbackgroundurl+loadmoreJsonArray.getJSONObject(i).getString("cmBackground")+".jpg", shetuanlogourl+loadmoreJsonArray.getJSONObject(i).getString("cmLogo"));
                                         shetuanMsg.setShetuanJsonString(loadmoreJsonArray.getJSONObject(i).toString());
                                         mData.add(shetuanMsg);
                                     }

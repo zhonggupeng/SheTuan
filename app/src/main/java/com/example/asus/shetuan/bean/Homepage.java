@@ -1,14 +1,12 @@
 package com.example.asus.shetuan.bean;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.view.View;
-import android.widget.Toast;
+
 import com.example.asus.shetuan.activity.MainTabActivity;
-import com.example.asus.shetuan.activity.MoreActivityActivity;
-import com.example.asus.shetuan.activity.MyActivityActivity;
+import com.example.asus.shetuan.activity.act.MyActivityActivity;
 import com.example.asus.shetuan.activity.MyShetuanActivity;
 import com.example.asus.shetuan.activity.SearchActivity;
 import com.xys.libzxing.zxing.activity.CaptureActivity;

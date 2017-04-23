@@ -51,20 +51,24 @@ public class ShetuanMsg extends BaseObservable {
         this.shetuanheat = shetuanheat;
     }
 
+    @Bindable
     public String getShtuanannouncement() {
         return shtuanannouncement;
     }
 
     public void setShtuanannouncement(String shtuanannouncement) {
         this.shtuanannouncement = shtuanannouncement;
+        notifyPropertyChanged(BR.shtuanannouncement);
     }
 
+    @Bindable
     public String getShetuanschool() {
         return shetuanschool;
     }
 
     public void setShetuanschool(String shetuanschool) {
         this.shetuanschool = shetuanschool;
+        notifyPropertyChanged(BR.shetuanschool);
     }
 
     private int shetuanid;

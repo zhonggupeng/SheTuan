@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -44,16 +44,16 @@
             android:name=".activity.login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MyActivityActivity"
+            android:name=".activity.act.MyActivityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ActivityDetailActivity"
+            android:name=".activity.act.ActivityDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ShetuanInformationActivity"
+            android:name=".activity.shetuan.ShetuanInformationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MoreActivityActivity"
+            android:name=".activity.act.MoreActivityActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MyShetuanActivity"
@@ -71,35 +71,36 @@
             android:name=".activity.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AccountPasswordReviseActivity"
+            android:name=".activity.person.AccountPasswordReviseActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CheckActivityActivity"
+            android:name=".activity.act.CheckActivityActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".clipimage.ClipActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ChangePeosonInformationActivity"
+            android:name=".activity.person.ChangePeosonInformationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.FunctionActivity"
+            android:name=".activity.funct.FunctionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ActivityCollectionActivity"
+            android:name=".activity.act.ActivityCollectionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CheckListActivity"
+            android:name=".activity.act.CheckListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DetailsQRcodeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.RegisterDetailActivity" />
-        <activity android:name=".activity.ParticipateMemberActivity" />
-        <activity android:name=".activity.InputRegisterCodeActivity"></activity>
+        <activity android:name=".activity.act.RegisterDetailActivity" />
+        <activity android:name=".activity.act.ParticipateMemberActivity" />
+        <activity android:name=".activity.act.InputRegisterCodeActivity" />
+        <activity android:name=".activity.shetuan.ShetuanMemberActivity"></activity>
     </application>
 
 </manifest>

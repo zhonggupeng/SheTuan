@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context="com.example.asus.shetuan.activity.RegisterDetailActivity">
+        tools:context="com.example.asus.shetuan.activity.act.RegisterDetailActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"

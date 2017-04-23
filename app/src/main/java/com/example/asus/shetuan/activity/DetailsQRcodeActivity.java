@@ -34,12 +34,11 @@ public class DetailsQRcodeActivity extends AppCompatActivity {
         if (intent.getStringExtra("type").equals("act")){
             binding.detailsQrcodeDescription.setText("扫一扫二维码，了解活动详情");
             qrstring = "www.euswag.com?avid="+intent.getIntExtra("id",0);
-            System.out.println("qrstring"+qrstring);
         }else if (intent.getStringExtra("type").equals("register")){
             binding.detailsQrcodeDescription.setText("扫一扫二维码，完成活动签到");
             qrstring = "www.euswag.com?avid="+intent.getIntExtra("id",0)+"&code="+intent.getStringExtra("registercode");
         }else {
-            qrstring="";
+            qrstring = "www.euswag.com?cmid="+intent.getIntExtra("id",0);
         }
         Bitmap bitmap = EncodingUtils.createQRCode(qrstring,700,700, BitmapFactory.decodeResource(getResources(),0));
         binding.detailsQrcodeQriamge.setImageBitmap(bitmap);

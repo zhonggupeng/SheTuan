@@ -23,28 +23,21 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
-import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
-import com.example.asus.shetuan.activity.ChangePeosonInformationActivity;
-import com.example.asus.shetuan.bean.ActivityMsg;
 import com.example.asus.shetuan.bean.PressActivity;
 import com.example.asus.shetuan.clipimage.ClipActivity;
 import com.example.asus.shetuan.databinding.ActivityPressActivityBinding;
-import com.example.asus.shetuan.dateselector.DataSelect;
+import com.example.asus.shetuan.weight.dateselector.DataSelect;
 import com.example.asus.shetuan.model.DateUtils;
 import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
@@ -121,9 +114,12 @@ public class PressActivityActivity extends AppCompatActivity {
                     pressActivity.setExpectnum(String.valueOf(jsonObject.getInt("avExpectnum")));
                 }
                 binding.pressActivityActivityimage.setImageURI(activityimageloadurl+jsonObject.getString("avLogo")+".jpg");
-                binding.pressActivitySelectStarttime.setText(DateUtils.timet(jsonObject.getString("avStarttime")));
-                binding.pressActivitySelectEndtime.setText(DateUtils.timet(jsonObject.getString("avEndtime")));
-                binding.pressActivitySelectEnrolldeadtime.setText(DateUtils.timet(jsonObject.getString("avEnrolldeadline")));
+//                binding.pressActivitySelectStarttime.setText(DateUtils.timet2(jsonObject.getString("avStarttime")));
+//                binding.pressActivitySelectEndtime.setText(DateUtils.timet2(jsonObject.getString("avEndtime")));
+//                binding.pressActivitySelectEnrolldeadtime.setText(DateUtils.timet2(jsonObject.getString("avEnrolldeadline")));
+                pressActivity.setStarttime(DateUtils.timet2(jsonObject.getString("avStarttime")));
+                pressActivity.setEndtime(DateUtils.timet2(jsonObject.getString("avEndtime")));
+                pressActivity.setEnrolldeadline(DateUtils.timet2(jsonObject.getString("avEnrolldeadline")));
                 if (jsonObject.getInt("avRegister")==-1){
                     binding.pressActivityIsregister.setChecked(false);
                 }else {
@@ -223,7 +219,6 @@ public class PressActivityActivity extends AppCompatActivity {
                                 }else {
                                     changebody = new FormBody.Builder()
                                             .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
-                                            .add("avid",String.valueOf(pressActivity.getAvid()))
                                             .add("avDetail", pressActivity.getDetail())
                                             .add("avExpectnum", pressActivity.getExpectnum())
                                             .add("avPlace", pressActivity.getPlace())
@@ -234,7 +229,22 @@ public class PressActivityActivity extends AppCompatActivity {
                                             .add("avenrolldeadline", DateUtils.data(pressActivity.getEnrolldeadline()))
                                             .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
                                             .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                                            .add("avid",String.valueOf(pressActivity.getAvid()))
                                             .build();
+                                    System.out.println("chagebody:    ------"+changebody.contentType());
+                                    System.out.println("chagebody:    ------"+changebody);
+                                    System.out.println(sharedPreferences.getString("accesstoken", "")+"   00");
+                                    System.out.println(pressActivity.getDetail()+"  11");
+                                    System.out.println(pressActivity.getExpectnum()+"    22");
+                                    System.out.println(pressActivity.getPlace()+"   33");
+                                    System.out.println(pressActivity.getPrice()+"   44");
+                                    System.out.println(pressActivity.getRegister()+"   55");
+                                    System.out.println(pressActivity.getTitle()+"    66");
+                                    System.out.println(DateUtils.data(pressActivity.getEndtime())+"    77");
+                                    System.out.println(DateUtils.data(pressActivity.getEnrolldeadline())+"    88");
+                                    System.out.println(DateUtils.data(pressActivity.getStarttime())+"  99");
+                                    System.out.println(sharedPreferences.getString("phonenumber", "0")+"   1011");
+                                    System.out.println(String.valueOf(pressActivity.getAvid())+"   1022");
                                     if (NetWorkState.checkNetWorkState(PressActivityActivity.this)){
                                         new Thread(new ChangeActivityRunnable()).start();
                                     }
@@ -343,12 +353,12 @@ public class PressActivityActivity extends AppCompatActivity {
                             result = jsonObject.getInt("status");
                             if (result == 200) {
                                 Toast.makeText(PressActivityActivity.this, "活动发布成功", Toast.LENGTH_LONG).show();
+                                PressActivityActivity.this.finish();
                             } else if (result == 400) {
-                                Toast.makeText(PressActivityActivity.this, "活动发布失败", Toast.LENGTH_LONG).show();
+                                Toast.makeText(PressActivityActivity.this, "活动发布失败，请重试", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(PressActivityActivity.this, "网络异常", Toast.LENGTH_LONG).show();
                             }
-                            PressActivityActivity.this.finish();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -411,6 +421,27 @@ public class PressActivityActivity extends AppCompatActivity {
                         }
                     }else {
                         Toast.makeText(PressActivityActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case CHANGE_ACTIVTIY:
+                    String changeactivityresult = (String) msg.obj;
+                    if (changeactivityresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(changeactivityresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(PressActivityActivity.this,"活动修改成功",Toast.LENGTH_SHORT).show();
+                                PressActivityActivity.this.finish();
+                            }else {
+                                Toast.makeText(PressActivityActivity.this,"活动修改失败，请重试",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(PressActivityActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:break;

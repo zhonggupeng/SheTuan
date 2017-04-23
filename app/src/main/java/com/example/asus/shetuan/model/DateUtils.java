@@ -83,6 +83,16 @@ public class DateUtils {
         return times;
 
     }
+    public static String timet2(String time) {
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+        long lcc;
+        if (time!=null&&!time.equals("")) {
+            lcc = Long.parseLong(time);
+        }
+        else lcc=0;
+        String times = sdr.format(new Date(lcc));
+        return times;
+    }
 
     /*
     *    输入时间与当前时间的差距

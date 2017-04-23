@@ -16,8 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -25,11 +23,10 @@ import android.widget.Toast;
 
 import com.android.debug.hv.ViewServer;
 import com.example.asus.shetuan.R;
-import com.example.asus.shetuan.activity.ChangePeosonInformationActivity;
 import com.example.asus.shetuan.bean.InformationFill;
 import com.example.asus.shetuan.clipimage.ClipActivity;
 import com.example.asus.shetuan.databinding.ActivityFillInformationBinding;
-import com.example.asus.shetuan.sexselector.SexSelect;
+import com.example.asus.shetuan.weight.sexselector.SexSelect;
 
 import java.io.File;
 
@@ -104,7 +101,9 @@ public class FillInformationActivity extends AppCompatActivity {
                     Toast.makeText(FillInformationActivity.this,"未填写学号",Toast.LENGTH_SHORT).show();
                 }else if (informationFill.getName()==null||informationFill.getName().length()==0){
                     Toast.makeText(FillInformationActivity.this,"未填写姓名",Toast.LENGTH_SHORT).show();
-                }else if (headimagepath==null||headimagepath.length()==0){
+                }else if (binding.fillInformEntryyear.getText()==null||binding.fillInformEntryyear.getText().length()==0){
+                    Toast.makeText(FillInformationActivity.this,"未选择入学年份",Toast.LENGTH_SHORT).show();
+                } else if (headimagepath==null||headimagepath.length()==0){
                     Toast.makeText(FillInformationActivity.this,"请设置头像",Toast.LENGTH_SHORT).show();
                 }else {
                     new AlertDialog.Builder(FillInformationActivity.this).setTitle("提示").setMessage("为了在社团、活动交流方便，您确定填写了真实的个人信息吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -120,7 +119,7 @@ public class FillInformationActivity extends AppCompatActivity {
                             intent.putExtra("academe", informationFill.getAcademe());
                             intent.putExtra("studentid", informationFill.getStudentid());
                             intent.putExtra("name", informationFill.getName());
-                            intent.putExtra("personedit", informationFill.getPersonalexplaintion());
+                            intent.putExtra("entryyear", binding.fillInformEntryyear.getText());
                             intent.putExtra("headimagepath", headimagepath);
                             FillInformationActivity.this.startActivity(intent);
                         }
