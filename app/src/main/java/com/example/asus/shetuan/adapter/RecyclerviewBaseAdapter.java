@@ -92,6 +92,8 @@ public abstract class RecyclerviewBaseAdapter<T> extends RecyclerView.Adapter<Re
                         //不知道要不要设立创建的和加入的
                         Intent intent = new Intent(mContext, ShetuanInformationActivity.class);
                         intent.putExtra("datajson3",((ShetuanMsg)(mData.get(position))).getShetuanJsonString());
+                        // collection 为 0 表示不是收藏的，为 1 表示收藏的
+                        intent.putExtra("collection","0");
                         mContext.startActivity(intent);
                     }
                 }

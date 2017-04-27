@@ -83,7 +83,6 @@ public class CheckActivityActivity extends AppCompatActivity {
             activityMsg.setActid(jsonObject.getInt("avid"));
             //报名截止时间
             activityMsg.setActenrolldeadline(jsonObject.getString("avEnrolldeadline"));
-            System.out.println("报名截止时间："+jsonObject.getString("avEnrolldeadline"));
 
             binding.setCheckActivityMsg(activityMsg);
 
@@ -94,6 +93,9 @@ public class CheckActivityActivity extends AppCompatActivity {
             else {
                 binding.checkActivityIsregister.setText("需要签到");
 //                participateparam4 = "&verifystate=0";
+                if (activityMsg.getActregister()>0){
+                    binding.checkActivityChangeactivity.setText("活动已发起签到");
+                }
             }
 
             if(activityMsg.getActprice()==0){
@@ -218,10 +220,14 @@ public class CheckActivityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //修改活动
-                Intent intent = new Intent(CheckActivityActivity.this, PressActivityActivity.class);
-                intent.putExtra("presstype",1);
-                intent.putExtra("datajson",datajsonstring);
-                CheckActivityActivity.this.startActivity(intent);
+                if (activityMsg.getActregister()>0) {
+
+                }else {
+                    Intent intent = new Intent(CheckActivityActivity.this, PressActivityActivity.class);
+                    intent.putExtra("presstype", 1);
+                    intent.putExtra("datajson", datajsonstring);
+                    CheckActivityActivity.this.startActivity(intent);
+                }
             }
         });
     }
@@ -331,7 +337,6 @@ public class CheckActivityActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(startregisterresult);
                             result = jsonObject.getInt("status");
                             if (result == 200){
-                                System.out.println(jsonObject.getString("data"));
                                 Intent intent = new Intent(CheckActivityActivity.this,RegisterDetailActivity.class);
                                 intent.putExtra("registercode",jsonObject.getString("data"));
                                 intent.putExtra("number",number);
@@ -349,7 +354,6 @@ public class CheckActivityActivity extends AppCompatActivity {
                     break;
                 case DELETE_ACTIVITY:
                     String deleteactivityresult = (String) msg.obj;
-                    System.out.println("删除返回："+deleteactivityresult);
                     if (deleteactivityresult.length()!=0){
                         JSONObject jsonObject;
                         int result;

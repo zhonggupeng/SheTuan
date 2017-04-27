@@ -40,7 +40,7 @@ public class ShetuanInformationActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private OKHttpConnect okHttpConnect;
-    private String shetuanmemberurl = "https://euswag.com/eu/community/memberinfolist";
+    private String shetuanmemberurl = "https://euswag.com/eu/community/memberlist";
     private RequestBody shetuanmemberbody;
 
     private String collecteurl = "https://euswag.com/eu/community/collectcm";
@@ -52,6 +52,9 @@ public class ShetuanInformationActivity extends AppCompatActivity {
     private String participateurl = "https://euswag.com/eu/community/participatecm";
     private RequestBody participatebody;
 
+    private String getheaderurl = "https://euswag.com/eu/info/introinfo";
+    private RequestBody getheaderbody;
+
     private String shetuanlogourl = "https://euswag.com/picture/community/logo/";
     private String shetuanbackgroundurl = "https://euswag.com/picture/community/background/";
 
@@ -59,6 +62,7 @@ public class ShetuanInformationActivity extends AppCompatActivity {
     private final int COLLECTE = 100;
     private final int CANCEL_COLLECTE = 101;
     private final int PARTICIPATE = 1100;
+    private final int GET_HEADER = 1111;
 
     //是否收藏社团
     private boolean hascollection;
@@ -70,6 +74,11 @@ public class ShetuanInformationActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         hascollection = false;
         Intent intent = getIntent();
+        if (intent.getStringExtra("collection").equals("0")){
+            binding.shetuanInformationFunctbutton.setText("申请加入");
+        }else {
+            binding.shetuanInformationFunctbutton.setText("取消收藏");
+        }
         datajsonstring = intent.getStringExtra("datajson3");
         JSONObject jsonObject;
         try {
@@ -89,6 +98,14 @@ public class ShetuanInformationActivity extends AppCompatActivity {
         }
         binding.setShetuanInformationData(shetuanMsg);
         binding.setShetuanInformation(new ShetuanInformation(this));
+        //社长信息请求
+        getheaderbody = new FormBody.Builder()
+                .add("uid",String.valueOf(shetuanMsg.getShetuanboss()))
+                .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                .build();
+        if (NetWorkState.checkNetWorkState(ShetuanInformationActivity.this)){
+            new Thread(new GetHeaderRunnable()).start();
+        }
         //社团成员请求
         shetuanmemberbody = new FormBody.Builder()
                 .add("cmid",String.valueOf(shetuanMsg.getShetuanid()))
@@ -106,7 +123,6 @@ public class ShetuanInformationActivity extends AppCompatActivity {
         else if (shetuanMsg.getShetuantype()==2){
             binding.shetuanInformationShetuantype.setText("运动");
         }
-        binding.shetuanInformationShetuanboss.setText(String.valueOf(shetuanMsg.getShetuanboss()));
         binding.shetuanInformationBackground.setImageURI(shetuanMsg.getBackgroundimage());
         binding.shetuanInformationLogo.setImageURI(shetuanMsg.getLogoimage());
         click();
@@ -132,18 +148,15 @@ public class ShetuanInformationActivity extends AppCompatActivity {
                             .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
                             .add("cmid",String.valueOf(shetuanMsg.getShetuanid()))
                             .build();
-                    if (NetWorkState.checkNetWorkState(ShetuanInformationActivity.this)) {
-                        new Thread(new CancelCollecteRunnable()).start();
-                    }
+                    new Thread(new CancelCollecteRunnable()).start();
+
                 } else {
                     collectebody = new FormBody.Builder()
                             .add("uid",sharedPreferences.getString("phonenumber", "0"))
                             .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
                             .add("cmid",String.valueOf(shetuanMsg.getShetuanid()))
                             .build();
-                    if (NetWorkState.checkNetWorkState(ShetuanInformationActivity.this)) {
-                        new Thread(new CollecteRunnable()).start();
-                    }
+                    new Thread(new CollecteRunnable()).start();
                 }
             }
         });
@@ -175,6 +188,13 @@ public class ShetuanInformationActivity extends AppCompatActivity {
                             })
                             .setNegativeButton("取消",null)
                             .show();
+                }else if (binding.shetuanInformationFunctbutton.getText().equals("取消收藏")){
+                    cancelcollectebody = new FormBody.Builder()
+                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("cmid",String.valueOf(shetuanMsg.getShetuanid()))
+                            .build();
+                    new Thread(new CancelCollecteRunnable()).start();
                 }
             }
         });
@@ -257,6 +277,23 @@ public class ShetuanInformationActivity extends AppCompatActivity {
             }
         }
     }
+    private class GetHeaderRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.postdata(getheaderurl,getheaderbody);
+                Message message = handler.obtainMessage();
+                message.what = GET_HEADER;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -322,8 +359,13 @@ public class ShetuanInformationActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(cancelcollecteresult);
                             result = jsonObject.getInt("status");
                             if (result == 200){
-                                Toast.makeText(ShetuanInformationActivity.this,"已取消收藏",Toast.LENGTH_SHORT).show();
-                                binding.shetuanInformationCollection.setImageResource(R.drawable.ic_collection_before);
+                                if (binding.shetuanInformationFunctbutton.getText().equals("取消收藏")){
+                                    Toast.makeText(ShetuanInformationActivity.this, "已取消收藏", Toast.LENGTH_SHORT).show();
+                                    ShetuanInformationActivity.this.finish();
+                                }else if (binding.shetuanInformationFunctbutton.getText().equals("申请加入")){
+                                    Toast.makeText(ShetuanInformationActivity.this, "已取消收藏", Toast.LENGTH_SHORT).show();
+                                    binding.shetuanInformationCollection.setImageResource(R.drawable.ic_collection_before);
+                                }
                             }else {
                                 Toast.makeText(ShetuanInformationActivity.this,"取消失败，请重试",Toast.LENGTH_SHORT).show();
                             }
@@ -354,6 +396,28 @@ public class ShetuanInformationActivity extends AppCompatActivity {
                         }
                     }else {
                         Toast.makeText(ShetuanInformationActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case GET_HEADER:
+                    String getheaderresult = (String) msg.obj;
+                    if (getheaderresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(getheaderresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                String getheaderdata = jsonObject.getString("data");
+                                JSONObject headerdata = new JSONObject(getheaderdata);
+                                shetuanMsg.setShetuanbossname(headerdata.getString("name"));
+                            }else {
+                                Toast.makeText(ShetuanInformationActivity.this,"获取社长失败",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(ShetuanInformationActivity.this,"网络异常，获取社长失败",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:break;

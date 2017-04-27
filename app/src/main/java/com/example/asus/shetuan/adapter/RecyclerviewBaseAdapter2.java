@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.act.ActivityDetailActivity;
 import com.example.asus.shetuan.activity.act.CheckActivityActivity;
+import com.example.asus.shetuan.activity.shetuan.ShetuanInformationActivity;
 import com.example.asus.shetuan.bean.ActivityMsg;
+import com.example.asus.shetuan.bean.ShetuanMsg;
 
 import java.util.ArrayList;
 
@@ -61,6 +63,11 @@ public abstract class RecyclerviewBaseAdapter2<T> extends RecyclerView.Adapter<R
                             intent.putExtra("datajson2", ((ActivityMsg) (mData.get(position))).getActivityDetailJsonString());
                             mContext.startActivity(intent);
                         }
+                    }else if (mLayoutResId == R.layout.view_shetuan_collection_item){
+                        Intent intent = new Intent(mContext, ShetuanInformationActivity.class);
+                        intent.putExtra("datajson3",((ShetuanMsg)(mData.get(position))).getShetuanJsonString());
+                        intent.putExtra("collection","1");
+                        mContext.startActivity(intent);
                     }
                 }
             });

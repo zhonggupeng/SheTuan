@@ -137,7 +137,6 @@ public class LoginActivity extends AppCompatActivity {
             switch (msg.what){
                 case SENDVERCODE:
                     String resultstring = (String) msg.obj;
-                    System.out.println("resultstring"+resultstring);
                     if (resultstring.length()!=0) {
                         JSONObject jsonObject;
                         int result;
@@ -175,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
                     break;
                 case LOGIN:
                     String loginresultstring = (String) msg.obj;
-                    System.out.println("登录返回："+loginresultstring);
                     if (loginresultstring.length()!=0){
                         JSONObject jsonObject;
                         int resutlt;
@@ -188,7 +186,6 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.putString("accesstoken", jsonObject.getString("data"));
                                 editor.putString("phonenumber",login.getAccountnumber());
                                 editor.commit();
-                                System.out.println("sharedPreferences  accesstoken:  " + sharedPreferences.getString("accesstoken", "00"));
                                 Intent intent = new Intent(LoginActivity.this, MainTabActivity.class);
                                 LoginActivity.this.startActivity(intent);
                             }

@@ -112,7 +112,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
             activityMsg.setActid(jsonObject.getInt("avid"));
             //报名截止时间
             activityMsg.setActenrolldeadline(jsonObject.getString("avEnrolldeadline"));
-            System.out.println("报名截止时间：" + jsonObject.getString("avEnrolldeadline"));
 
             binding.setActivityDetailMsg(activityMsg);
 
@@ -154,7 +153,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
             //通过验证来确定
             //请求是否已经参加该活动
             if (intent.getStringExtra("isparticipate").equals("0")) {
-                binding.activityDetailIsenroll.setText("我要参加");
+                if (activityMsg.getActregister() > 0){
+                    binding.activityDetailIsenroll.setText("活动已开始签到");
+                }else {
+                    binding.activityDetailIsenroll.setText("我要参加");
+                }
             } else if (intent.getStringExtra("isparticipate").equals("4")) {
                 binding.activityDetailIsenroll.setText("取消收藏");
             } else {
@@ -163,6 +166,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 }else {
                     binding.activityDetailIsenroll.setText("退出活动");
                 }
+            }
+            System.out.println("报名截止时间：" + jsonObject.getString("avEnrolldeadline"));
+            System.out.println("当前时间"+DateUtils.data(DateUtils.getCurrentTime()));
+            if (Long.parseLong(DateUtils.data(DateUtils.getCurrentTime()))>=Long.parseLong(jsonObject.getString("avEnrolldeadline"))){
+                binding.activityDetailIsenroll.setText("活动报名已截止");
             }
             binding.activityDetailBackground.setImageURI(activityMsg.getImageurl());
             hascollection = false;
@@ -238,7 +246,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     showPopupWindow(binding.activityDetailIsenroll);
                 }
             });
-        } else {
+        } else if (binding.activityDetailIsenroll.getText().equals("退出活动")){
             binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

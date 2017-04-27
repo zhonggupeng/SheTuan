@@ -156,7 +156,6 @@ public class SetPasswordActivity extends AppCompatActivity {
                 case SENDAVATARIMAGE:
                     String sendavatarresult = (String) msg.obj;
                     if (sendavatarresult.length() != 0) {
-                        System.out.println("sendavatarresult:" + sendavatarresult);
                         JSONObject jsonObject;
                         int result;
                         String returnstring;
@@ -218,7 +217,6 @@ public class SetPasswordActivity extends AppCompatActivity {
                                 editor.putString("accesstoken", jsonObject.getString("data"));
                                 editor.putString("phonenumber",dataintent.getStringExtra("phonenumber"));
                                 editor.commit();
-                                System.out.println("sharedPreferences  accesstoken:  " + sharedPreferences.getString("accesstoken", "00"));
                                 Intent intent = new Intent(SetPasswordActivity.this, MainTabActivity.class);
                                 SetPasswordActivity.this.startActivity(intent);
                             } else if (result == 500) {
@@ -235,21 +233,18 @@ public class SetPasswordActivity extends AppCompatActivity {
                     break;
                 case SENDUSERINFO:
                     String senduserinforesult = (String) msg.obj;
-                    System.out.println("senduserinforesult"+senduserinforesult);
                     if (senduserinforesult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(senduserinforesult);
                             result = jsonObject.getInt("status");
-                            System.out.println("result"+result);
                             if (result == 200) {
                                 SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("accesstoken", jsonObject.getString("data"));
                                 editor.putString("phonenumber",dataintent.getStringExtra("phonenumber"));
                                 editor.commit();
-                                System.out.println("sharedPreferences  accesstoken:  " + sharedPreferences.getString("accesstoken", "00"));
                                 Intent intent = new Intent(SetPasswordActivity.this, MainTabActivity.class);
                                 SetPasswordActivity.this.startActivity(intent);
                             } else if (result == 500) {

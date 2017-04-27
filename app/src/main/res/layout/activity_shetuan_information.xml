@@ -18,7 +18,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -241,6 +242,7 @@
                                 android:id="@+id/shetuan_information_shetuanboss"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:text="@{shetuanInformationData.shetuanbossname}"
                                 android:gravity="center_vertical"
                                 android:textColor="@color/search_keyword_color"
                                 android:textSize="@dimen/font_size" />

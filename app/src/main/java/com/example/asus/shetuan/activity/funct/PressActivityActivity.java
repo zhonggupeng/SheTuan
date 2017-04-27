@@ -231,20 +231,6 @@ public class PressActivityActivity extends AppCompatActivity {
                                             .add("uid", sharedPreferences.getString("phonenumber", "0"))
                                             .add("avid",String.valueOf(pressActivity.getAvid()))
                                             .build();
-                                    System.out.println("chagebody:    ------"+changebody.contentType());
-                                    System.out.println("chagebody:    ------"+changebody);
-                                    System.out.println(sharedPreferences.getString("accesstoken", "")+"   00");
-                                    System.out.println(pressActivity.getDetail()+"  11");
-                                    System.out.println(pressActivity.getExpectnum()+"    22");
-                                    System.out.println(pressActivity.getPlace()+"   33");
-                                    System.out.println(pressActivity.getPrice()+"   44");
-                                    System.out.println(pressActivity.getRegister()+"   55");
-                                    System.out.println(pressActivity.getTitle()+"    66");
-                                    System.out.println(DateUtils.data(pressActivity.getEndtime())+"    77");
-                                    System.out.println(DateUtils.data(pressActivity.getEnrolldeadline())+"    88");
-                                    System.out.println(DateUtils.data(pressActivity.getStarttime())+"  99");
-                                    System.out.println(sharedPreferences.getString("phonenumber", "0")+"   1011");
-                                    System.out.println(String.valueOf(pressActivity.getAvid())+"   1022");
                                     if (NetWorkState.checkNetWorkState(PressActivityActivity.this)){
                                         new Thread(new ChangeActivityRunnable()).start();
                                     }

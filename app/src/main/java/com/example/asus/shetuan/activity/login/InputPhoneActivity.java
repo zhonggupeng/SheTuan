@@ -37,7 +37,7 @@ public class InputPhoneActivity extends AppCompatActivity {
     private ActivityInputPhoneBinding binding;
     private Phone phone;
 
-    private final int SENDVERCODE = 1;
+    private final int SENDVERCODE = 110;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,7 @@ public class InputPhoneActivity extends AppCompatActivity {
         binding.inputPhoneSendvercode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.inputPhoneSendvercode.setClickable(false);
                 phonenumber = phone.getPhonenumber();
                 if (phone.getIsregister().equals("0")){
 //                    requesturl = stringurl+param1+0+param2+phonenumber;
@@ -167,6 +168,7 @@ public class InputPhoneActivity extends AppCompatActivity {
                     else {
                         Toast.makeText(InputPhoneActivity.this,"网络出错",Toast.LENGTH_SHORT).show();
                     }
+                    binding.inputPhoneSendvercode.setClickable(true);
                     break;
                 default:break;
             }

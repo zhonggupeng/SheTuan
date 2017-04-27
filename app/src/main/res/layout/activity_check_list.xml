@@ -40,7 +40,8 @@
             <ScrollView
                 android:id="@+id/check_list_scrollview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:scrollbars="none">
 
                 <com.example.asus.shetuan.weight.SlederDeleteRecyclerView
                     android:id="@+id/check_list_recyclerview"

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="changeShetuan"
+            type="com.example.asus.shetuan.bean.ChangeShetuan"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context="com.example.asus.shetuan.activity.shetuan.ChangeShetuanActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/main_color">
+
+            <ImageView
+                android:id="@+id/change_shetuan_backimage"
+                android:layout_width="@dimen/title_height"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_back"
+                android:onClick="@{changeShetuan.backclick}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="修改社团信息"
+                android:textColor="@color/title_font_color"
+                android:textSize="@dimen/title_font_size" />
+            <TextView
+                android:id="@+id/change_shetuan_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:text="确认修改"
+                android:gravity="center_vertical"
+                android:textColor="@color/title_font_color"
+                android:layout_marginRight="10dp"/>
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_module_space"
+                    android:background="@color/item_space_color"></LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="社团LOGO"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size" />
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/change_shetuan_logo"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_alignParentRight="true"
+                        android:padding="10dp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_module_space"
+                    android:background="@color/item_space_color"></LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/module_item_height"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical"
+                    android:text="社团公告"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_bottom_line"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@color/gray"></LinearLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:lineSpacingMultiplier="1.2"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="@={changeShetuan.stannouncement}"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/font_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_module_space"
+                    android:background="@color/item_space_color"></LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/module_item_height"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical"
+                    android:text="社团简介"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:lineSpacingMultiplier="1.2"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/font_size"
+                    android:text="@={changeShetuan.stintroduction}"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_module_space"
+                    android:background="@color/item_space_color"></LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

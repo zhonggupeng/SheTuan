@@ -1,6 +1,8 @@
 package com.example.asus.shetuan.activity.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,6 +48,7 @@ import okhttp3.RequestBody;
 public class HomepageFragment extends Fragment implements MyScrollView.OnScrollListener, VerticalSwipeRefreshLayout.OnRefreshListener, ViewPagerEx.OnPageChangeListener {
 
     private FragmentHomepageBinding binding = null;
+    private SharedPreferences sharedPreferences;
     //    private String[] urls = new String[]{"http://img.redocn.com/sheji/20151107/youmengxiangjiuxingdongqilaibaxianzaiweishibuwanhengbanhaibao_5270355.jpg",
 //                                            "http://i2.sinaimg.cn/hs/2011/1021/U6011P667DT20111021104629.jpg",
 //                                            "http://pic.58pic.com/58pic/13/02/50/57N58PICQIC.jpg",
@@ -207,6 +210,11 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
                                     activityMsg.setIsparticipate("0");
                                     activityMsg.setActprice(activityRefreshJsonArray.getJSONObject(i).getDouble("avPrice"));
+                                    if (sharedPreferences.getString("phonenumber", "0").equals(activityRefreshJsonArray.getJSONObject(i).getLong("uid"))){
+                                        activityMsg.setIsbuild(1);
+                                    }else {
+                                        activityMsg.setIsbuild(0);
+                                    }
                                     mData.add(activityMsg);
                                 }
 //                        mData.addAll(changeData);
@@ -228,7 +236,6 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                     break;
                 case ACTIVITYLOADMORE:
                     String activityloadmoreresult = (String) msg.obj;
-                    System.out.println("加载更多返回" + activityloadmoreresult);
                     if (activityloadmoreresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
@@ -249,6 +256,11 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                         ActivityMsg activityMsg = new ActivityMsg(activityLoadMoreJsonArray.getJSONObject(i).getString("avTitle"), activityLoadMoreJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityLoadMoreJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl + activityLoadMoreJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
                                         activityMsg.setActivityDetailJsonString(activityLoadMoreJsonArray.getJSONObject(i).toString());
                                         activityMsg.setIsparticipate("0");
+                                        if (sharedPreferences.getString("phonenumber", "0").equals(String.valueOf(activityLoadMoreJsonArray.getJSONObject(i).getLong("uid")))){
+                                            activityMsg.setIsbuild(1);
+                                        }else {
+                                            activityMsg.setIsbuild(0);
+                                        }
                                         activityMsg.setActprice(activityLoadMoreJsonArray.getJSONObject(i).getDouble("avPrice"));
                                         mData.add(activityMsg);
                                     }
@@ -285,6 +297,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
         if (binding == null) {
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_homepage, container, false);
+            sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
             homepageActivityAdapter = new ActivityRecyclerviewAdapter(inflater.getContext());
 
             onRefresh();

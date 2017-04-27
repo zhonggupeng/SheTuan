@@ -17,6 +17,7 @@ import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.act.ActivityCollectionActivity;
 import com.example.asus.shetuan.activity.person.ChangePeosonInformationActivity;
 import com.example.asus.shetuan.activity.act.MyActivityActivity;
+import com.example.asus.shetuan.activity.shetuan.ShetuanCollectionActivity;
 import com.example.asus.shetuan.databinding.FragmentMeBinding;
 import com.example.asus.shetuan.model.NetWorkState;
 import com.example.asus.shetuan.model.OKHttpConnect;
@@ -83,6 +84,13 @@ public class MeFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(inflater.getContext(), ActivityCollectionActivity.class);
+                inflater.getContext().startActivity(intent);
+            }
+        });
+        binding.fragmentMeShetuanCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(inflater.getContext(), ShetuanCollectionActivity.class);
                 inflater.getContext().startActivity(intent);
             }
         });

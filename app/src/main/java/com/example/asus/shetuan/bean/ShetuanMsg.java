@@ -132,6 +132,18 @@ public class ShetuanMsg extends BaseObservable {
     private String backgroundimage;
     private String logoimage;
 
+    @Bindable
+    public String getShetuanbossname() {
+        return shetuanbossname;
+    }
+
+    public void setShetuanbossname(String shetuanbossname) {
+        this.shetuanbossname = shetuanbossname;
+        notifyPropertyChanged(BR.shetuanbossname);
+    }
+
+    private String shetuanbossname;
+
     public long getShetuanboss() {
         return shetuanboss;
     }
