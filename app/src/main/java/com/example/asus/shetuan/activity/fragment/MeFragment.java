@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
+import com.example.asus.shetuan.activity.MyShetuanActivity;
 import com.example.asus.shetuan.activity.act.ActivityCollectionActivity;
 import com.example.asus.shetuan.activity.person.ChangePeosonInformationActivity;
 import com.example.asus.shetuan.activity.act.MyActivityActivity;
@@ -91,6 +92,13 @@ public class MeFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(inflater.getContext(), ShetuanCollectionActivity.class);
+                inflater.getContext().startActivity(intent);
+            }
+        });
+        binding.fragmentMeMyshetuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(inflater.getContext(), MyShetuanActivity.class);
                 inflater.getContext().startActivity(intent);
             }
         });

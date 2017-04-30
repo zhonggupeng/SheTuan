@@ -105,7 +105,9 @@
         <activity android:name=".activity.shetuan.ChangeShetuanActivity" />
         <activity android:name=".activity.shetuan.PressAnnounceActivity" />
         <activity android:name=".activity.shetuan.SetManagerActivity" />
-        <activity android:name=".activity.shetuan.ShetuanCollectionActivity"></activity>
+        <activity android:name=".activity.shetuan.ShetuanCollectionActivity" />
+        <activity android:name=".activity.shetuan.ShetuanRecruitActivity" />
+        <activity android:name=".activity.shetuan.RecruitCheckManageActivity"></activity>
     </application>
 
 </manifest>

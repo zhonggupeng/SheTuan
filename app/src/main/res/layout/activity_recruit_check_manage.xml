@@ -6,9 +6,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/white"
-        tools:context="com.example.asus.shetuan.activity.shetuan.ShetuanCollectionActivity">
+        android:orientation="vertical"
+        tools:context="com.example.asus.shetuan.activity.shetuan.RecruitCheckManageActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:background="@color/main_color">
 
             <ImageView
-                android:id="@+id/shetuan_collection_backimage"
+                android:id="@+id/recruit_check_manage_backimage"
                 android:layout_width="@dimen/title_height"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -24,33 +24,33 @@
                 android:src="@drawable/ic_back" />
 
             <TextView
+                android:id="@+id/recruit_check_manage_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="社团收藏"
+                android:text="招新管理"
                 android:textColor="@color/title_font_color"
                 android:textSize="@dimen/title_font_size" />
 
         </RelativeLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/shetuan_collection_refresh"
+            android:id="@+id/recruit_check_manage_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ScrollView
-                android:id="@+id/shetuan_collection_scrollview"
+                android:id="@+id/recruit_check_manage_scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/shetuan_collection_recyclerview"
+                    android:id="@+id/recruit_check_manage_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin">
                 </android.support.v7.widget.RecyclerView>
-
             </ScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>

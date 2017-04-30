@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="shetuanContactsitem"
+            type="com.example.asus.shetuan.bean.ShetuanContacts"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/check_manage_item_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="30dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.2"
+                        android:text="@{shetuanContactsitem.name}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@{shetuanContactsitem.studentid}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/min_font_size"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@{String.valueOf(shetuanContactsitem.uid)}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/min_font_size"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@{shetuanContactsitem.academe}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/min_font_size"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/check_manage_item_checkbox"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bottom_line"
+            android:background="@color/gray"></LinearLayout>
+    </LinearLayout>
+</layout>

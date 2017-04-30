@@ -19,7 +19,7 @@ public class ShetuanCollectionAdapter extends RecyclerviewBaseAdapter2<ShetuanMs
 
     @Override
     protected void convert(RecyclerView.ViewHolder holder, ShetuanMsg item, int indexOfData) {
-        ((NormalHolder)holder).getBinding().setVariable(BR.shetuanMsg,item);
+        ((NormalHolder)holder).getBinding().setVariable(BR.shetuancollectionitem,item);
         ((ViewShetuanCollectionItemBinding)((NormalHolder)holder).getBinding()).shetuanCollectionItemLogo.setImageURI(item.getLogoimage());
         ((NormalHolder)holder).getBinding().executePendingBindings();
     }

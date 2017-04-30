@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.shetuan.ManageShetuanActivity;
+import com.example.asus.shetuan.activity.shetuan.ShetuanRecruitActivity;
 import com.example.asus.shetuan.bean.CommunityContacts;
 import com.example.asus.shetuan.bean.MyShetuan;
 import com.example.asus.shetuan.bean.ShetuanMsg;
@@ -63,16 +64,17 @@ public class MyShetuanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_my_shetuan);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_my_shetuan);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         binding.setMyshetuan(new MyShetuan(this));
         getmyshetuanbody = new FormBody.Builder()
-                .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                .add("accesstoken",sharedPreferences.getString("accesstoken",""))
+                .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                 .build();
         new Thread(new GetMyShetuanRunnable()).start();
     }
-    private void click2(){
+
+    private void click2() {
         binding.shetuanNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -81,12 +83,12 @@ public class MyShetuanActivity extends AppCompatActivity {
 //                System.out.println(sItems[i]);
 //                System.out.println(l);
                 //i和l都表示所选的位置，从0开始
-                if (spinnercurrentposition!=i){
+                if (spinnercurrentposition != i) {
                     spinnercurrentposition = i;
-                    System.out.println("----"+spinnercurrentposition);
+                    System.out.println("----" + spinnercurrentposition);
                     getshetuanbody = new FormBody.Builder()
-                            .add("cmid",String.valueOf(requestsData.get(i).getCmid()))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken",""))
+                            .add("cmid", String.valueOf(requestsData.get(spinnercurrentposition).getCmid()))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                             .build();
                     new Thread(new GetShetuanRunnable()).start();
                 }
@@ -98,27 +100,61 @@ public class MyShetuanActivity extends AppCompatActivity {
             }
         });
     }
-    private void click3(){
+
+    private void click3() {
         binding.myShetuanManage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MyShetuanActivity.this,ManageShetuanActivity.class);
-                intent.putExtra("cmLogo",shetuanMsg.getLogoimage());
-                intent.putExtra("cmAnnouncement",shetuanMsg.getShtuanannouncement());
-                intent.putExtra("cmDetail",shetuanMsg.getBriefintroduction());
-                intent.putExtra("cmid",shetuanMsg.getShetuanid());
-                MyShetuanActivity.this.startActivity(intent);
+                if (requestsData.get(spinnercurrentposition).getPosition() > 1) {
+                    Intent intent = new Intent(MyShetuanActivity.this, ManageShetuanActivity.class);
+                    intent.putExtra("cmLogo", shetuanMsg.getLogoimage());
+                    intent.putExtra("cmAnnouncement", shetuanMsg.getShtuanannouncement());
+                    intent.putExtra("cmDetail", shetuanMsg.getBriefintroduction());
+                    intent.putExtra("cmid", shetuanMsg.getShetuanid());
+                    MyShetuanActivity.this.startActivity(intent);
+                }else if (requestsData.get(spinnercurrentposition).getPosition()<1){
+                    Toast.makeText(MyShetuanActivity.this,"您未成为该社团的正式成员，没有该权限",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(MyShetuanActivity.this,"您不是该社团管理员，没有该权限",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.myShetuanRecruit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //进行权限判断,1为普通社员，2为管理员，3为社长，0为已面试
+                if (requestsData.get(spinnercurrentposition).getPosition() > 1) {
+                    Intent intent = new Intent(MyShetuanActivity.this, ShetuanRecruitActivity.class);
+                    intent.putExtra("recruit", shetuanMsg.getShetuanrecruit());
+                    intent.putExtra("cmid", shetuanMsg.getShetuanid());
+                    MyShetuanActivity.this.startActivity(intent);
+                }else if (requestsData.get(spinnercurrentposition).getPosition()<1){
+                    Toast.makeText(MyShetuanActivity.this,"您未成为该社团的正式成员，没有该权限",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(MyShetuanActivity.this,"您不是该社团管理员，没有该权限",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.myShetuanPhonelist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (requestsData.get(spinnercurrentposition).getPosition()>0){
+
+                }else {
+                    Toast.makeText(MyShetuanActivity.this,"您不是该社团成员，无法获取通讯录",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-    private class GetMyShetuanRunnable implements Runnable{
+
+    private class GetMyShetuanRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(getmyshetuanurl,getmyshetuanbody);
+                resultstring = okHttpConnect.postdata(getmyshetuanurl, getmyshetuanbody);
                 Message message = handler.obtainMessage();
                 message.what = GET_MY_SHETUAN;
                 message.obj = resultstring;
@@ -128,14 +164,15 @@ public class MyShetuanActivity extends AppCompatActivity {
             }
         }
     }
-    private class GetShetuanRunnable implements Runnable{
+
+    private class GetShetuanRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(getshetuanurl,getshetuanbody);
+                resultstring = okHttpConnect.postdata(getshetuanurl, getshetuanbody);
                 Message message = handler.obtainMessage();
                 message.what = GET_SHETUAN;
                 message.obj = resultstring;
@@ -146,36 +183,38 @@ public class MyShetuanActivity extends AppCompatActivity {
 
         }
     }
-    private class SetDefaultShetuanRunnable implements Runnable{
+
+    private class SetDefaultShetuanRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(setdefaultshetuanurl,setdefaultshetuanbody);
+                resultstring = okHttpConnect.postdata(setdefaultshetuanurl, setdefaultshetuanbody);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    private Handler handler = new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case GET_MY_SHETUAN:
                     String getmyshetuanresult = (String) msg.obj;
-                    if (getmyshetuanresult.length()!=0){
+                    if (getmyshetuanresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(getmyshetuanresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String getmyshetuandata = jsonObject.getString("data");
-                                if (getmyshetuandata.equals("null")){
+                                if (getmyshetuandata.equals("null")) {
 
-                                }else {
+                                } else {
                                     JSONTokener jsonTokener = new JSONTokener(getmyshetuandata);
                                     JSONArray jsonArray = (JSONArray) jsonTokener.nextValue();
                                     requestsData.clear();
@@ -186,7 +225,7 @@ public class MyShetuanActivity extends AppCompatActivity {
                                         ShetuanRequest shetuanRequest = new ShetuanRequest(jsonArray.getJSONObject(i).getInt("cmid"), jsonArray.getJSONObject(i).getInt("position"), jsonArray.getJSONObject(i).getString("reason"), jsonArray.getJSONObject(i).getString("cmname"), jsonArray.getJSONObject(i).getInt("lastselect"));
                                         requestsData.add(shetuanRequest);
                                         sItems[i] = requestsData.get(i).getCmname();
-                                        if (max<requestsData.get(i).getLastselect()){
+                                        if (max < requestsData.get(i).getLastselect()) {
                                             max = requestsData.get(i).getLastselect();
                                             flag = i;
                                         }
@@ -194,38 +233,38 @@ public class MyShetuanActivity extends AppCompatActivity {
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(MyShetuanActivity.this, R.layout.simple_spinner_item, sItems);
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     binding.shetuanNameSpinner.setAdapter(adapter);
-                                    binding.shetuanNameSpinner.setSelection(flag,true);
+                                    binding.shetuanNameSpinner.setSelection(flag, true);
                                     spinnercurrentposition = flag;
                                     getshetuanbody = new FormBody.Builder()
-                                            .add("cmid",String.valueOf(requestsData.get(flag).getCmid()))
-                                            .add("accesstoken",sharedPreferences.getString("accesstoken",""))
+                                            .add("cmid", String.valueOf(requestsData.get(spinnercurrentposition).getCmid()))
+                                            .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                                             .build();
                                     new Thread(new GetShetuanRunnable()).start();
                                     click2();
                                 }
 
-                            }else {
-                                Toast.makeText(MyShetuanActivity.this,"我的社团获取失败",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(MyShetuanActivity.this, "我的社团获取失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(MyShetuanActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MyShetuanActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case GET_SHETUAN:
                     String getshetuanresult = (String) msg.obj;
-                    if (getshetuanresult.length()!=0){
+                    if (getshetuanresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(getshetuanresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String getshetuandata = jsonObject.getString("data");
                                 JSONObject getshetuan = new JSONObject(getshetuandata);
-                                shetuanMsg = new ShetuanMsg(getshetuan.getString("cmName"),getshetuan.getString("cmDetail"),shetuanbackgroundurl+getshetuan.getString("cmBackground")+".jpg",shetuanlogourl+getshetuan.getString("cmLogo"));
+                                shetuanMsg = new ShetuanMsg(getshetuan.getString("cmName"), getshetuan.getString("cmDetail"), shetuanbackgroundurl + getshetuan.getString("cmBackground") + ".jpg", shetuanlogourl + getshetuan.getString("cmLogo"));
                                 shetuanMsg.setShetuanid(getshetuan.getInt("cmid"));
                                 shetuanMsg.setShetuantype(getshetuan.getInt("cmType"));
                                 shetuanMsg.setShetuanattr(getshetuan.getInt("cmAttr"));
@@ -236,18 +275,29 @@ public class MyShetuanActivity extends AppCompatActivity {
                                 shetuanMsg.setShetuanboss(getshetuan.getLong("cmBoss"));
                                 binding.myShetuanAnnouncement.setText(shetuanMsg.getShtuanannouncement());
                                 binding.myShetuanLogo.setImageURI(shetuanMsg.getLogoimage());
-                                click3();
-                            }else {
-                                Toast.makeText(MyShetuanActivity.this,"获取社团信息失败",Toast.LENGTH_SHORT).show();
+                                if (requestsData.get(spinnercurrentposition).getPosition()==-3){
+                                    Toast.makeText(MyShetuanActivity.this,"您已向该社团提交申请",Toast.LENGTH_SHORT).show();
+                                }else if (requestsData.get(spinnercurrentposition).getPosition()==-2){
+                                    Toast.makeText(MyShetuanActivity.this,"您提交的社团申请已通过审核",Toast.LENGTH_SHORT).show();
+                                }else if (requestsData.get(spinnercurrentposition).getPosition()==-1){
+                                    Toast.makeText(MyShetuanActivity.this,"您已通过该社团的笔试",Toast.LENGTH_SHORT).show();
+                                }else if (requestsData.get(spinnercurrentposition).getPosition()==0){
+                                    Toast.makeText(MyShetuanActivity.this,"您已通过该社团的面试",Toast.LENGTH_SHORT).show();
+                                }else if (requestsData.get(spinnercurrentposition).getPosition()>0) {
+                                    click3();
+                                }
+                            } else {
+                                Toast.makeText(MyShetuanActivity.this, "获取社团信息失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(MyShetuanActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MyShetuanActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };
@@ -255,10 +305,10 @@ public class MyShetuanActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         setdefaultshetuanbody = new FormBody.Builder()
-                .add("cmid",String.valueOf(requestsData.get(spinnercurrentposition).getCmid()))
-                .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                .add("num",String.valueOf(max+1))
-                .add("accesstoken",sharedPreferences.getString("accesstoken",""))
+                .add("cmid", String.valueOf(requestsData.get(spinnercurrentposition).getCmid()))
+                .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                .add("num", String.valueOf(max + 1))
+                .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                 .build();
         new Thread(new SetDefaultShetuanRunnable()).start();
         super.onDestroy();
