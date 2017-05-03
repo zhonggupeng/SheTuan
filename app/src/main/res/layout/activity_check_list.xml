@@ -2,12 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.example.asus.shetuan.activity.act.CheckListActivity">
+        tools:context="com.euswag.eu.activity.act.CheckListActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -32,7 +31,7 @@
 
         </RelativeLayout>
 
-        <com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout
+        <com.euswag.eu.weight.VerticalSwipeRefreshLayout
             android:id="@+id/check_list_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -43,13 +42,13 @@
                 android:layout_height="match_parent"
                 android:scrollbars="none">
 
-                <com.example.asus.shetuan.weight.SlederDeleteRecyclerView
+                <com.euswag.eu.weight.SlederDeleteRecyclerView
                     android:id="@+id/check_list_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                </com.example.asus.shetuan.weight.SlederDeleteRecyclerView>
+                </com.euswag.eu.weight.SlederDeleteRecyclerView>
             </ScrollView>
-        </com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout>
+        </com.euswag.eu.weight.VerticalSwipeRefreshLayout>
     </LinearLayout>
 </layout>

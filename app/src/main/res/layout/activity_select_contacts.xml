@@ -5,7 +5,7 @@
     <data>
         <variable
             name="SelectContacts"
-            type="com.example.asus.shetuan.bean.SelectContacts"/>
+            type="com.euswag.eu.bean.SelectContacts"/>
     </data>
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white"
-        tools:context="com.example.asus.shetuan.activity.funct.SelectContactsActivity">
+        tools:context="com.euswag.eu.activity.funct.SelectContactsActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"

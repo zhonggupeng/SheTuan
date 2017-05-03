@@ -4,7 +4,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
 
-    <com.example.asus.shetuan.weight.sexselector.WheelView
+    <com.euswag.eu.weight.sexselector.WheelView
         android:id="@+id/wheel_view_wv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

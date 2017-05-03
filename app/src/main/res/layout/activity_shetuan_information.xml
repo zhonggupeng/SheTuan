@@ -5,10 +5,10 @@
     <data>
         <variable
             name="shetuanInformation"
-            type="com.example.asus.shetuan.bean.ShetuanInformation"/>
+            type="com.euswag.eu.bean.ShetuanInformation"/>
         <variable
             name="shetuanInformationData"
-            type="com.example.asus.shetuan.bean.ShetuanMsg"/>
+            type="com.euswag.eu.bean.ShetuanMsg"/>
     </data>
 
     <RelativeLayout

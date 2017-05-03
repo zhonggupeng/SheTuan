@@ -2,19 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="homepage"
-            type="com.example.asus.shetuan.bean.Homepage" />
+            type="com.euswag.eu.bean.Homepage" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context="com.example.asus.shetuan.activity.fragment.HomepageFragment">
+        tools:context="com.euswag.eu.activity.fragment.HomepageFragment">
 
-        <com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout
+        <com.euswag.eu.weight.VerticalSwipeRefreshLayout
             android:id="@+id/homepage_swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -23,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.example.asus.shetuan.weight.MyScrollView
+                <com.euswag.eu.weight.MyScrollView
                     android:id="@+id/homepage_scrollview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -187,7 +186,7 @@
 
                         </android.support.v7.widget.RecyclerView>
                     </LinearLayout>
-                </com.example.asus.shetuan.weight.MyScrollView>
+                </com.euswag.eu.weight.MyScrollView>
 
                 <LinearLayout
                     android:id="@+id/homepage_title_layout"
@@ -235,7 +234,7 @@
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
-        </com.example.asus.shetuan.weight.VerticalSwipeRefreshLayout>
+        </com.euswag.eu.weight.VerticalSwipeRefreshLayout>
     </FrameLayout>
 
 </layout>

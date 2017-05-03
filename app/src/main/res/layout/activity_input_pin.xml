@@ -5,7 +5,7 @@
     <data>
         <variable
             name="InputPINTest"
-            type="com.example.asus.shetuan.bean.InputPINTest"/>
+            type="com.euswag.eu.bean.InputPINTest"/>
     </data>
 
     <RelativeLayout

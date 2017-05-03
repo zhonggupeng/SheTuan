@@ -6,7 +6,7 @@
 
         <variable
             name="peosonInformation"
-            type="com.example.asus.shetuan.bean.PeosonInformation" />
+            type="com.euswag.eu.bean.PeosonInformation" />
     </data>
 
     <LinearLayout

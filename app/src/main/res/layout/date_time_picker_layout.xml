@@ -42,35 +42,35 @@
             android:orientation="horizontal"
             android:paddingBottom="10dp">
 
-            <com.example.asus.shetuan.weight.dateselector.widget.WheelView
+            <com.euswag.eu.weight.dateselector.widget.WheelView
                 android:id="@+id/new_year"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dip"
                 android:layout_weight="0.9"/>
 
-            <com.example.asus.shetuan.weight.dateselector.widget.WheelView
+            <com.euswag.eu.weight.dateselector.widget.WheelView
                 android:id="@+id/new_month"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dip"
                 android:layout_weight="1"/>
 
-            <com.example.asus.shetuan.weight.dateselector.widget.WheelView
+            <com.euswag.eu.weight.dateselector.widget.WheelView
                 android:id="@+id/new_day"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dip"
                 android:layout_weight="1"/>
 
-            <com.example.asus.shetuan.weight.dateselector.widget.WheelView
+            <com.euswag.eu.weight.dateselector.widget.WheelView
                 android:id="@+id/new_hour"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dip"
                 android:layout_weight="1"/>
 
-            <com.example.asus.shetuan.weight.dateselector.widget.WheelView
+            <com.euswag.eu.weight.dateselector.widget.WheelView
                 android:id="@+id/new_mins"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="Information"
-            type="com.example.asus.shetuan.bean.InformationFill" />
+            type="com.euswag.eu.bean.InformationFill" />
     </data>
 
     <LinearLayout
@@ -16,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context="com.example.asus.shetuan.activity.login.FillInformationActivity">
+        tools:context="com.euswag.eu.activity.login.FillInformationActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -111,7 +110,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
 
-                    <com.example.asus.shetuan.weight.EditTextWithDel
+                    <com.euswag.eu.weight.EditTextWithDel
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
@@ -178,7 +177,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
 
-                    <com.example.asus.shetuan.weight.EditTextWithDel
+                    <com.euswag.eu.weight.EditTextWithDel
                         android:id="@+id/fill_inform_academe"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -216,7 +215,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
 
-                    <com.example.asus.shetuan.weight.EditTextWithDel
+                    <com.euswag.eu.weight.EditTextWithDel
                         android:id="@+id/fill_inform_studentid"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -254,7 +253,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
 
-                    <com.example.asus.shetuan.weight.EditTextWithDel
+                    <com.euswag.eu.weight.EditTextWithDel
                         android:id="@+id/fill_inform_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

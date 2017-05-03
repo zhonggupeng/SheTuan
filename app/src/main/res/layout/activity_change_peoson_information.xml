@@ -8,7 +8,7 @@
 
         <variable
             name="peosonInformation"
-            type="com.example.asus.shetuan.bean.PeosonInformation" />
+            type="com.euswag.eu.bean.PeosonInformation" />
     </data>
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context="com.example.asus.shetuan.activity.person.ChangePeosonInformationActivity">
+        tools:context="com.euswag.eu.activity.person.ChangePeosonInformationActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                         android:textColor="@color/search_keyword_color"
                         android:textSize="@dimen/font_size" />
 
-                    <com.example.asus.shetuan.weight.EditTextWithDel
+                    <com.euswag.eu.weight.EditTextWithDel
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -146,7 +146,7 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <com.example.asus.shetuan.weight.EditTextWithDel
+                        <com.euswag.eu.weight.EditTextWithDel
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -182,7 +182,7 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <com.example.asus.shetuan.weight.EditTextWithDel
+                        <com.euswag.eu.weight.EditTextWithDel
                             android:id="@+id/textView2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -220,7 +220,7 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <com.example.asus.shetuan.weight.EditTextWithDel
+                        <com.euswag.eu.weight.EditTextWithDel
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -257,7 +257,7 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <com.example.asus.shetuan.weight.EditTextWithDel
+                        <com.euswag.eu.weight.EditTextWithDel
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"

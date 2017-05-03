@@ -4,7 +4,7 @@
     <data>
         <variable
             name="shetuanmsg"
-            type="com.example.asus.shetuan.bean.ShetuanMsg"/>
+            type="com.euswag.eu.bean.ShetuanMsg"/>
     </data>
 
     <RelativeLayout

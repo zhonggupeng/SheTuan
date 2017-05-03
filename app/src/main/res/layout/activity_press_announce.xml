@@ -6,7 +6,7 @@
     <data>
         <variable
             name="pressAnnounce"
-            type="com.example.asus.shetuan.bean.PressAnnounce"/>
+            type="com.euswag.eu.bean.PressAnnounce"/>
     </data>
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/item_space_color"
-        tools:context="com.example.asus.shetuan.activity.shetuan.PressAnnounceActivity">
+        tools:context="com.euswag.eu.activity.shetuan.PressAnnounceActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"

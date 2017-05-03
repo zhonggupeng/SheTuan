@@ -5,7 +5,7 @@
     <data>
         <variable
             name="phone"
-            type="com.example.asus.shetuan.bean.Phone"/>
+            type="com.euswag.eu.bean.Phone"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:focusableInTouchMode="true"
         android:background="@color/white"
-        tools:context="com.example.asus.shetuan.activity.login.InputPhoneActivity">
+        tools:context="com.euswag.eu.activity.login.InputPhoneActivity">
 
         <ImageView
             android:layout_width="match_parent"

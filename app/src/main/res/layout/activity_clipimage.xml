@@ -35,7 +35,7 @@
             android:textSize="16dp" />
     </RelativeLayout>
 
-    <com.example.asus.shetuan.clipimage.ClipImageLayout
+    <com.euswag.eu.clipimage.ClipImageLayout
         android:id="@+id/id_clipImageLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

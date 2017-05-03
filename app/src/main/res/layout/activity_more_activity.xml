@@ -5,7 +5,7 @@
     <data>
         <variable
             name="MoreActivity"
-            type="com.example.asus.shetuan.bean.MoreActivity"/>
+            type="com.euswag.eu.bean.MoreActivity"/>
     </data>
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white"
-        tools:context="com.example.asus.shetuan.activity.act.MoreActivityActivity">
+        tools:context="com.euswag.eu.activity.act.MoreActivityActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"

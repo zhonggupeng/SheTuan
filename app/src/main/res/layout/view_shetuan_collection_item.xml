@@ -2,10 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="shetuancollectionitem"
-            type="com.example.asus.shetuan.bean.ShetuanMsg" />
+            type="com.euswag.eu.bean.ShetuanMsg" />
     </data>
 
     <LinearLayout

@@ -6,7 +6,7 @@
 
         <variable
             name="myshetuan"
-            type="com.example.asus.shetuan.bean.MyShetuan" />
+            type="com.euswag.eu.bean.MyShetuan" />
     </data>
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/item_space_color"
         android:orientation="vertical"
-        tools:context="com.example.asus.shetuan.activity.MyShetuanActivity">
+        tools:context="com.euswag.eu.activity.MyShetuanActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     <data>
         <variable
             name="search"
-            type="com.example.asus.shetuan.bean.Search" />
+            type="com.euswag.eu.bean.Search" />
     </data>
 
     <LinearLayout
@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white"
-        tools:context="com.example.asus.shetuan.activity.SearchActivity">
+        tools:context="com.euswag.eu.activity.SearchActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                         android:padding="@dimen/image_padding"
                         android:src="@drawable/search" />
 
-                    <com.example.asus.shetuan.weight.EditTextWithDel
+                    <com.euswag.eu.weight.EditTextWithDel
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"

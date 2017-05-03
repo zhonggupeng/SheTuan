@@ -6,13 +6,13 @@
     <data>
         <variable
             name="InputPINTest"
-            type="com.example.asus.shetuan.bean.InputPINTest"/>
+            type="com.euswag.eu.bean.InputPINTest"/>
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.asus.shetuan.activity.act.InputRegisterCodeActivity">
+        tools:context="com.euswag.eu.activity.act.InputRegisterCodeActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
