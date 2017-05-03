@@ -45,6 +45,7 @@ public class PressAnnounceActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_press_announce);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         pressAnnounce = new PressAnnounce(this);
+        binding.setPressAnnounce(pressAnnounce);
         getintent = getIntent();
         click();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

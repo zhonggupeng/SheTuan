@@ -58,7 +58,6 @@ public class Login extends BaseObservable {
     public void register(View view){
         //立即注册处理
         Intent intent = new Intent(activity, InputPhoneActivity.class);
-        intent.putExtra("isregister","0");
         activity.startActivity(intent);
     }
 

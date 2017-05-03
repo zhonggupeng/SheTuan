@@ -19,4 +19,9 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>
+
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/still</item>
+        <item name="android:windowExitAnimation">@anim/still</item>
+    </style>
 </resources>

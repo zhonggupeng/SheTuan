@@ -26,20 +26,8 @@ public class Phone extends BaseObservable{
     private String phonenumber;
     private Activity activity;
 
-    public String getIsregister() {
-        return isregister;
-    }
-
-    public void setIsregister(String isregister) {
-        this.isregister = isregister;
-    }
-
-    // 0 表示用户想进行注册，1 表示用户忘记密码转入此页面
-    private String isregister ;
-
     public Phone(Activity activity){
         this.activity = activity;
-        isregister = "0";
     }
 
     @Bindable
@@ -50,11 +38,6 @@ public class Phone extends BaseObservable{
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
         notifyPropertyChanged(BR.phonenumber);
-    }
-    public void tendtoLogin(View view){
-        Intent intent = new Intent(activity, LoginActivity.class);
-        activity.startActivity(intent);
-//        view.getContext().startActivity(intent);
     }
 
 }

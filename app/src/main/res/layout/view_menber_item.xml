@@ -95,7 +95,7 @@
 
             <TextView
                 android:id="@+id/view_menber_delete"
-                android:layout_width="80dp"
+                android:layout_width="90dp"
                 android:layout_height="match_parent"
                 android:background="#FF3A30"
                 android:gravity="center"

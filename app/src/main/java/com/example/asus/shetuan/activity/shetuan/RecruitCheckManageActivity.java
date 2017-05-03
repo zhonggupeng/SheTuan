@@ -42,6 +42,8 @@ public class RecruitCheckManageActivity extends AppCompatActivity implements Swi
     private String getcontactsurl = "https://euswag.com/eu/community/contacts";
     private RequestBody getcontactsbody;
 
+    private String headimageloadurl = "https://euswag.com/picture/user/";
+
     private final int REFRESH = 110;
     private final int GET_CONTACTS = 100;
 
@@ -115,7 +117,7 @@ public class RecruitCheckManageActivity extends AppCompatActivity implements Swi
                                         ShetuanContacts shetuanContacts = new ShetuanContacts();
                                         shetuanContacts.setUid(jsonArray.getJSONObject(i).getLong("uid"));
                                         shetuanContacts.setAcademe(jsonArray.getJSONObject(i).getString("professionclass"));
-                                        shetuanContacts.setAvatar(jsonArray.getJSONObject(i).getString("avatar"));
+                                        shetuanContacts.setAvatar(headimageloadurl+jsonArray.getJSONObject(i).getString("avatar")+".jpg");
                                         shetuanContacts.setGender(jsonArray.getJSONObject(i).getInt("gender"));
                                         shetuanContacts.setGrade(jsonArray.getJSONObject(i).getInt("grade"));
                                         shetuanContacts.setName(jsonArray.getJSONObject(i).getString("name"));

@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (login.getAccountnumber()==null||login.getAccountnumber().length()!=11||login.getAccountnumber().charAt(0)!='1'){
                     Intent intent1 = new Intent(LoginActivity.this,InputPhoneActivity.class);
-                    intent1.putExtra("isregister","1");
                     LoginActivity.this.startActivity(intent1);
                 }
                 else {

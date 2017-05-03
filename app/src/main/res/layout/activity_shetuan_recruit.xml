@@ -128,8 +128,8 @@
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/item_module_space"
-                android:background="@color/item_space_color"></LinearLayout>
+                android:layout_height="@dimen/title_bottom_line"
+                android:background="@color/gray"></LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

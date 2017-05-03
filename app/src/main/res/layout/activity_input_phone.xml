@@ -89,16 +89,6 @@
             android:layout_weight="5">
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/input_phone_tologin"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:text="@string/existing_account"
-            android:gravity="center"
-            android:textColor="@color/cyan"
-            android:textSize="@dimen/title_font_size"
-            android:onClick="@{phone.tendtoLogin}"/>
     </LinearLayout>
 
 </layout>

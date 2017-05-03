@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.asus.shetuan.R;
 import com.example.asus.shetuan.activity.shetuan.ManageShetuanActivity;
+import com.example.asus.shetuan.activity.shetuan.ShetuanPhonelistActivity;
 import com.example.asus.shetuan.activity.shetuan.ShetuanRecruitActivity;
 import com.example.asus.shetuan.bean.CommunityContacts;
 import com.example.asus.shetuan.bean.MyShetuan;
@@ -67,6 +68,7 @@ public class MyShetuanActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_shetuan);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         binding.setMyshetuan(new MyShetuan(this));
+        spinnercurrentposition = -2;
         getmyshetuanbody = new FormBody.Builder()
                 .add("uid", sharedPreferences.getString("phonenumber", "0"))
                 .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
@@ -111,6 +113,8 @@ public class MyShetuanActivity extends AppCompatActivity {
                     intent.putExtra("cmAnnouncement", shetuanMsg.getShtuanannouncement());
                     intent.putExtra("cmDetail", shetuanMsg.getBriefintroduction());
                     intent.putExtra("cmid", shetuanMsg.getShetuanid());
+                    intent.putExtra("boss",shetuanMsg.getShetuanboss());
+                    intent.putExtra("position",requestsData.get(spinnercurrentposition).getPosition());
                     MyShetuanActivity.this.startActivity(intent);
                 }else if (requestsData.get(spinnercurrentposition).getPosition()<1){
                     Toast.makeText(MyShetuanActivity.this,"您未成为该社团的正式成员，没有该权限",Toast.LENGTH_SHORT).show();
@@ -139,7 +143,9 @@ public class MyShetuanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (requestsData.get(spinnercurrentposition).getPosition()>0){
-
+                    Intent intent = new Intent(MyShetuanActivity.this, ShetuanPhonelistActivity.class);
+                    intent.putExtra("cmid", shetuanMsg.getShetuanid());
+                    MyShetuanActivity.this.startActivity(intent);
                 }else {
                     Toast.makeText(MyShetuanActivity.this,"您不是该社团成员，无法获取通讯录",Toast.LENGTH_SHORT).show();
                 }
@@ -312,5 +318,19 @@ public class MyShetuanActivity extends AppCompatActivity {
                 .build();
         new Thread(new SetDefaultShetuanRunnable()).start();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        if (spinnercurrentposition == -2) {
+
+        }else {
+            getshetuanbody = new FormBody.Builder()
+                    .add("cmid", String.valueOf(requestsData.get(spinnercurrentposition).getCmid()))
+                    .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
+                    .build();
+            new Thread(new GetShetuanRunnable()).start();
+        }
+        super.onResume();
     }
 }

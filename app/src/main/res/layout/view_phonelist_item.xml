@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:gravity="center_vertical">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/phonelist_item_headimage"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    fresco:roundedCornerRadius="40dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="4">
+
+                        <TextView
+                            android:id="@+id/phonelist_item_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/title_font_size" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/phonelist_item_position"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/min_font_size" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/phonelist_item_call"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/phonelist_item_message"
+                android:padding="10dp"
+                android:src="@drawable/call2" />
+
+            <ImageView
+                android:id="@+id/phonelist_item_message"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/message_orange" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bottom_line"
+            android:background="@color/gray"></LinearLayout>
+    </LinearLayout>
+</layout>

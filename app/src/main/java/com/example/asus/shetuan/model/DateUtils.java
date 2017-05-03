@@ -21,6 +21,11 @@ public class DateUtils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
         return sdf.format(new java.util.Date());
     }
+    //调用此方法返回当前年份
+    public static String getCurrentYear(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        return sdf.format(new java.util.Date());
+    }
 
     /**
      *  
