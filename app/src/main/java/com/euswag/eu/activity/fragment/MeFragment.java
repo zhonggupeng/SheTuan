@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.euswag.eu.R;
-import com.euswag.eu.activity.MyShetuanActivity;
+import com.euswag.eu.activity.shetuan.MyShetuanActivity;
 import com.euswag.eu.activity.act.ActivityCollectionActivity;
 import com.euswag.eu.activity.act.MyActivityActivity;
 import com.euswag.eu.activity.person.ChangePeosonInformationActivity;

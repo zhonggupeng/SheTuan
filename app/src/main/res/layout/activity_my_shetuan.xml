@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/item_space_color"
         android:orientation="vertical"
-        tools:context="com.euswag.eu.activity.MyShetuanActivity">
+        tools:context="com.euswag.eu.activity.shetuan.MyShetuanActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"

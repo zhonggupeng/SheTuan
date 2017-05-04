@@ -6,7 +6,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.euswag.eu.activity.MainTabActivity;
-import com.euswag.eu.activity.MyShetuanActivity;
+import com.euswag.eu.activity.shetuan.MyShetuanActivity;
 import com.euswag.eu.activity.SearchActivity;
 import com.euswag.eu.activity.act.MyActivityActivity;
 import com.xys.libzxing.zxing.activity.CaptureActivity;

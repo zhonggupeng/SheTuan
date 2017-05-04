@@ -4,13 +4,6 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="peosonInformation"
-            type="com.euswag.eu.bean.PeosonInformation" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -94,32 +87,43 @@
                     android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/title_height"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:gravity="center_vertical"
-                        android:text="@string/nick_name"
-                        android:textColor="@color/search_keyword_color"
-                        android:textSize="@dimen/font_size" />
-
-                    <com.euswag.eu.weight.EditTextWithDel
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:background="@null"
-                        android:gravity="center_vertical"
-                        android:padding="10dp"
-                        android:text="@={peosonInformation.nickname}"
-                        android:textColor="@color/black"
-                        android:textCursorDrawable="@null"
-                        android:textSize="@dimen/font_size" />
-                </LinearLayout>
+                        android:layout_height="@dimen/title_height"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
+                            android:text="@string/nick_name"
+                            android:textColor="@color/search_keyword_color"
+                            android:textSize="@dimen/font_size" />
+
+                        <TextView
+                            android:id="@+id/change_inform_nickname"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingRight="30dp"
+                            android:gravity="center_vertical|right"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/font_size" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_goto" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -130,7 +134,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -146,17 +151,23 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <com.euswag.eu.weight.EditTextWithDel
+                        <TextView
+                            android:id="@+id/change_inform_sex"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:gravity="center_vertical"
+                            android:paddingRight="30dp"
+                            android:gravity="center_vertical|right"
                             android:padding="10dp"
-                            android:text="@={peosonInformation.gender}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
 
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_goto" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -166,7 +177,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -182,17 +194,22 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <com.euswag.eu.weight.EditTextWithDel
-                            android:id="@+id/textView2"
+                        <TextView
+                            android:id="@+id/change_inform_acamde"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:gravity="center_vertical"
+                            android:paddingRight="30dp"
+                            android:gravity="center_vertical|right"
                             android:padding="10dp"
-                            android:text="@={peosonInformation.academe}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_goto" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -204,7 +221,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -220,16 +238,22 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <com.euswag.eu.weight.EditTextWithDel
+                        <TextView
+                            android:id="@+id/change_inform_studentid"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:gravity="center_vertical"
+                            android:paddingRight="30dp"
+                            android:gravity="center_vertical|right"
                             android:padding="10dp"
-                            android:text="@={peosonInformation.studentid}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_goto" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -241,7 +265,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -257,25 +282,139 @@
                             android:textColor="@color/search_keyword_color"
                             android:textSize="@dimen/font_size" />
 
-                        <com.euswag.eu.weight.EditTextWithDel
+                        <TextView
+                            android:id="@+id/change_inform_name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:gravity="center_vertical"
+                            android:paddingRight="30dp"
+                            android:gravity="center_vertical|right"
                             android:padding="10dp"
-                            android:text="@={peosonInformation.name}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_goto" />
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_bottom_line"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@color/gray"></LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_height"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
+                            android:text="入学年份"
+                            android:textColor="@color/search_keyword_color"
+                            android:textSize="@dimen/font_size" />
+
+                        <TextView
+                            android:id="@+id/change_inform_entryyear"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingRight="30dp"
+                            android:gravity="center_vertical|right"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/font_size" />
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_goto" />
                 </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_height"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/change_inform_change_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
+                            android:text="修改账号密码"
+                            android:textColor="@color/search_keyword_color"
+                            android:textSize="@dimen/font_size" />
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_goto" />
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_bottom_line"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@color/gray"></LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_height"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/change_inform_identify"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:gravity="center_vertical"
+                            android:text="身份认证"
+                            android:textColor="@color/search_keyword_color"
+                            android:textSize="@dimen/font_size" />
+
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_goto" />
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_module_space"
+                    android:background="@color/item_space_color"></LinearLayout>
 
                 <TextView
-                    android:id="@+id/change_inform_confirm"
+                    android:id="@+id/change_inform_exit"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/title_height"
                     android:layout_marginBottom="5dp"
@@ -283,7 +422,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@color/orange"
                     android:gravity="center"
-                    android:text="确认"
+                    android:text="退出当前账号"
                     android:textColor="@color/title_font_color"
                     android:textSize="@dimen/title_font_size" />
             </LinearLayout>

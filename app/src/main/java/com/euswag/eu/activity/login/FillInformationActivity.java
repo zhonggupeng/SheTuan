@@ -102,7 +102,7 @@ public class FillInformationActivity extends AppCompatActivity {
                 }else if (informationFill.getName()==null||informationFill.getName().length()==0){
                     Toast.makeText(FillInformationActivity.this,"未填写姓名",Toast.LENGTH_SHORT).show();
                 }else if (binding.fillInformEntryyear.getText()==null||binding.fillInformEntryyear.getText().length()==0){
-                    Toast.makeText(FillInformationActivity.this,"未选择入学年份",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FillInformationActivity.this,"未填写入学年份",Toast.LENGTH_SHORT).show();
                 } else if (headimagepath==null||headimagepath.length()==0){
                     Toast.makeText(FillInformationActivity.this,"请设置头像",Toast.LENGTH_SHORT).show();
                 }else {

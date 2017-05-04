@@ -20,9 +20,10 @@
                 android:background="@color/main_color">
 
                 <ImageView
-                    android:layout_width="@dimen/title_image_width"
+                    android:layout_width="@dimen/title_height"
                     android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:padding="10dp"
                     android:src="@drawable/ic_back" />
 
                 <TextView
@@ -70,8 +71,7 @@
                         <ImageView
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@mipmap/ic_launcher"/>
+                            android:layout_weight="1" />
 
                     </LinearLayout>
                 </LinearLayout>

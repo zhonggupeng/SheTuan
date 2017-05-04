@@ -8,19 +8,15 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ffffffff">
+        android:background="@color/main_color">
 
-        <TextView
-            android:layout_width="60dp"
+        <ImageView
+            android:id="@+id/clipimage_backimage"
+            android:layout_width="@dimen/title_height"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:drawableLeft="@drawable/ic_navigate_before_black_24dp"
-            android:gravity="center"
-            android:text="照片"
-            android:textColor="#18B4ED"
-            android:textSize="14dp" />
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -31,8 +27,8 @@
             android:layout_marginLeft="100dp"
             android:layout_marginRight="20dp"
             android:text="移动和缩放"
-            android:textColor="#ff000000"
-            android:textSize="16dp" />
+            android:textColor="@color/title_font_color"
+            android:textSize="@dimen/title_font_size" />
     </RelativeLayout>
 
     <com.euswag.eu.clipimage.ClipImageLayout

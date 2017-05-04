@@ -61,8 +61,11 @@ public class ClipActivity extends Activity{
 				}).start();
 			}
 		});
+		findViewById(R.id.clipimage_backimage).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ClipActivity.this.onBackPressed();
+			}
+		});
 	}
-	
-	
-	
 }

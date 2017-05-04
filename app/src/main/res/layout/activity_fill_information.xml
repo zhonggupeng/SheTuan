@@ -23,8 +23,10 @@
             android:background="@color/main_color">
 
             <ImageView
-                android:layout_width="@dimen/title_image_width"
+                android:layout_width="@dimen/title_height"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:padding="10dp"
                 android:onClick="@{Information.backimageclick}"
                 android:src="@drawable/ic_back" />
 
@@ -151,7 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical|right"
-                        android:hint="点击选择性别"
+                        android:hint="请选择性别"
                         android:paddingRight="30dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
@@ -260,6 +262,8 @@
                         android:background="@null"
                         android:gravity="center_vertical|right"
                         android:hint="@string/student_name_hint"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/fill_inform_entryyear"
                         android:singleLine="true"
                         android:text="@={Information.name}"
                         android:textColor="@color/black"
@@ -289,14 +293,17 @@
                         android:text="入学年份"
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size" />
-                    <TextView
+                    <com.euswag.eu.weight.EditTextWithDel
                         android:id="@+id/fill_inform_entryyear"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textColor="@color/black"
                         android:textSize="@dimen/font_size"
+                        android:text="@={Information.entryyear}"
                         android:gravity="center_vertical|right"
-                        android:hint="请选择入学年份"/>
+                        android:hint="请填写入学年份，例：2017"
+                        android:background="@null"
+                        android:textCursorDrawable="@null"/>
                 </LinearLayout>
 
                 <LinearLayout

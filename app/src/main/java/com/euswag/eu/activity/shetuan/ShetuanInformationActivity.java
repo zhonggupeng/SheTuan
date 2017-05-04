@@ -158,6 +158,7 @@ public class ShetuanInformationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (binding.shetuanInformationFunctbutton.getText().equals("申请加入")) {
                     final EditTextWithDel editTextWithDel = new EditTextWithDel(ShetuanInformationActivity.this);
+                    editTextWithDel.setBackgroundResource(R.drawable.pin_edit_sharp);
                     new AlertDialog.Builder(ShetuanInformationActivity.this).setTitle("申请理由")
                             .setView(editTextWithDel)
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
