@@ -18,7 +18,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".activity.WelcomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeTwo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -97,21 +98,36 @@
         <activity
             android:name=".activity.DetailsQRcodeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.act.RegisterDetailActivity" />
-        <activity android:name=".activity.act.ParticipateMemberActivity" />
-        <activity android:name=".activity.act.InputRegisterCodeActivity" />
-        <activity android:name=".activity.shetuan.ShetuanMemberActivity" />
-        <activity android:name=".activity.shetuan.ManageShetuanActivity" />
-        <activity android:name=".activity.shetuan.ChangeShetuanActivity" />
-        <activity android:name=".activity.shetuan.PressAnnounceActivity" />
-        <activity android:name=".activity.shetuan.SetManagerActivity" />
-        <activity android:name=".activity.shetuan.ShetuanCollectionActivity" />
-        <activity android:name=".activity.shetuan.ShetuanRecruitActivity" />
-        <activity android:name=".activity.shetuan.RecruitCheckManageActivity" />
-        <activity android:name=".activity.shetuan.ShetuanPhonelistActivity" />
-        <activity android:name=".activity.shetuan.CancelManagerActivity" />
-        <activity android:name=".activity.shetuan.MoveMemberActivity" />
-        <activity android:name=".activity.shetuan.DeliverShetuanActivity"></activity>
+        <activity android:name=".activity.act.RegisterDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.act.ParticipateMemberActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.act.InputRegisterCodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.ShetuanMemberActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.ManageShetuanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.ChangeShetuanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.PressAnnounceActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.SetManagerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.ShetuanCollectionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.ShetuanRecruitActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.RecruitCheckManageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.ShetuanPhonelistActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.CancelManagerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.MoveMemberActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shetuan.DeliverShetuanActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

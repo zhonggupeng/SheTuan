@@ -29,7 +29,6 @@ import com.euswag.eu.activity.login.InputPhoneActivity;
 import com.euswag.eu.bean.PeosonInformation;
 import com.euswag.eu.clipimage.ClipActivity;
 import com.euswag.eu.databinding.ActivityChangePeosonInformationBinding;
-import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 import com.euswag.eu.weight.EditTextWithDel;
 
@@ -441,6 +440,7 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                             result = jsonObject.getInt("status");
                             if (result == 200) {
                                 Toast.makeText(ChangePeosonInformationActivity.this,"信息修改成功",Toast.LENGTH_SHORT).show();
+                                new Thread(new RequestPeopleRunnable()).start();
                             } else {
                                 Toast.makeText(ChangePeosonInformationActivity.this, "修改信息失败，请重试", Toast.LENGTH_SHORT).show();
                             }
@@ -559,4 +559,5 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }

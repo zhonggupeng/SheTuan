@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.euswag.eu.R;
 import com.euswag.eu.databinding.ActivityAccountPasswordReviseBinding;
-import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -28,7 +27,7 @@ public class AccountPasswordReviseActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private OKHttpConnect okHttpConnect;
-    private String passwordreviseurl="https://euswag.com/eu/user/changepwd";
+    private String passwordreviseurl = "https://euswag.com/eu/user/changepwd";
     private RequestBody passwordrevisebody;
 
     private final int PASSWORD_REVISE = 110;
@@ -40,7 +39,8 @@ public class AccountPasswordReviseActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         click();
     }
-    private void click(){
+
+    private void click() {
         binding.accountPasswordReviseBackimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,37 +50,38 @@ public class AccountPasswordReviseActivity extends AppCompatActivity {
         binding.accountPasswordReviseFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.accountPasswordReviseOldpassword.getText()==null||binding.accountPasswordReviseOldpassword.getText().length()==0){
-                    Toast.makeText(AccountPasswordReviseActivity.this,"请填写旧密码",Toast.LENGTH_SHORT).show();
-                }else if (binding.accountPasswordReviseNewpassword.getText()==null||binding.accountPasswordReviseNewpassword.getText().length()==0){
-                    Toast.makeText(AccountPasswordReviseActivity.this,"请填写新密码",Toast.LENGTH_SHORT).show();
-                }else if (binding.accountPasswordReviseNewpasswordConfirm.getText()==null||binding.accountPasswordReviseNewpasswordConfirm.getText().length()==0){
-                    Toast.makeText(AccountPasswordReviseActivity.this,"请确认新密码",Toast.LENGTH_SHORT).show();
-                }else if (!(binding.accountPasswordReviseNewpassword.getText().equals(binding.accountPasswordReviseNewpasswordConfirm.getText()))){
-                    Toast.makeText(AccountPasswordReviseActivity.this,"新密码不一致",Toast.LENGTH_SHORT).show();
-                }else {
+                System.out.println(binding.accountPasswordReviseOldpassword.getText());
+                System.out.println(binding.accountPasswordReviseNewpassword.getText());
+                System.out.println(binding.accountPasswordReviseNewpasswordConfirm.getText());
+                if (binding.accountPasswordReviseOldpassword.getText() == null || binding.accountPasswordReviseOldpassword.getText().length() == 0) {
+                    Toast.makeText(AccountPasswordReviseActivity.this, "请填写旧密码", Toast.LENGTH_SHORT).show();
+                } else if (binding.accountPasswordReviseNewpassword.getText() == null || binding.accountPasswordReviseNewpassword.getText().length() == 0) {
+                    Toast.makeText(AccountPasswordReviseActivity.this, "请填写新密码", Toast.LENGTH_SHORT).show();
+                } else if (binding.accountPasswordReviseNewpasswordConfirm.getText() == null || binding.accountPasswordReviseNewpasswordConfirm.getText().length() == 0) {
+                    Toast.makeText(AccountPasswordReviseActivity.this, "请确认新密码", Toast.LENGTH_SHORT).show();
+                } else if (!(binding.accountPasswordReviseNewpassword.getText().toString().equals(binding.accountPasswordReviseNewpasswordConfirm.getText().toString()))) {
+                    Toast.makeText(AccountPasswordReviseActivity.this, "新密码不一致", Toast.LENGTH_SHORT).show();
+                } else {
                     passwordrevisebody = new FormBody.Builder()
-                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
-                            .add("oldpwd",binding.accountPasswordReviseOldpassword.getText().toString())
-                            .add("newpwd",binding.accountPasswordReviseNewpassword.getText().toString())
+                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                            .add("oldpwd", binding.accountPasswordReviseOldpassword.getText().toString())
+                            .add("newpwd", binding.accountPasswordReviseNewpassword.getText().toString())
                             .build();
-                    if (NetWorkState.checkNetWorkState(AccountPasswordReviseActivity.this)) {
-                        new Thread(new PasswordReviseRunnable()).start();
-                    }
+                    new Thread(new PasswordReviseRunnable()).start();
                 }
             }
         });
     }
 
-    private class PasswordReviseRunnable implements Runnable{
+    private class PasswordReviseRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(passwordreviseurl,passwordrevisebody);
+                resultstring = okHttpConnect.postdata(passwordreviseurl, passwordrevisebody);
                 Message message = handler.obtainMessage();
                 message.what = PASSWORD_REVISE;
                 message.obj = resultstring;
@@ -90,36 +91,39 @@ public class AccountPasswordReviseActivity extends AppCompatActivity {
             }
         }
     }
-    private Handler handler = new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case PASSWORD_REVISE:
                     String passwordreviseresult = (String) msg.obj;
-                    if (passwordreviseresult.length()!=0){
+                    if (passwordreviseresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(passwordreviseresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("accesstoken", jsonObject.getString("data"));
                                 editor.commit();
+                                Toast.makeText(AccountPasswordReviseActivity.this, "成功修改密码", Toast.LENGTH_SHORT).show();
                                 AccountPasswordReviseActivity.this.finish();
-                            }else if (result == 401){
-                                Toast.makeText(AccountPasswordReviseActivity.this,jsonObject.getString("data"),Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(AccountPasswordReviseActivity.this,"修改密码失败",Toast.LENGTH_SHORT).show();
+                            } else if (result == 401) {
+                                Toast.makeText(AccountPasswordReviseActivity.this, jsonObject.getString("data"), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(AccountPasswordReviseActivity.this, "修改密码失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(AccountPasswordReviseActivity.this,"",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(AccountPasswordReviseActivity.this, "", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };

@@ -7,6 +7,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="AppThemeTwo" parent="Theme.AppCompat.Light.NoActionBar">
+            <item name="android:windowBackground">@mipmap/loading</item>
+            <!-- Customize your theme here. -->
+        </style>  
 
     <style name="AnimBottom" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>

@@ -31,8 +31,35 @@
                 android:text="招新管理"
                 android:textColor="@color/title_font_color"
                 android:textSize="@dimen/title_font_size" />
+            <TextView
+                android:id="@+id/recruit_check_manage_nextstep"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:text="下一步"
+                android:textSize="@dimen/font_size"
+                android:textColor="@color/title_font_color"
+                android:gravity="center"
+                android:layout_marginRight="5dp"
+                android:padding="8dp"/>
 
         </RelativeLayout>
+        <CheckBox
+            android:id="@+id/recruit_check_manage_selectall"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/module_item_height"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="全选"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bottom_line"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@color/gray">
+        </LinearLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/recruit_check_manage_refresh"

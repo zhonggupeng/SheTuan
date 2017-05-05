@@ -27,7 +27,6 @@ import com.euswag.eu.bean.ActivityMsg;
 import com.euswag.eu.bean.Homepage;
 import com.euswag.eu.databinding.FragmentHomepageBinding;
 import com.euswag.eu.model.DateUtils;
-import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 import com.euswag.eu.model.ViewPagerJson;
 import com.euswag.eu.weight.MyScrollView;
@@ -108,22 +107,15 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                             .build();
                     activitybody = new FormBody.Builder()
                             .build();
-                    if (NetWorkState.checkNetWorkState(inflater.getContext())) {
-                        new Thread(new ViewpagerRunnable()).start();
-                        new Thread(new ActivityRefreshRunable()).start();
-                    }
+                    new Thread(new ViewpagerRunnable()).start();
+                    new Thread(new ActivityRefreshRunable()).start();
                     binding.homepageSwipeRefresh.setRefreshing(false);
                     break;
                 case LOAD_MORE:
                     activityloadmorebody = new FormBody.Builder()
-                            .add("maxtime",loadmoreParam)
+                            .add("maxtime", loadmoreParam)
                             .build();
-                    if (NetWorkState.checkNetWorkState(inflater.getContext())) {
-                        new Thread(new ActivityLoadMoreRunable()).start();
-                    }else {
-                        homepageActivityAdapter.setStatus(LOADERROR);
-                        changeAdapterState(LOADERROR);
-                    }
+                    new Thread(new ActivityLoadMoreRunable()).start();
                     break;
                 case LOADVIEWPAGER:
                     String loadviewpagerresult = (String) msg.obj;
@@ -210,9 +202,9 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
                                     activityMsg.setIsparticipate("0");
                                     activityMsg.setActprice(activityRefreshJsonArray.getJSONObject(i).getDouble("avPrice"));
-                                    if (sharedPreferences.getString("phonenumber", "0").equals(activityRefreshJsonArray.getJSONObject(i).getLong("uid"))){
+                                    if (sharedPreferences.getString("phonenumber", "0").equals(activityRefreshJsonArray.getJSONObject(i).getLong("uid"))) {
                                         activityMsg.setIsbuild(1);
-                                    }else {
+                                    } else {
                                         activityMsg.setIsbuild(0);
                                     }
                                     mData.add(activityMsg);
@@ -256,9 +248,9 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                         ActivityMsg activityMsg = new ActivityMsg(activityLoadMoreJsonArray.getJSONObject(i).getString("avTitle"), activityLoadMoreJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityLoadMoreJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl + activityLoadMoreJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
                                         activityMsg.setActivityDetailJsonString(activityLoadMoreJsonArray.getJSONObject(i).toString());
                                         activityMsg.setIsparticipate("0");
-                                        if (sharedPreferences.getString("phonenumber", "0").equals(String.valueOf(activityLoadMoreJsonArray.getJSONObject(i).getLong("uid")))){
+                                        if (sharedPreferences.getString("phonenumber", "0").equals(String.valueOf(activityLoadMoreJsonArray.getJSONObject(i).getLong("uid")))) {
                                             activityMsg.setIsbuild(1);
-                                        }else {
+                                        } else {
                                             activityMsg.setIsbuild(0);
                                         }
                                         activityMsg.setActprice(activityLoadMoreJsonArray.getJSONObject(i).getDouble("avPrice"));
@@ -405,7 +397,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(viewpagerurl,viewpagebody);
+                resultstring = okHttpConnect.postdata(viewpagerurl, viewpagebody);
                 Message message = handler.obtainMessage();
                 message.what = LOADVIEWPAGER;
                 message.obj = resultstring;
@@ -423,7 +415,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
             okHttpConnect = new OKHttpConnect();
             String restultstring;
             try {
-                restultstring = okHttpConnect.postdata(activityurl,activitybody);
+                restultstring = okHttpConnect.postdata(activityurl, activitybody);
                 Message message = handler.obtainMessage();
                 message.what = ACTIVITYREFRESH;
                 message.obj = restultstring;
@@ -441,7 +433,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(activityurl,activityloadmorebody);
+                resultstring = okHttpConnect.postdata(activityurl, activityloadmorebody);
                 Message message = handler.obtainMessage();
                 message.what = ACTIVITYLOADMORE;
                 message.obj = resultstring;

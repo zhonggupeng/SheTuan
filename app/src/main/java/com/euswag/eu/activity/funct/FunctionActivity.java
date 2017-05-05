@@ -17,7 +17,6 @@ import com.euswag.eu.R;
 import com.euswag.eu.activity.act.ActivityDetailActivity;
 import com.euswag.eu.activity.act.MyActivityActivity;
 import com.euswag.eu.databinding.ActivityFunctionBinding;
-import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
@@ -77,7 +76,8 @@ public class FunctionActivity extends AppCompatActivity {
         click();
 
     }
-    private void click(){
+
+    private void click() {
         binding.mainPublishDialogLlBtnMenu.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -96,23 +96,23 @@ public class FunctionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FunctionActivity.this, PressActivityActivity.class);
-                intent.putExtra("presstype",0);
+                intent.putExtra("presstype", 0);
                 FunctionActivity.this.startActivity(intent);
             }
         });
         binding.functionViewWritenotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FunctionActivity.this,MyActivityActivity.class);
-                intent.putExtra("page",1);
+                Intent intent = new Intent(FunctionActivity.this, MyActivityActivity.class);
+                intent.putExtra("page", 1);
                 FunctionActivity.this.startActivity(intent);
             }
         });
         binding.functionViewScanning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FunctionActivity.this,CaptureActivity.class);
-                FunctionActivity.this.startActivityForResult(intent,0);
+                Intent intent = new Intent(FunctionActivity.this, CaptureActivity.class);
+                FunctionActivity.this.startActivityForResult(intent, 0);
             }
         });
     }
@@ -139,52 +139,49 @@ public class FunctionActivity extends AppCompatActivity {
             }
         }, 100);
         super.onBackPressed();
-        overridePendingTransition(0,R.anim.mainactivity_fade_out);
+        overridePendingTransition(0, R.anim.mainactivity_fade_out);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             Bundle bundle = data.getExtras();
             String resultstring = bundle.getString("result");
-            if (resultstring.indexOf("www.euswag.com?")==0) {
+            if (resultstring.indexOf("www.euswag.com?") == 0) {
                 String[] resultarray = resultstring.split("\\?|=");
-                if (resultarray.length==3) {
+                if (resultarray.length == 3) {
                     if (resultarray[1].equals("avid")) {
                         getactivitybody = new FormBody.Builder()
-                                .add("avid",resultarray[2])
-                                .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                                .add("avid", resultarray[2])
+                                .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
                                 .build();
-                        if (NetWorkState.checkNetWorkState(FunctionActivity.this)) {
-                            new Thread(new GetAcitivityRunnable()).start();
-                        }
-                    }else {
+                        new Thread(new GetAcitivityRunnable()).start();
+                    } else {
                         //
                         //转到社团
                     }
                 } else {
                     registerfinishbody = new FormBody.Builder()
-                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
-                            .add("avid",resultarray[2])
+                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid", resultarray[2])
                             .build();
-                    if (NetWorkState.checkNetWorkState(FunctionActivity.this)) {
-                        new Thread(new RegisterFinishRunnable()).start();
-                    }
+                    new Thread(new RegisterFinishRunnable()).start();
                 }
-            }else {
+            } else {
                 Toast.makeText(this, bundle.getString("result"), Toast.LENGTH_SHORT).show();
             }
         }
     }
-    private class GetAcitivityRunnable implements Runnable{
+
+    private class GetAcitivityRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(getactivityurl,getactivitybody);
+                resultstring = okHttpConnect.postdata(getactivityurl, getactivitybody);
                 Message message = nethandler.obtainMessage();
                 message.what = GETACTIVITY;
                 message.obj = resultstring;
@@ -194,14 +191,15 @@ public class FunctionActivity extends AppCompatActivity {
             }
         }
     }
-    private class RegisterFinishRunnable implements Runnable{
+
+    private class RegisterFinishRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(registerfinishurl,registerfinishbody);
+                resultstring = okHttpConnect.postdata(registerfinishurl, registerfinishbody);
                 Message message = nethandler.obtainMessage();
                 message.what = REGISTER;
                 message.obj = resultstring;
@@ -212,56 +210,57 @@ public class FunctionActivity extends AppCompatActivity {
         }
     }
 
-    private Handler nethandler = new Handler(){
+    private Handler nethandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case GETACTIVITY:
                     String getactivityresult = (String) msg.obj;
-                    if (getactivityresult.length()!=0){
+                    if (getactivityresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(getactivityresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                Intent intent = new Intent(FunctionActivity.this,ActivityDetailActivity.class);
-                                intent.putExtra("datajson1",jsonObject.getString("data"));
-                                intent.putExtra("isparticipate","0");
+                            if (result == 200) {
+                                Intent intent = new Intent(FunctionActivity.this, ActivityDetailActivity.class);
+                                intent.putExtra("datajson1", jsonObject.getString("data"));
+                                intent.putExtra("isparticipate", "0");
                                 FunctionActivity.this.startActivity(intent);
-                            }else {
-                                Toast.makeText(FunctionActivity.this,"请求活动详情失败",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(FunctionActivity.this, "请求活动详情失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(FunctionActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(FunctionActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case REGISTER:
                     String registerresult = (String) msg.obj;
-                    if (registerresult.length()!=0){
+                    if (registerresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(registerresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                Toast.makeText(FunctionActivity.this,"签到成功",Toast.LENGTH_SHORT).show();
-                            }else if (result == 400){
-                                Toast.makeText(FunctionActivity.this,"你未参加该活动或该签到二维码已失效",Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(FunctionActivity.this,"签到失败",Toast.LENGTH_SHORT).show();
+                            if (result == 200) {
+                                Toast.makeText(FunctionActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
+                            } else if (result == 400) {
+                                Toast.makeText(FunctionActivity.this, "你未参加该活动或该签到二维码已失效", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(FunctionActivity.this, "签到失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(FunctionActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(FunctionActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };

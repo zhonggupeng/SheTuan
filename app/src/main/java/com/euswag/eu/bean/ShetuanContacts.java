@@ -100,4 +100,14 @@ public class ShetuanContacts extends BaseObservable {
         notifyPropertyChanged(BR.academe);
     }
 
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+
+    private boolean isCheck;
+
 }

@@ -29,12 +29,6 @@
                         android:layout_height="@dimen/title_height"
                         android:gravity="center_vertical">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="20dp"
-                            android:src="@drawable/setting_white" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -451,7 +445,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/item_module_space_larger"
+                    android:layout_height="@dimen/item_module_space"
                     android:background="@color/item_space_color"></LinearLayout>
             </LinearLayout>
         </ScrollView>

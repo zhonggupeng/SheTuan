@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
-public class ActivityCollectionActivity extends AppCompatActivity implements VerticalSwipeRefreshLayout.OnRefreshListener{
+public class ActivityCollectionActivity extends AppCompatActivity implements VerticalSwipeRefreshLayout.OnRefreshListener {
     private ActivityCollectionBinding binding;
     private SharedPreferences sharedPreferences;
     private OKHttpConnect okHttpConnect;
@@ -53,7 +53,7 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         adapter = new NoLoadmoreActivityRecyclerviewAdapter(this);
-        binding.activityCollectionRecyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false) {
+        binding.activityCollectionRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -66,7 +66,7 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
         click();
     }
 
-    private void click(){
+    private void click() {
         binding.activityCollectionBackimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,14 +80,14 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
         handler.sendEmptyMessage(REFRESH);
     }
 
-    private class RefreshCollectionRunnable implements Runnable{
+    private class RefreshCollectionRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(loadcollectionurl,loadcollectionbody);
+                resultstring = okHttpConnect.postdata(loadcollectionurl, loadcollectionbody);
                 Message message = handler.obtainMessage();
                 message.what = LOADCOLLECTION;
                 message.obj = resultstring;
@@ -97,33 +97,32 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
             }
         }
     }
-    private Handler handler = new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case REFRESH:
                     loadcollectionbody = new FormBody.Builder()
-                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
                             .build();
-                    if (NetWorkState.checkNetWorkState(ActivityCollectionActivity.this)) {
-                        new Thread(new RefreshCollectionRunnable()).start();
-                    }
+                    new Thread(new RefreshCollectionRunnable()).start();
                     binding.activityCollectionRefresh.setRefreshing(false);
                     break;
                 case LOADCOLLECTION:
                     String refreshresult = (String) msg.obj;
-                    if (refreshresult.length()!=0){
+                    if (refreshresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(refreshresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String refreshdata = jsonObject.getString("data");
-                                if (refreshdata.equals("null")){
+                                if (refreshdata.equals("null")) {
 
-                                }else {
+                                } else {
                                     JSONTokener activityRefreshJsonTokener = new JSONTokener(refreshdata);
                                     JSONArray activityRefreshJsonArray = null;
                                     activityRefreshJsonArray = (JSONArray) activityRefreshJsonTokener.nextValue();
@@ -140,19 +139,20 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
                                 }
                                 adapter.setmData(null);
                                 adapter.setmData(mData);
-                            }else {
-                                Toast.makeText(ActivityCollectionActivity.this,"加载失败",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivityCollectionActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(ActivityCollectionActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ActivityCollectionActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     binding.activityCollectionRecyclerview.removeAllViews();
                     binding.activityCollectionRecyclerview.setAdapter(adapter);
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };

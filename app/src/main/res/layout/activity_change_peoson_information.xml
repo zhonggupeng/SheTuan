@@ -94,7 +94,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
+                        android:layout_height="@dimen/module_item_height"
                         android:orientation="horizontal">
 
                         <TextView
@@ -112,7 +112,6 @@
                             android:layout_height="match_parent"
                             android:paddingRight="30dp"
                             android:gravity="center_vertical|right"
-                            android:padding="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -139,7 +138,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
+                        android:layout_height="@dimen/module_item_height"
                         android:orientation="horizontal">
 
                         <TextView
@@ -157,7 +156,6 @@
                             android:layout_height="match_parent"
                             android:paddingRight="30dp"
                             android:gravity="center_vertical|right"
-                            android:padding="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -182,7 +180,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
+                        android:layout_height="@dimen/module_item_height"
                         android:orientation="horizontal">
 
                         <TextView
@@ -200,7 +198,6 @@
                             android:layout_height="match_parent"
                             android:paddingRight="30dp"
                             android:gravity="center_vertical|right"
-                            android:padding="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -226,7 +223,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
+                        android:layout_height="@dimen/module_item_height"
                         android:orientation="horizontal">
 
                         <TextView
@@ -244,7 +241,6 @@
                             android:layout_height="match_parent"
                             android:paddingRight="30dp"
                             android:gravity="center_vertical|right"
-                            android:padding="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -270,7 +266,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
+                        android:layout_height="@dimen/module_item_height"
                         android:orientation="horizontal">
 
                         <TextView
@@ -288,7 +284,6 @@
                             android:layout_height="match_parent"
                             android:paddingRight="30dp"
                             android:gravity="center_vertical|right"
-                            android:padding="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -313,7 +308,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
+                        android:layout_height="@dimen/module_item_height"
                         android:orientation="horizontal">
 
                         <TextView
@@ -331,7 +326,6 @@
                             android:layout_height="match_parent"
                             android:paddingRight="30dp"
                             android:gravity="center_vertical|right"
-                            android:padding="10dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
                     </LinearLayout>
@@ -354,7 +348,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
+                        android:layout_height="@dimen/module_item_height"
                         android:orientation="horizontal">
 
                         <TextView
@@ -387,7 +381,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/title_height"
+                        android:layout_height="@dimen/module_item_height"
                         android:orientation="horizontal">
 
                         <TextView

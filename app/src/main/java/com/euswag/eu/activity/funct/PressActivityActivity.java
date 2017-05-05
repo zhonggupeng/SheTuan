@@ -29,7 +29,6 @@ import com.euswag.eu.bean.PressActivity;
 import com.euswag.eu.clipimage.ClipActivity;
 import com.euswag.eu.databinding.ActivityPressActivityBinding;
 import com.euswag.eu.model.DateUtils;
-import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 import com.euswag.eu.weight.dateselector.DataSelect;
 
@@ -99,8 +98,8 @@ public class PressActivityActivity extends AppCompatActivity {
         binding.setPressactivity(pressActivity);
 
         Intent intent = getIntent();
-        presstype = intent.getIntExtra("presstype",0);
-        if (presstype == 1){
+        presstype = intent.getIntExtra("presstype", 0);
+        if (presstype == 1) {
             JSONObject jsonObject;
             try {
                 jsonObject = new JSONObject(intent.getStringExtra("datajson"));
@@ -108,21 +107,21 @@ public class PressActivityActivity extends AppCompatActivity {
                 pressActivity.setPlace(jsonObject.getString("avPlace"));
                 pressActivity.setPrice(String.valueOf(jsonObject.getDouble("avPrice")));
                 pressActivity.setDetail(jsonObject.getString("avDetail"));
-                if (jsonObject.getInt("avExpectnum")==0){
+                if (jsonObject.getInt("avExpectnum") == 0) {
                     pressActivity.setExpectnum("不限");
-                }else {
+                } else {
                     pressActivity.setExpectnum(String.valueOf(jsonObject.getInt("avExpectnum")));
                 }
-                binding.pressActivityActivityimage.setImageURI(activityimageloadurl+jsonObject.getString("avLogo")+".jpg");
+                binding.pressActivityActivityimage.setImageURI(activityimageloadurl + jsonObject.getString("avLogo") + ".jpg");
 //                binding.pressActivitySelectStarttime.setText(DateUtils.timet2(jsonObject.getString("avStarttime")));
 //                binding.pressActivitySelectEndtime.setText(DateUtils.timet2(jsonObject.getString("avEndtime")));
 //                binding.pressActivitySelectEnrolldeadtime.setText(DateUtils.timet2(jsonObject.getString("avEnrolldeadline")));
                 pressActivity.setStarttime(DateUtils.timet2(jsonObject.getString("avStarttime")));
                 pressActivity.setEndtime(DateUtils.timet2(jsonObject.getString("avEndtime")));
                 pressActivity.setEnrolldeadline(DateUtils.timet2(jsonObject.getString("avEnrolldeadline")));
-                if (jsonObject.getInt("avRegister")==-1){
+                if (jsonObject.getInt("avRegister") == -1) {
                     binding.pressActivityIsregister.setChecked(false);
-                }else {
+                } else {
                     binding.pressActivityIsregister.setChecked(true);
                 }
                 pressActivity.setAvid(jsonObject.getInt("avid"));
@@ -144,7 +143,8 @@ public class PressActivityActivity extends AppCompatActivity {
         click();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
-    private void click(){
+
+    private void click() {
         binding.pressActivitySelectStarttime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,22 +177,21 @@ public class PressActivityActivity extends AppCompatActivity {
                             Toast.makeText(PressActivityActivity.this, "请选择活动开始时间", Toast.LENGTH_SHORT).show();
                         } else if (pressActivity.getEndtime() == null || pressActivity.getEndtime().length() == 0) {
                             Toast.makeText(PressActivityActivity.this, "请选择活动结束时间", Toast.LENGTH_SHORT).show();
-                        }else if (pressActivity.getEnrolldeadline()==null||pressActivity.getEnrolldeadline().length()==0) {
-                            Toast.makeText(PressActivityActivity.this,"请选择活动报名截止时间",Toast.LENGTH_SHORT).show();
-                        }else if (pressActivity.getPrice() == null || pressActivity.getPrice().length() == 0) {
+                        } else if (pressActivity.getEnrolldeadline() == null || pressActivity.getEnrolldeadline().length() == 0) {
+                            Toast.makeText(PressActivityActivity.this, "请选择活动报名截止时间", Toast.LENGTH_SHORT).show();
+                        } else if (pressActivity.getPrice() == null || pressActivity.getPrice().length() == 0) {
                             Toast.makeText(PressActivityActivity.this, "请填写活动费用", Toast.LENGTH_SHORT).show();
                         } else if (pressActivity.getPlace() == null || pressActivity.getPlace().length() == 0) {
                             Toast.makeText(PressActivityActivity.this, "请填写活动地址", Toast.LENGTH_SHORT).show();
-                        }else if (Long.parseLong(DateUtils.data(pressActivity.getStarttime()))<Long.parseLong(DateUtils.data(DateUtils.getCurrentTime()))){
-                            Toast.makeText(PressActivityActivity.this,"活动开始时间早于当前时间，请重新选择",Toast.LENGTH_SHORT).show();
-                        }else if (Long.parseLong(DateUtils.data(pressActivity.getStarttime()))>Long.parseLong(DateUtils.data(pressActivity.getEndtime()))){
-                            Toast.makeText(PressActivityActivity.this,"活动开始时间晚于活动结束时间，请重新选择",Toast.LENGTH_SHORT).show();
-                        }else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline()))>Long.parseLong(DateUtils.data(pressActivity.getEndtime()))){
-                            Toast.makeText(PressActivityActivity.this,"活动报名截止时间晚于活动结束时间，请重新选择",Toast.LENGTH_SHORT).show();
-                        }else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline()))<Long.parseLong(DateUtils.data(DateUtils.getCurrentTime()))){
-                            Toast.makeText(PressActivityActivity.this,"活动报名截止时间早于当前时间，，请重新选择",Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else if (Long.parseLong(DateUtils.data(pressActivity.getStarttime())) < Long.parseLong(DateUtils.data(DateUtils.getCurrentTime()))) {
+                            Toast.makeText(PressActivityActivity.this, "活动开始时间早于当前时间，请重新选择", Toast.LENGTH_SHORT).show();
+                        } else if (Long.parseLong(DateUtils.data(pressActivity.getStarttime())) > Long.parseLong(DateUtils.data(pressActivity.getEndtime()))) {
+                            Toast.makeText(PressActivityActivity.this, "活动开始时间晚于活动结束时间，请重新选择", Toast.LENGTH_SHORT).show();
+                        } else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline())) > Long.parseLong(DateUtils.data(pressActivity.getEndtime()))) {
+                            Toast.makeText(PressActivityActivity.this, "活动报名截止时间晚于活动结束时间，请重新选择", Toast.LENGTH_SHORT).show();
+                        } else if (Long.parseLong(DateUtils.data(pressActivity.getEnrolldeadline())) < Long.parseLong(DateUtils.data(DateUtils.getCurrentTime()))) {
+                            Toast.makeText(PressActivityActivity.this, "活动报名截止时间早于当前时间，，请重新选择", Toast.LENGTH_SHORT).show();
+                        } else {
                             if (binding.pressActivityIsregister.isChecked()) {
                                 pressActivity.setRegister("0");
                             } else {
@@ -213,10 +212,8 @@ public class PressActivityActivity extends AppCompatActivity {
                                             .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
                                             .add("uid", sharedPreferences.getString("phonenumber", "0"))
                                             .build();
-                                    if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
-                                        new Thread(new PressActivityRunable()).start();
-                                    }
-                                }else {
+                                    new Thread(new PressActivityRunable()).start();
+                                } else {
                                     changebody = new FormBody.Builder()
                                             .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                                             .add("avDetail", pressActivity.getDetail())
@@ -229,17 +226,13 @@ public class PressActivityActivity extends AppCompatActivity {
                                             .add("avenrolldeadline", DateUtils.data(pressActivity.getEnrolldeadline()))
                                             .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
                                             .add("uid", sharedPreferences.getString("phonenumber", "0"))
-                                            .add("avid",String.valueOf(pressActivity.getAvid()))
+                                            .add("avid", String.valueOf(pressActivity.getAvid()))
                                             .build();
-                                    if (NetWorkState.checkNetWorkState(PressActivityActivity.this)){
-                                        new Thread(new ChangeActivityRunnable()).start();
-                                    }
+                                    new Thread(new ChangeActivityRunnable()).start();
                                 }
-                            }else {
+                            } else {
                                 imagefile = new File(imagepath);
-                                if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
-                                    new Thread(new PressImageRunnable()).start();
-                                }
+                                new Thread(new PressImageRunnable()).start();
                             }
                         }
                     }
@@ -258,7 +251,7 @@ public class PressActivityActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (popWindow != null && popWindow.isShowing()) {
             popWindow.dismiss();
-        }else {
+        } else {
             new AlertDialog.Builder(this).setTitle("提示").setMessage("您确定放弃发布活动吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -279,7 +272,7 @@ public class PressActivityActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(creaturl,creatbody);
+                resultstring = okHttpConnect.postdata(creaturl, creatbody);
                 Message message = handler.obtainMessage();
                 message.what = PRESSACTIVITY;
                 message.obj = resultstring;
@@ -289,14 +282,15 @@ public class PressActivityActivity extends AppCompatActivity {
             }
         }
     }
-    private class PressImageRunnable implements Runnable{
+
+    private class PressImageRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postfile(pressimageurl,imagefile);
+                resultstring = okHttpConnect.postfile(pressimageurl, imagefile);
                 Message message = handler.obtainMessage();
                 message.what = PRESSIMAGE;
                 message.obj = resultstring;
@@ -306,14 +300,15 @@ public class PressActivityActivity extends AppCompatActivity {
             }
         }
     }
-    private class ChangeActivityRunnable implements Runnable{
+
+    private class ChangeActivityRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(changeurl,changebody);
+                resultstring = okHttpConnect.postdata(changeurl, changebody);
                 Message message = handler.obtainMessage();
                 message.what = CHANGE_ACTIVTIY;
                 message.obj = resultstring;
@@ -324,16 +319,16 @@ public class PressActivityActivity extends AppCompatActivity {
         }
     }
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case PRESSACTIVITY:
                     String pressactivityresult = (String) msg.obj;
-                    System.out.println("pressactivityresult"+pressactivityresult);
-                    if (pressactivityresult.length()!=0){
+                    System.out.println("pressactivityresult" + pressactivityresult);
+                    if (pressactivityresult.length() != 0) {
                         JSONObject jsonObject;
-                        int result ;
+                        int result;
                         try {
                             jsonObject = new JSONObject(pressactivityresult);
                             result = jsonObject.getInt("status");
@@ -348,22 +343,21 @@ public class PressActivityActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else {
-                        Toast.makeText(PressActivityActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(PressActivityActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case PRESSIMAGE:
                     String pressimageresult = (String) msg.obj;
-                    if (pressimageresult.length()!=0){
+                    if (pressimageresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(pressimageresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String pressimagedata = jsonObject.getString("data");
-                                if(presstype == 0) {
+                                if (presstype == 0) {
                                     creatbody = new FormBody.Builder()
                                             .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                                             .add("avLogo", pressimagedata.substring(0, pressimagedata.indexOf(".")))
@@ -378,14 +372,12 @@ public class PressActivityActivity extends AppCompatActivity {
                                             .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
                                             .add("uid", sharedPreferences.getString("phonenumber", "0"))
                                             .build();
-                                    if (NetWorkState.checkNetWorkState(PressActivityActivity.this)) {
-                                        new Thread(new PressActivityRunable()).start();
-                                    }
-                                }else {
+                                    new Thread(new PressActivityRunable()).start();
+                                } else {
                                     changebody = new FormBody.Builder()
                                             .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                                             .add("avLogo", pressimagedata.substring(0, pressimagedata.indexOf(".")))
-                                            .add("avid",String.valueOf(pressActivity.getAvid()))
+                                            .add("avid", String.valueOf(pressActivity.getAvid()))
                                             .add("avDetail", pressActivity.getDetail())
                                             .add("avExpectnum", pressActivity.getExpectnum())
                                             .add("avPlace", pressActivity.getPlace())
@@ -397,40 +389,39 @@ public class PressActivityActivity extends AppCompatActivity {
                                             .add("avstarttime", DateUtils.data(pressActivity.getStarttime()))
                                             .add("uid", sharedPreferences.getString("phonenumber", "0"))
                                             .build();
-                                    if (NetWorkState.checkNetWorkState(PressActivityActivity.this)){
-                                        new Thread(new ChangeActivityRunnable()).start();
-                                    }
+                                    new Thread(new ChangeActivityRunnable()).start();
                                 }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(PressActivityActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(PressActivityActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case CHANGE_ACTIVTIY:
                     String changeactivityresult = (String) msg.obj;
-                    if (changeactivityresult.length()!=0){
+                    if (changeactivityresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(changeactivityresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                Toast.makeText(PressActivityActivity.this,"活动修改成功",Toast.LENGTH_SHORT).show();
+                            if (result == 200) {
+                                Toast.makeText(PressActivityActivity.this, "活动修改成功", Toast.LENGTH_SHORT).show();
                                 PressActivityActivity.this.finish();
-                            }else {
-                                Toast.makeText(PressActivityActivity.this,"活动修改失败，请重试",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(PressActivityActivity.this, "活动修改失败，请重试", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(PressActivityActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(PressActivityActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };

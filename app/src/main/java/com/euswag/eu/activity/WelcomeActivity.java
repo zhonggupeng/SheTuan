@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.euswag.eu.R;
 import com.euswag.eu.activity.login.InputPhoneActivity;
 import com.euswag.eu.databinding.ActivityWelcomeBinding;
+import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -40,9 +41,10 @@ public class WelcomeActivity extends AppCompatActivity {
         ActivityWelcomeBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         intent = new Intent();
-        binding.welcomeImage.setImageURI("res://drawable/"+R.drawable.welcome);
+//        binding.welcomeImage.setImageURI("res://drawable/"+R.mipmap.loading);
         //设置延迟，可以在此新建另一个线程，进行初始化工作，如判断SD，网络状态等
-        handler.postDelayed(new SplashHandler(),2000);
+        handler.postDelayed(new SplashHandler(),1000);
+//        handler.post(new SplashHandler());
     }
     private class SplashHandler implements Runnable{
         @Override
@@ -56,7 +58,13 @@ public class WelcomeActivity extends AppCompatActivity {
                         .add("uid", sharedPreferences.getString("phonenumber", ""))
                         .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                         .build();
-                new Thread(new RequestRunnable()).start();
+                if (NetWorkState.checkNetWorkState(WelcomeActivity.this)) {
+                    new Thread(new RequestRunnable()).start();
+                }else {
+                    intent.setClass(WelcomeActivity.this, InputPhoneActivity.class);
+                    WelcomeActivity.this.startActivity(intent);
+                    WelcomeActivity.this.finish();
+                }
             }
 
         }

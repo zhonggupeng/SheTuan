@@ -28,7 +28,6 @@ import com.euswag.eu.activity.DetailsQRcodeActivity;
 import com.euswag.eu.bean.ActivityMsg;
 import com.euswag.eu.databinding.ActivityActivityDetailBinding;
 import com.euswag.eu.model.DateUtils;
-import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
@@ -117,12 +116,10 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
             //请求发起活动者信息
             getoriginatorbody = new FormBody.Builder()
-                    .add("uid",String.valueOf(activityMsg.getUid()))
-                    .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
+                    .add("uid", String.valueOf(activityMsg.getUid()))
+                    .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
                     .build();
-            if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
-                new Thread(new GetOriginatorRunnable()).start();
-            }
+            new Thread(new GetOriginatorRunnable()).start();
 
             if (activityMsg.getActregister() == -1) {
                 binding.activityDetailIsregister.setText("无需签到");
@@ -141,21 +138,19 @@ public class ActivityDetailActivity extends AppCompatActivity {
             //需要知道已报名人数
             //请求已报名人数
             participatenumberbody = new FormBody.Builder()
-                    .add("avid",String.valueOf(activityMsg.getActid()))
-                    .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
-                    .add("choice","0")
+                    .add("avid", String.valueOf(activityMsg.getActid()))
+                    .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                    .add("choice", "0")
                     .build();
-            if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
-                new Thread(new ParticipateNumberRunnable()).start();
-            }
+            new Thread(new ParticipateNumberRunnable()).start();
 
             //设置参加按钮
             //通过验证来确定
             //请求是否已经参加该活动
             if (intent.getStringExtra("isparticipate").equals("0")) {
-                if (activityMsg.getActregister() > 0){
+                if (activityMsg.getActregister() > 0) {
                     binding.activityDetailIsenroll.setText("活动已开始签到");
-                }else {
+                } else {
                     binding.activityDetailIsenroll.setText("我要参加");
                 }
             } else if (intent.getStringExtra("isparticipate").equals("4")) {
@@ -163,13 +158,13 @@ public class ActivityDetailActivity extends AppCompatActivity {
             } else {
                 if (activityMsg.getActregister() > 0) {
                     binding.activityDetailIsenroll.setText("我要签到");
-                }else {
+                } else {
                     binding.activityDetailIsenroll.setText("退出活动");
                 }
             }
             System.out.println("报名截止时间：" + jsonObject.getString("avEnrolldeadline"));
-            System.out.println("当前时间"+DateUtils.data(DateUtils.getCurrentTime()));
-            if (Long.parseLong(DateUtils.data(DateUtils.getCurrentTime()))>=Long.parseLong(jsonObject.getString("avEnrolldeadline"))){
+            System.out.println("当前时间" + DateUtils.data(DateUtils.getCurrentTime()));
+            if (Long.parseLong(DateUtils.data(DateUtils.getCurrentTime())) >= Long.parseLong(jsonObject.getString("avEnrolldeadline"))) {
                 binding.activityDetailIsenroll.setText("活动报名已截止");
             }
             binding.activityDetailBackground.setImageURI(activityMsg.getImageurl());
@@ -215,14 +210,12 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     participatebody = new FormBody.Builder()
-                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
-                            .add("avid",String.valueOf(activityMsg.getActid()))
-                            .add("verifystate",participateparam)
+                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid", String.valueOf(activityMsg.getActid()))
+                            .add("verifystate", participateparam)
                             .build();
-                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
-                        new Thread(new ParticipateRunnable()).start();
-                    }
+                    new Thread(new ParticipateRunnable()).start();
                 }
             });
         } else if (binding.activityDetailIsenroll.getText().equals("取消收藏")) {
@@ -230,13 +223,11 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     cancelcollectebody = new FormBody.Builder()
-                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
-                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid", String.valueOf(activityMsg.getActid()))
                             .build();
-                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
-                        new Thread(new CancelCollecteRunnable()).start();
-                    }
+                    new Thread(new CancelCollecteRunnable()).start();
                 }
             });
         } else if (binding.activityDetailIsenroll.getText().equals("我要签到")) {
@@ -246,18 +237,16 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     showPopupWindow(binding.activityDetailIsenroll);
                 }
             });
-        } else if (binding.activityDetailIsenroll.getText().equals("退出活动")){
+        } else if (binding.activityDetailIsenroll.getText().equals("退出活动")) {
             binding.activityDetailIsenroll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     quitbody = new FormBody.Builder()
-                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
-                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid", String.valueOf(activityMsg.getActid()))
                             .build();
-                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
-                        new Thread(new QuitRunnable()).start();
-                    }
+                    new Thread(new QuitRunnable()).start();
                 }
             });
         }
@@ -266,22 +255,18 @@ public class ActivityDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (hascollection) {
                     cancelcollectebody = new FormBody.Builder()
-                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
-                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid", String.valueOf(activityMsg.getActid()))
                             .build();
-                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
-                        new Thread(new CancelCollecteRunnable()).start();
-                    }
+                    new Thread(new CancelCollecteRunnable()).start();
                 } else {
                     collectebody = new FormBody.Builder()
-                            .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                            .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
-                            .add("avid",String.valueOf(activityMsg.getActid()))
+                            .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                            .add("avid", String.valueOf(activityMsg.getActid()))
                             .build();
-                    if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
-                        new Thread(new CollecteRunnable()).start();
-                    }
+                    new Thread(new CollecteRunnable()).start();
                 }
             }
         });
@@ -315,7 +300,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(getoriginatorurl,getoriginatorbody);
+                resultstring = okHttpConnect.postdata(getoriginatorurl, getoriginatorbody);
                 Message message = handler.obtainMessage();
                 message.what = GETORIGINATOR;
                 message.obj = resultstring;
@@ -333,7 +318,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(participateurl,participatebody);
+                resultstring = okHttpConnect.postdata(participateurl, participatebody);
                 Message message = handler.obtainMessage();
                 message.what = PARTICIPATE;
                 message.obj = resultstring;
@@ -351,7 +336,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(quiturl,quitbody);
+                resultstring = okHttpConnect.postdata(quiturl, quitbody);
                 Message message = handler.obtainMessage();
                 message.what = QUIT;
                 message.obj = resultstring;
@@ -369,7 +354,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(collecteurl,collectebody);
+                resultstring = okHttpConnect.postdata(collecteurl, collectebody);
                 Message message = handler.obtainMessage();
                 message.what = COLLECTE;
                 message.obj = resultstring;
@@ -387,7 +372,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(cancelcollecteurl,cancelcollectebody);
+                resultstring = okHttpConnect.postdata(cancelcollecteurl, cancelcollectebody);
                 Message message = handler.obtainMessage();
                 message.what = CANCELCOLLECTE;
                 message.obj = resultstring;
@@ -405,7 +390,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(participatenumberurl,participatenumberbody);
+                resultstring = okHttpConnect.postdata(participatenumberurl, participatenumberbody);
                 Message message = handler.obtainMessage();
                 message.what = GETNUMBER;
                 message.obj = resultstring;
@@ -415,14 +400,15 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private class RegisterFinishRunnable implements Runnable{
+
+    private class RegisterFinishRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(registerfinishurl,registerfinishbody);
+                resultstring = okHttpConnect.postdata(registerfinishurl, registerfinishbody);
                 Message message = handler.obtainMessage();
                 message.what = REGISTER_FINISH;
                 message.obj = resultstring;
@@ -518,8 +504,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
                                 Toast.makeText(ActivityDetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
                                 binding.activityDetailCollection.setImageResource(R.drawable.ic_collection_after);
                                 hascollection = true;
-                            }else {
-                                Toast.makeText(ActivityDetailActivity.this,"收藏失败，请重试",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivityDetailActivity.this, "收藏失败，请重试", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -587,22 +573,22 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     break;
                 case REGISTER_FINISH:
                     String registerfinishresult = (String) msg.obj;
-                    if (registerfinishresult.length()!=0){
+                    if (registerfinishresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(registerfinishresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                Toast.makeText(ActivityDetailActivity.this,"签到成功",Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(ActivityDetailActivity.this,"签到失败，请重试",Toast.LENGTH_SHORT).show();
+                            if (result == 200) {
+                                Toast.makeText(ActivityDetailActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivityDetailActivity.this, "签到失败，请重试", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(ActivityDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:
@@ -635,9 +621,9 @@ public class ActivityDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 popWindow.dismiss();
-                Intent intent = new Intent(ActivityDetailActivity.this,InputRegisterCodeActivity.class);
-                intent.putExtra("register",activityMsg.getActregister());
-                intent.putExtra("actid",activityMsg.getActid());
+                Intent intent = new Intent(ActivityDetailActivity.this, InputRegisterCodeActivity.class);
+                intent.putExtra("register", activityMsg.getActregister());
+                intent.putExtra("actid", activityMsg.getActid());
                 ActivityDetailActivity.this.startActivity(intent);
             }
         });
@@ -646,7 +632,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 popWindow.dismiss();
                 Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
-                ActivityDetailActivity.this.startActivityForResult(intent,0);
+                ActivityDetailActivity.this.startActivityForResult(intent, 0);
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -659,30 +645,27 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             Bundle bundle = data.getExtras();
             String resultstring = bundle.getString("result");
-            if (resultstring.indexOf("www.euswag.com?")==0) {
+            if (resultstring.indexOf("www.euswag.com?") == 0) {
                 String[] resultarray = resultstring.split("\\?|=|&");
-                if (resultarray.length==5) {
-                    if (resultarray[2].equals(String.valueOf(activityMsg.getActid()))&&resultarray[4].equals(String.valueOf(activityMsg.getActid()))){
+                if (resultarray.length == 5) {
+                    if (resultarray[2].equals(String.valueOf(activityMsg.getActid())) && resultarray[4].equals(String.valueOf(activityMsg.getActid()))) {
                         registerfinishbody = new FormBody.Builder()
-                                .add("uid",sharedPreferences.getString("phonenumber", "0"))
-                                .add("accesstoken",sharedPreferences.getString("accesstoken", "00"))
-                                .add("avid",String.valueOf(activityMsg.getActid()))
+                                .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                                .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                                .add("avid", String.valueOf(activityMsg.getActid()))
                                 .build();
-                        if (NetWorkState.checkNetWorkState(ActivityDetailActivity.this)) {
-                            new Thread(new RegisterFinishRunnable()).start();
-                        }
-                    }else {
-                        Toast.makeText(this,"扫描的二维码不是本活动的签到码",Toast.LENGTH_SHORT).show();
+                        new Thread(new RegisterFinishRunnable()).start();
+                    } else {
+                        Toast.makeText(this, "扫描的二维码不是本活动的签到码", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(this, "扫描的二维码不是签到码", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(this,"扫描的二维码不是签到码",Toast.LENGTH_SHORT).show();
-                }
-            }else {
-                Toast.makeText(this,"扫描的二维码不是签到码", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "扫描的二维码不是签到码", Toast.LENGTH_SHORT).show();
             }
         }
     }

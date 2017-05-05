@@ -19,11 +19,11 @@ import com.euswag.eu.R;
 import com.euswag.eu.adapter.MemberSliderDeleteAdapter;
 import com.euswag.eu.bean.PeosonInformation;
 import com.euswag.eu.databinding.ActivityCheckListBinding;
-import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 import com.euswag.eu.model.OnItemActionListener;
 import com.euswag.eu.weight.EditTextWithDel;
 import com.euswag.eu.weight.VerticalSwipeRefreshLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
-public class CheckListActivity extends AppCompatActivity implements VerticalSwipeRefreshLayout.OnRefreshListener{
+public class CheckListActivity extends AppCompatActivity implements VerticalSwipeRefreshLayout.OnRefreshListener {
 
     private ActivityCheckListBinding binding;
     private SharedPreferences sharedPreferences;
@@ -65,7 +65,7 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
         binding = DataBindingUtil.setContentView(this, R.layout.activity_check_list);
         sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
         adapter = new MemberSliderDeleteAdapter(this);
-        binding.checkListRecyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false){
+        binding.checkListRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -73,9 +73,9 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
         });
         intent = getIntent();
         requestmemberbody = new FormBody.Builder()
-                .add("avid",String.valueOf(intent.getIntExtra("actid",-1)))
-                .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
-                .add("choice","0")
+                .add("avid", String.valueOf(intent.getIntExtra("actid", -1)))
+                .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                .add("choice", "0")
                 .build();
         onRefresh();
         binding.checkListRefresh.setOnRefreshListener(this);
@@ -83,7 +83,8 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
         binding.checkListRefresh.setSize(SwipeRefreshLayout.DEFAULT);
         click();
     }
-    private void click(){
+
+    private void click() {
         binding.checkListRecyclerview.setOnItemActionListener(new OnItemActionListener() {
             @Override
             public void OnItemClick(int position) {
@@ -98,24 +99,22 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (editTextWithDel.getText()==null||editTextWithDel.getText().length()==0){
-                                    Toast.makeText(CheckListActivity.this,"请填写理由",Toast.LENGTH_SHORT).show();
-                                }else {
+                                if (editTextWithDel.getText() == null || editTextWithDel.getText().length() == 0) {
+                                    Toast.makeText(CheckListActivity.this, "请填写理由", Toast.LENGTH_SHORT).show();
+                                } else {
                                     itemposition = position;
                                     rejectbody = new FormBody.Builder()
-                                            .add("uid",String.valueOf(peosonData.get(position).getUid()))
-                                            .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
-                                            .add("avid",String.valueOf(intent.getIntExtra("actid",-1)))
-                                            .add("verifystate","-1")
-                                            .add("reason",editTextWithDel.getText().toString())
+                                            .add("uid", String.valueOf(peosonData.get(position).getUid()))
+                                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                                            .add("avid", String.valueOf(intent.getIntExtra("actid", -1)))
+                                            .add("verifystate", "-1")
+                                            .add("reason", editTextWithDel.getText().toString())
                                             .build();
-                                    if (NetWorkState.checkNetWorkState(CheckListActivity.this)) {
-                                        new Thread(new RejectRunnable()).start();
-                                    }
+                                    new Thread(new RejectRunnable()).start();
                                 }
                             }
                         })
-                        .setNegativeButton("取消",null)
+                        .setNegativeButton("取消", null)
                         .show();
             }
         });
@@ -132,14 +131,14 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
         handler.sendEmptyMessage(REFRESH);
     }
 
-    private class RequestMemberRunnable implements Runnable{
+    private class RequestMemberRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(requestmemberurl,requestmemberbody);
+                resultstring = okHttpConnect.postdata(requestmemberurl, requestmemberbody);
                 Message message = handler.obtainMessage();
                 message.what = REQUEST_PHONE;
                 message.obj = resultstring;
@@ -149,14 +148,15 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
             }
         }
     }
-    private class RejectRunnable implements Runnable{
+
+    private class RejectRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(rejecturl,rejectbody);
+                resultstring = okHttpConnect.postdata(rejecturl, rejectbody);
                 Message message = handler.obtainMessage();
                 message.what = REJECT;
                 message.obj = resultstring;
@@ -166,24 +166,25 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
             }
         }
     }
-    private Handler handler = new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case REQUEST_PHONE:
                     String requestphoneresult = (String) msg.obj;
-                    if (requestphoneresult.length()!=0){
+                    if (requestphoneresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(requestphoneresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 peosonData.clear();
                                 String requestphonedata = jsonObject.getString("data");
                                 //返回的时"null"，而不是null
                                 if (requestphonedata.equals("null")) {
-                                }else {
+                                } else {
                                     JSONTokener memberjsonTokener = new JSONTokener(requestphonedata);
                                     JSONArray memberjsonArray = (JSONArray) memberjsonTokener.nextValue();
                                     for (int i = 0; i < memberjsonArray.length(); i++) {
@@ -199,46 +200,45 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
                                 }
                                 adapter.setmData(null);
                                 adapter.setmData(peosonData);
-                            }else {
-                                Toast.makeText(CheckListActivity.this,"参加活动成员的数据请求失败",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(CheckListActivity.this, "参加活动成员的数据请求失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(CheckListActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CheckListActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     binding.checkListRecyclerview.removeAllViews();
                     binding.checkListRecyclerview.setAdapter(adapter);
                     break;
                 case REFRESH:
-                    if (NetWorkState.checkNetWorkState(CheckListActivity.this)) {
-                        new Thread(new RequestMemberRunnable()).start();
-                    }
+                    new Thread(new RequestMemberRunnable()).start();
                     binding.checkListRefresh.setRefreshing(false);
                     break;
                 case REJECT:
                     String rejectresult = (String) msg.obj;
-                    if (rejectresult.length()!=0){
+                    if (rejectresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(rejectresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 peosonData.remove(itemposition);
                                 adapter.notifyDataSetChanged();
-                            }else {
-                                Toast.makeText(CheckListActivity.this,"拒绝失败，请重试",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(CheckListActivity.this, "拒绝失败，请重试", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(CheckListActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CheckListActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };

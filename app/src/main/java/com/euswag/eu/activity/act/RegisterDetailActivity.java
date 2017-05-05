@@ -19,7 +19,6 @@ import com.euswag.eu.activity.DetailsQRcodeActivity;
 import com.euswag.eu.adapter.ParticipateMemberAdapter;
 import com.euswag.eu.bean.PeosonInformation;
 import com.euswag.eu.databinding.ActivityRegisterDetailBinding;
-import com.euswag.eu.model.NetWorkState;
 import com.euswag.eu.model.OKHttpConnect;
 
 import org.json.JSONArray;
@@ -64,26 +63,25 @@ public class RegisterDetailActivity extends AppCompatActivity {
         adapter = new ParticipateMemberAdapter(this);
         Intent intent = getIntent();
         registercode = intent.getStringExtra("registercode");
-        number = intent.getIntExtra("number",0);
-        actid = intent.getIntExtra("actid",0);
+        number = intent.getIntExtra("number", 0);
+        actid = intent.getIntExtra("actid", 0);
         binding.registerDetailCodedata.setText(registercode);
-        binding.registerDetailRecyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false){
+        binding.registerDetailRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         });
         participatenumberbody = new FormBody.Builder()
-                .add("avid",String.valueOf(actid))
-                .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
-                .add("choice","-1")
+                .add("avid", String.valueOf(actid))
+                .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                .add("choice", "-1")
                 .build();
-        if (NetWorkState.checkNetWorkState(RegisterDetailActivity.this)) {
-            new Thread(new ParticipateNumberRunnable()).start();
-        }
+        new Thread(new ParticipateNumberRunnable()).start();
         click();
     }
-    private void click(){
+
+    private void click() {
         binding.registerDetailBackimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,11 +91,11 @@ public class RegisterDetailActivity extends AppCompatActivity {
         binding.registerDetailQrcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterDetailActivity.this,DetailsQRcodeActivity.class);
-                intent.putExtra("title","签到二维码");
-                intent.putExtra("type","register");
-                intent.putExtra("id",actid);
-                intent.putExtra("registercode",registercode);
+                Intent intent = new Intent(RegisterDetailActivity.this, DetailsQRcodeActivity.class);
+                intent.putExtra("title", "签到二维码");
+                intent.putExtra("type", "register");
+                intent.putExtra("id", actid);
+                intent.putExtra("registercode", registercode);
                 RegisterDetailActivity.this.startActivity(intent);
             }
         });
@@ -108,27 +106,25 @@ public class RegisterDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         closeactivitybody = new FormBody.Builder()
-                                .add("avid",String.valueOf(actid))
-                                .add("accesstoken",sharedPreferences.getString("accesstoken","00"))
+                                .add("avid", String.valueOf(actid))
+                                .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
                                 .build();
-                        if (NetWorkState.checkNetWorkState(RegisterDetailActivity.this)) {
-                            new Thread(new CloseActivityRunnable()).start();
-                        }
+                        new Thread(new CloseActivityRunnable()).start();
                     }
-                }).setNegativeButton("取消",null).show();
+                }).setNegativeButton("取消", null).show();
 
             }
         });
     }
 
-    private class ParticipateNumberRunnable implements Runnable{
+    private class ParticipateNumberRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(participatenumberurl,participatenumberbody);
+                resultstring = okHttpConnect.postdata(participatenumberurl, participatenumberbody);
                 Message message = handler.obtainMessage();
                 message.what = GETNUMBER;
                 message.obj = resultstring;
@@ -138,14 +134,15 @@ public class RegisterDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private class CloseActivityRunnable implements Runnable{
+
+    private class CloseActivityRunnable implements Runnable {
 
         @Override
         public void run() {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postdata(closeactivityurl,closeactivitybody);
+                resultstring = okHttpConnect.postdata(closeactivityurl, closeactivitybody);
                 Message message = handler.obtainMessage();
                 message.what = CLOSE_ACTIVITY;
                 message.obj = resultstring;
@@ -155,24 +152,25 @@ public class RegisterDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private Handler handler = new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case GETNUMBER:
                     String getnumberresult = (String) msg.obj;
-                    if (getnumberresult.length()!=0){
+                    if (getnumberresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(getnumberresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
+                            if (result == 200) {
                                 String getnumberdata = jsonObject.getString("data");
                                 int nuregisternumber;
-                                if (getnumberdata.equals("null")){
+                                if (getnumberdata.equals("null")) {
                                     nuregisternumber = 0;
-                                }else {
+                                } else {
                                     JSONTokener memberjsonTokener = new JSONTokener(getnumberdata);
                                     JSONArray memberjsonArray = (JSONArray) memberjsonTokener.nextValue();
                                     nuregisternumber = memberjsonArray.length();
@@ -186,39 +184,40 @@ public class RegisterDetailActivity extends AppCompatActivity {
                                     }
                                     adapter.setmData(peosonData);
                                 }
-                                binding.registerDetailRegisterd.setText("已签到："+(number-nuregisternumber));
-                                binding.registerDetailUnregister.setText("未签到："+nuregisternumber);
+                                binding.registerDetailRegisterd.setText("已签到：" + (number - nuregisternumber));
+                                binding.registerDetailUnregister.setText("未签到：" + nuregisternumber);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(RegisterDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RegisterDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     binding.registerDetailRecyclerview.setAdapter(adapter);
                     break;
                 case CLOSE_ACTIVITY:
                     String closeactivityresult = (String) msg.obj;
-                    if (closeactivityresult.length()!=0){
+                    if (closeactivityresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(closeactivityresult);
                             result = jsonObject.getInt("status");
-                            if (result == 200){
-                                Toast.makeText(RegisterDetailActivity.this,"活动已关闭",Toast.LENGTH_SHORT).show();
+                            if (result == 200) {
+                                Toast.makeText(RegisterDetailActivity.this, "活动已关闭", Toast.LENGTH_SHORT).show();
                                 RegisterDetailActivity.this.finish();
-                            }else {
-                                Toast.makeText(RegisterDetailActivity.this,"关闭活动失败",Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RegisterDetailActivity.this, "关闭活动失败", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                        Toast.makeText(RegisterDetailActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RegisterDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };

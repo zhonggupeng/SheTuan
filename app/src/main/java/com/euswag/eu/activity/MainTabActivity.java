@@ -128,7 +128,6 @@ public class MainTabActivity extends FragmentActivity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO 监听返回键，相当于点击home键  
         PackageManager pm = getPackageManager();
         ResolveInfo homeInfo = pm.resolveActivity(
                 new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME), 0);
@@ -180,9 +179,7 @@ public class MainTabActivity extends FragmentActivity {
                             .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
                             .add("avid", resultarray[2])
                             .build();
-
                     new Thread(new RegisterFinishRunnable()).start();
-
                 }
             } else {
                 Toast.makeText(this, bundle.getString("result"), Toast.LENGTH_SHORT).show();
