@@ -14,7 +14,7 @@
     <color name="icon_bule">#4379CF</color>
     <color name="icon_goto">#aabbcc</color>
 
-    <color name="main_color">#FF2842</color>
+    <color name="main_color">#FE0000</color>
 
     <color name="title_font_color">#ffffff</color>
     <color name="item_space_color">#F2F2F2</color>
@@ -37,5 +37,9 @@
     <color name="red2">#DE2910</color>
     
     <color name="orange">#FD7A58</color>
+    <color name="yellow">#FFD430</color>
+    <color name="orange2">#F68248</color>
+    <color name="blue2">#3EA1E5</color>
+    <color name="backgroundgray">#F2F2F2</color>
 
 </resources>

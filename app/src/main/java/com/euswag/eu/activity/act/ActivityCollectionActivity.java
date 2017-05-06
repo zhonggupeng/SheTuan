@@ -108,7 +108,6 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
                             .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
                             .build();
                     new Thread(new RefreshCollectionRunnable()).start();
-                    binding.activityCollectionRefresh.setRefreshing(false);
                     break;
                 case LOADCOLLECTION:
                     String refreshresult = (String) msg.obj;
@@ -119,6 +118,7 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
                             jsonObject = new JSONObject(refreshresult);
                             result = jsonObject.getInt("status");
                             if (result == 200) {
+                                binding.activityCollectionRefresh.setRefreshing(false);
                                 String refreshdata = jsonObject.getString("data");
                                 if (refreshdata.equals("null")) {
 

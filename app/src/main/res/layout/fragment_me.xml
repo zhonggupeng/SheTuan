@@ -230,9 +230,8 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_goto" />
-                    />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -267,14 +266,13 @@
                             android:text="意见反馈"
                             android:textColor="@color/black"
                             android:textSize="@dimen/font_size" />
-                        />
                     </LinearLayout>
 
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_goto" />
                 </RelativeLayout>
 
@@ -315,7 +313,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_goto" />
 
                 </RelativeLayout>
@@ -356,7 +354,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_goto" />
 
                 </RelativeLayout>
@@ -398,7 +396,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_goto" />
                 </RelativeLayout>
 
@@ -439,7 +437,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
+                        android:layout_centerVertical="true"
                         android:src="@drawable/ic_goto" />
                 </RelativeLayout>
 

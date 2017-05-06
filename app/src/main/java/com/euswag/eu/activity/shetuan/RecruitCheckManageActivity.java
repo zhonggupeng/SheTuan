@@ -93,7 +93,7 @@ public class RecruitCheckManageActivity extends AppCompatActivity implements Swi
         binding.recruitCheckManageNextstep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO 招新下一步
             }
         });
     }

@@ -71,7 +71,7 @@ public class DateUtils {
 
     /**
      *  
-     *      * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014年06月14日16:09"） 
+     *      * 调用此方法输入所要转换的时间戳输入例如（1402733340000）输出（"2014年06月14日16:09"） 
      *      *  
      *      * @param time 
      *      * @return 
@@ -90,6 +90,16 @@ public class DateUtils {
     }
     public static String timet2(String time) {
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+        long lcc;
+        if (time!=null&&!time.equals("")) {
+            lcc = Long.parseLong(time);
+        }
+        else lcc=0;
+        String times = sdr.format(new Date(lcc));
+        return times;
+    }
+    public static String timet3(String time){
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         long lcc;
         if (time!=null&&!time.equals("")) {
             lcc = Long.parseLong(time);

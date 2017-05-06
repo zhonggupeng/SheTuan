@@ -10,6 +10,15 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "e950097ccf5b347c00354679",
+                JPUSH_CHANNEL: "developer-default",
+        ]
+
     }
     dataBinding {
         enabled true
@@ -44,5 +53,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
     compile 'com.github.romainguy:ViewServer:017c01cd512cac3ec054d9eee05fc48c5a9d2de'
+    compile 'cn.jiguang.sdk:jpush:3.0.5'
+    compile 'cn.jiguang.sdk:jcore:1.1.2'
     testCompile 'junit:junit:4.12'
 }
