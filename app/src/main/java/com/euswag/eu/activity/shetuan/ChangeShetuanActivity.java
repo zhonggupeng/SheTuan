@@ -26,6 +26,7 @@ import com.euswag.eu.R;
 import com.euswag.eu.bean.ChangeShetuan;
 import com.euswag.eu.clipimage.ClipActivity;
 import com.euswag.eu.databinding.ActivityChangeShetuanBinding;
+import com.euswag.eu.model.DateUtils;
 import com.euswag.eu.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -57,11 +58,12 @@ public class ChangeShetuanActivity extends AppCompatActivity {
     private Intent getintent;
 
     private OKHttpConnect okHttpConnect;
-    private String changeshetuanurl = "https://euswag.com/eu/community/changecm";
+    private String changeshetuanurl = "/community/changecm";
     private RequestBody changeshetuanbody;
 
-    private String postlogourl = "https://euswag.com/eu/upload/community/logo";
+    private String postlogourl = "/community/logo";
     private File logofile;
+    private String filename;
 
     private final int CHANGE = 110;
     private final int POST_LOGO = 100;
@@ -114,7 +116,7 @@ public class ChangeShetuanActivity extends AppCompatActivity {
                         new Thread(new ChangeShetuanRunnable()).start();
                     } else {
                         logofile = new File(imagepath);
-
+                        filename = DateUtils.data(DateUtils.getCurrentTime());
                         new Thread(new PostLogoRunnable()).start();
 
                     }
@@ -148,7 +150,7 @@ public class ChangeShetuanActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postfile(postlogourl, logofile);
+                resultstring = okHttpConnect.postfile(postlogourl, logofile,filename);
                 Message message = handler.obtainMessage();
                 message.what = POST_LOGO;
                 message.obj = resultstring;
@@ -191,15 +193,14 @@ public class ChangeShetuanActivity extends AppCompatActivity {
                         int result;
                         try {
                             jsonObject = new JSONObject(postlogoresult);
-                            result = jsonObject.getInt("status");
-                            if (result == 200) {
-                                String logodata = jsonObject.getString("data");
+                            result = jsonObject.getInt("code");
+                            if (result == 0) {
                                 changeshetuanbody = new FormBody.Builder()
                                         .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                                         .add("cmid", String.valueOf(getintent.getIntExtra("cmid", 0)))
                                         .add("cmAnnouncement", changeShetuan.getStannouncement())
                                         .add("cmDetail", changeShetuan.getStintroduction())
-                                        .add("cmLogo", logodata.substring(0, logodata.indexOf(".")))
+                                        .add("cmLogo", filename)
                                         .build();
 
                                 new Thread(new ChangeShetuanRunnable()).start();

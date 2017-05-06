@@ -58,10 +58,10 @@ public class MainTabActivity extends FragmentActivity {
     private ActivityMainTabBinding binding;
 
     private OKHttpConnect okHttpConnect;
-    private String getactivityurl = "https://euswag.com/eu/activity/getactivity";
+    private String getactivityurl = "/activity/getactivity";
     private RequestBody getactivitybody;
 
-    private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
+    private String registerfinishurl = "/activity/participateregister";
     private RequestBody registerfinishbody;
 
     private final int GETACTIVITY = 110;

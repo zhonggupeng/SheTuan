@@ -29,10 +29,10 @@ import okhttp3.RequestBody;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private String sendvercodeurl = "https://euswag.com/eu/user/verifyphone";
+    private String sendvercodeurl = "/user/verifyphone";
     private RequestBody sendvercodebody;
 
-    private String loginurl = "https://euswag.com/eu/user/login";
+    private String loginurl = "/user/login";
     private RequestBody loginbody;
 
     private OKHttpConnect okHttpConnect;

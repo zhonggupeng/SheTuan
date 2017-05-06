@@ -53,10 +53,10 @@ public class ShetuanPhonelistActivity extends AppCompatActivity implements OnCli
     private ArrayList<ShetuanContacts> midData2 = new ArrayList<>();
 
     private OKHttpConnect okHttpConnect;
-    private String getcontactsurl = "https://euswag.com/eu/community/contacts";
+    private String getcontactsurl = "/community/contacts";
     private RequestBody getcontactsbody;
 
-    private String headimageloadurl = "https://euswag.com/picture/user/";
+    private String headimageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
     private final int GET_CONTACTS = 100;
 

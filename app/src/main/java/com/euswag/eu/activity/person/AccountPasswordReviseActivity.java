@@ -27,7 +27,7 @@ public class AccountPasswordReviseActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private OKHttpConnect okHttpConnect;
-    private String passwordreviseurl = "https://euswag.com/eu/user/changepwd";
+    private String passwordreviseurl = "/user/changepwd";
     private RequestBody passwordrevisebody;
 
     private final int PASSWORD_REVISE = 110;

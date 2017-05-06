@@ -41,13 +41,13 @@ public class RegisterDetailActivity extends AppCompatActivity {
     private int actid;
 
     private OKHttpConnect okHttpConnect;
-    private String participatenumberurl = "https://euswag.com/eu/activity/memberinfolist";
+    private String participatenumberurl = "/activity/memberinfolist";
     private RequestBody participatenumberbody;
 
-    private String closeactivityurl = "https://euswag.com/eu/activity/closeav";
+    private String closeactivityurl = "/activity/closeav";
     private RequestBody closeactivitybody;
 
-    private String headimageloadurl = "https://euswag.com/picture/user/";
+    private String headimageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
     private final int GETNUMBER = 110;
     private final int CLOSE_ACTIVITY = 100;

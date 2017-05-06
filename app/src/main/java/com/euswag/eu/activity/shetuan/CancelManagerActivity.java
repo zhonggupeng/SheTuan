@@ -41,13 +41,13 @@ public class CancelManagerActivity extends AppCompatActivity {
     private int itemposition;
 
     private OKHttpConnect okHttpConnect;
-    private String cancelmanagerurl = "https://euswag.com/eu/community/managecm";
+    private String cancelmanagerurl = "/community/managecm";
     private RequestBody cancelmanagerbody;
 
-    private String getcontactsurl = "https://euswag.com/eu/community/contacts";
+    private String getcontactsurl = "/community/contacts";
     private RequestBody getcontactsbody;
 
-    private String headimageloadurl = "https://euswag.com/picture/user/";
+    private String headimageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
     private final int CANCEL_MANAGER = 110;
     private final int GET_CONTACTS = 100;

@@ -66,18 +66,18 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
     private JSONArray viewpagerdata;
     private OKHttpConnect okHttpConnect;
     private ViewPagerJson viewPagerJson;
-    private String viewpagerurl = "https://euswag.com/eu/viewpager/show";
+    private String viewpagerurl = "/viewpager/show";
     private RequestBody viewpagebody;
     private String[] imageurl;
     private String[] detailurl;
     private String[] imagetitle;
     private TextSliderView textSliderView;
 
-    private String activityurl = "https://euswag.com/eu/activity/commonav";
+    private String activityurl = "/activity/commonav";
     private RequestBody activitybody;
     private RequestBody activityloadmorebody;
     private String loadmoreParam = "99495884120000";
-    private String imageloadurl = "https://euswag.com/picture/activity/";
+    private String activityimageloadurl = "https://eu-1251935523.file.myqcloud.com/activity/av";
 
 
     private final int REFRESH_COMPLETE = 0x1101;
@@ -198,7 +198,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                 mData.clear();
                                 for (int i = 0; i < activityRefreshJsonArray.length(); i++) {
                                     //对于时间要进行处理，即时间格式的转换
-                                    ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"), activityRefreshJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl + activityRefreshJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
+                                    ActivityMsg activityMsg = new ActivityMsg(activityRefreshJsonArray.getJSONObject(i).getString("avTitle"), activityRefreshJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityRefreshJsonArray.getJSONObject(i).getString("avStarttime")), activityimageloadurl+ activityRefreshJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
                                     activityMsg.setActivityDetailJsonString(activityRefreshJsonArray.getJSONObject(i).toString());
                                     activityMsg.setIsparticipate("0");
                                     activityMsg.setActprice(activityRefreshJsonArray.getJSONObject(i).getDouble("avPrice"));
@@ -245,7 +245,7 @@ public class HomepageFragment extends Fragment implements MyScrollView.OnScrollL
                                     changeAdapterState(THEEND);
                                 } else {
                                     for (int i = 0; i < activityLoadMoreJsonArray.length(); i++) {
-                                        ActivityMsg activityMsg = new ActivityMsg(activityLoadMoreJsonArray.getJSONObject(i).getString("avTitle"), activityLoadMoreJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityLoadMoreJsonArray.getJSONObject(i).getString("avStarttime")), imageloadurl + activityLoadMoreJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
+                                        ActivityMsg activityMsg = new ActivityMsg(activityLoadMoreJsonArray.getJSONObject(i).getString("avTitle"), activityLoadMoreJsonArray.getJSONObject(i).getString("avPlace"), DateUtils.timet(activityLoadMoreJsonArray.getJSONObject(i).getString("avStarttime")), activityimageloadurl + activityLoadMoreJsonArray.getJSONObject(i).getString("avLogo") + ".jpg");
                                         activityMsg.setActivityDetailJsonString(activityLoadMoreJsonArray.getJSONObject(i).toString());
                                         activityMsg.setIsparticipate("0");
                                         if (sharedPreferences.getString("phonenumber", "0").equals(String.valueOf(activityLoadMoreJsonArray.getJSONObject(i).getLong("uid")))) {

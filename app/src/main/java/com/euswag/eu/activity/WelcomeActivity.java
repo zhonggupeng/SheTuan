@@ -26,7 +26,7 @@ import okhttp3.RequestBody;
 
 public class WelcomeActivity extends AppCompatActivity {
     private OKHttpConnect okHttpConnect;
-    private String requesturl = "https://euswag.com/eu/info/introinfo";
+    private String requesturl = "/info/introinfo";
     private RequestBody requestBody;
 
     private final int REQUEST = 110;

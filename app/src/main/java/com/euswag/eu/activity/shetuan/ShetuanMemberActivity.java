@@ -24,7 +24,7 @@ public class ShetuanMemberActivity extends AppCompatActivity {
     private ArrayList<PeosonInformation> peosonData = new ArrayList<PeosonInformation>();
     private ParticipateMemberAdapter adapter;
 
-    private String headimageloadurl = "https://euswag.com/picture/user/";
+    private String headimageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

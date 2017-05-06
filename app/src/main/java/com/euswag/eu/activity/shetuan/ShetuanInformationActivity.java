@@ -38,23 +38,23 @@ public class ShetuanInformationActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private OKHttpConnect okHttpConnect;
-    private String shetuanmemberurl = "https://euswag.com/eu/community/memberlist";
+    private String shetuanmemberurl = "/community/memberlist";
     private RequestBody shetuanmemberbody;
 
-    private String collecteurl = "https://euswag.com/eu/community/collectcm";
+    private String collecteurl = "/community/collectcm";
     private RequestBody collectebody;
 
-    private String cancelcollecteurl = "https://euswag.com/eu/community/discollectcm";
+    private String cancelcollecteurl = "/community/discollectcm";
     private RequestBody cancelcollectebody;
 
-    private String participateurl = "https://euswag.com/eu/community/participatecm";
+    private String participateurl = "/community/participatecm";
     private RequestBody participatebody;
 
-    private String getheaderurl = "https://euswag.com/eu/info/introinfo";
+    private String getheaderurl = "/info/introinfo";
     private RequestBody getheaderbody;
 
-    private String shetuanlogourl = "https://euswag.com/picture/community/logo/";
-    private String shetuanbackgroundurl = "https://euswag.com/picture/community/background/";
+    private String shetuanlogourl = "https://eu-1251935523.file.myqcloud.com/community/logo/cmlogo";
+    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbackground";
 
     private final int SHETUAN_MEMBER = 110;
     private final int COLLECTE = 100;
@@ -81,7 +81,7 @@ public class ShetuanInformationActivity extends AppCompatActivity {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(datajsonstring);
-            shetuanMsg = new ShetuanMsg(jsonObject.getString("cmName"), jsonObject.getString("cmDetail"), shetuanbackgroundurl + jsonObject.getString("cmBackground") + ".jpg", shetuanlogourl + jsonObject.getString("cmLogo"));
+            shetuanMsg = new ShetuanMsg(jsonObject.getString("cmName"), jsonObject.getString("cmDetail"), shetuanbackgroundurl + jsonObject.getString("cmBackground") + ".jpg", shetuanlogourl + jsonObject.getString("cmLogo")+".png");
             shetuanMsg.setShetuanid(jsonObject.getInt("cmid"));
             shetuanMsg.setShetuantype(jsonObject.getInt("cmType"));
             shetuanMsg.setShetuanattr(jsonObject.getInt("cmAttr"));

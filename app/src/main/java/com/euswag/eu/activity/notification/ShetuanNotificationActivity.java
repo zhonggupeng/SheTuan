@@ -38,7 +38,7 @@ public class ShetuanNotificationActivity extends AppCompatActivity implements Sw
     private ShetuanNotificationAdapter adapter;
 
     private OKHttpConnect okHttpConnect = new OKHttpConnect();
-    private String shetuannotificationurl = "https://euswag.com/eu/notification/community";
+    private String shetuannotificationurl = "/notification/community";
     private RequestBody shetuannotificationbody;
 
     private final int GET_NOTIFICATION = 110;
@@ -96,12 +96,9 @@ public class ShetuanNotificationActivity extends AppCompatActivity implements Sw
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case REFRESH:
-                    //TODO test
                     shetuannotificationbody = new FormBody.Builder()
-                            .add("uid","15061883391")
-                            .add("accesstoken","zzzz")
-                            //.add("uid", sharedPreferences.getString("phonenumber", ""))
-                            //.add("accesstoken", sharedPreferences.getString("accesstoken", ""))
+                            .add("uid", sharedPreferences.getString("phonenumber", ""))
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                             .build();
                     new Thread(new GetNotificationRunnable()).start();
                     break;
@@ -115,10 +112,8 @@ public class ShetuanNotificationActivity extends AppCompatActivity implements Sw
                             result = jsonObject.getInt("status");
                             if (result == 200){
                                 binding.shetuanNotificationRefresh.setRefreshing(false);
-
                                 String getnotificationdata = jsonObject.getString("data");
                                 if (getnotificationdata.equals("null")){
-
                                 }else {
                                     JSONTokener jsonTokener = new JSONTokener(getnotificationdata);
                                     JSONArray jsonArray = (JSONArray) jsonTokener.nextValue();
@@ -130,15 +125,9 @@ public class ShetuanNotificationActivity extends AppCompatActivity implements Sw
                                         shetuanNotification.setSender(jsonArray.getJSONObject(i).getString("sender"));
                                         shetuanNotification.setSendtime(DateUtils.timet3(jsonArray.getJSONObject(i).getString("sendtime")));
                                         shetuanNotification.setUid(jsonArray.getJSONObject(i).getLong("uid"));
-                                        System.out.println(shetuanNotification.getUid());
-                                        System.out.println(shetuanNotification.getCmid());
-                                        System.out.println(shetuanNotification.getMsg());
-                                        System.out.println(shetuanNotification.getSender());
-                                        System.out.println(shetuanNotification.getSendtime());
                                         mData.add(shetuanNotification);
                                     }
                                 }
-                                System.out.println(mData.size()+"-------------111");
                                 adapter.setmData(null);
                                 adapter.setmData(mData);
                             }else {

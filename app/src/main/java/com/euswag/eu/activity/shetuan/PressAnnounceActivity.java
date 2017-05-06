@@ -32,7 +32,7 @@ public class PressAnnounceActivity extends AppCompatActivity {
     private Intent getintent;
 
     private OKHttpConnect okHttpConnect;
-    private String pressannounceurl = "https://euswag.com/eu/community/changecm";
+    private String pressannounceurl = "/community/changecm";
     private RequestBody pressannoucebody;
 
     private final int PRESS_ANNOUNCE = 110;

@@ -42,12 +42,12 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private FindingRecyclerviewAdapter findingRecyclerviewAdapter;
     private LayoutInflater inflater;
     private OKHttpConnect okHttpConnect;
-    private String shetuanurl = "https://euswag.com/eu/community/commoncm";
+    private String shetuanurl = "/community/commoncm";
     private int page = 2;
     private RequestBody shetuanbody;
 
-    private String shetuanlogourl = "https://euswag.com/picture/community/logo/";
-    private String shetuanbackgroundurl = "https://euswag.com/picture/community/background/";
+    private String shetuanlogourl = "https://eu-1251935523.file.myqcloud.com/community/logo/cmlogo";
+    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbackground";
 
     private final int REFRESH_COMPLETE = 0x1100;
     private final int LOAD_MORE = 0x1111;
@@ -160,7 +160,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 jsonArray = (JSONArray) jsonTokener.nextValue();
                                 mData.clear();
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    ShetuanMsg shetuanMsg = new ShetuanMsg(jsonArray.getJSONObject(i).getString("cmName"), jsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl + jsonArray.getJSONObject(i).getString("cmBackground") + ".jpg", shetuanlogourl + jsonArray.getJSONObject(i).getString("cmLogo"));
+                                    ShetuanMsg shetuanMsg = new ShetuanMsg(jsonArray.getJSONObject(i).getString("cmName"), jsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl + jsonArray.getJSONObject(i).getString("cmBackground") + ".jpg", shetuanlogourl + jsonArray.getJSONObject(i).getString("cmLogo")+".png");
                                     shetuanMsg.setShetuanJsonString(jsonArray.getJSONObject(i).toString());
                                     mData.add(shetuanMsg);
                                 }
@@ -209,7 +209,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 loadmoreJsonArray = (JSONArray) loadmoreJsonTokener.nextValue();
                                 if (loadmoreJsonArray.length() != 0) {
                                     for (int i = 0; i < loadmoreJsonArray.length(); i++) {
-                                        ShetuanMsg shetuanMsg = new ShetuanMsg(loadmoreJsonArray.getJSONObject(i).getString("cmName"), loadmoreJsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl + loadmoreJsonArray.getJSONObject(i).getString("cmBackground") + ".jpg", shetuanlogourl + loadmoreJsonArray.getJSONObject(i).getString("cmLogo"));
+                                        ShetuanMsg shetuanMsg = new ShetuanMsg(loadmoreJsonArray.getJSONObject(i).getString("cmName"), loadmoreJsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl + loadmoreJsonArray.getJSONObject(i).getString("cmBackground") + ".jpg", shetuanlogourl + loadmoreJsonArray.getJSONObject(i).getString("cmLogo")+".png");
                                         shetuanMsg.setShetuanJsonString(loadmoreJsonArray.getJSONObject(i).toString());
                                         mData.add(shetuanMsg);
                                     }

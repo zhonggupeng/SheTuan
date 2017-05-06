@@ -29,6 +29,7 @@ import com.euswag.eu.activity.login.InputPhoneActivity;
 import com.euswag.eu.bean.PeosonInformation;
 import com.euswag.eu.clipimage.ClipActivity;
 import com.euswag.eu.databinding.ActivityChangePeosonInformationBinding;
+import com.euswag.eu.model.DateUtils;
 import com.euswag.eu.model.OKHttpConnect;
 import com.euswag.eu.weight.EditTextWithDel;
 
@@ -55,21 +56,22 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
     private String path;
     private String headimagepath = null;
     private File headimagefile;
+    private String filename;
 
     private ActivityChangePeosonInformationBinding binding;
     private SharedPreferences sharedPreferences;
     private PeosonInformation peosonInformation;
 
     private OKHttpConnect okHttpConnect;
-    private String requestpeoinformationurl = "https://euswag.com/eu/info/introinfo";
+    private String requestpeoinformationurl = "/info/introinfo";
     private RequestBody requestpeoinformationbody;
 
-    private String changeinformationurl = "https://euswag.com/eu/info/changeinfo";
+    private String changeinformationurl = "/info/changeinfo";
     private RequestBody changeinformationbody;
 
-    private String headimageloadurl = "https://euswag.com/picture/user/";
+    private String headimageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
-    private String postheadimageurl = "https://euswag.com/eu/upload/user";
+    private String postheadimageurl = "/user";
 
     private final int REQUEST_PEOPLE = 110;
     private final int POST_HEADIMAGE = 111;
@@ -326,7 +328,7 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postfile(postheadimageurl, headimagefile);
+                resultstring = okHttpConnect.postfile(postheadimageurl, headimagefile,filename);
                 Message message = handler.obtainMessage();
                 message.what = POST_HEADIMAGE;
                 message.obj = resultstring;
@@ -411,13 +413,12 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                         int result;
                         try {
                             jsonObject = new JSONObject(postheadimageresult);
-                            result = jsonObject.getInt("status");
-                            if (result == 200) {
-                                String postheadimagedata = jsonObject.getString("data");
+                            result = jsonObject.getInt("code");
+                            if (result == 0) {
                                 changeinformationbody = new FormBody.Builder()
                                         .add("uid", String.valueOf(peosonInformation.getUid()))
                                         .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
-                                        .add("avatar", postheadimagedata.substring(0, postheadimagedata.indexOf(".")))
+                                        .add("avatar", filename)
                                         .build();
                                 new Thread(new ChangeInformationRunnable()).start();
                             } else {
@@ -543,6 +544,7 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
                 binding.changeInformHeadimage.setImageURI(new String(string + temppath));
 //                imageView.setImageURI();//将图片置入image
                 headimagefile = new File(temppath);
+                filename = DateUtils.data(DateUtils.getCurrentTime());
                 new Thread(new PostHeadimageRunnable()).start();
                 break;
             default:

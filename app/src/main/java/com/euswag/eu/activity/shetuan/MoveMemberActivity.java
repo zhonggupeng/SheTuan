@@ -41,13 +41,13 @@ public class MoveMemberActivity extends AppCompatActivity {
     private int itemposition;
 
     private OKHttpConnect okHttpConnect;
-    private String movememberurl = "https://euswag.com/eu/community/leavecm";
+    private String movememberurl = "/community/leavecm";
     private RequestBody movememberbody;
 
-    private String getcontactsurl = "https://euswag.com/eu/community/contacts";
+    private String getcontactsurl = "/community/contacts";
     private RequestBody getcontactsbody;
 
-    private String headimageloadurl = "https://euswag.com/picture/user/";
+    private String headimageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
     private final int MOVE_MEMBER = 110;
     private final int GET_CONTACTS = 100;

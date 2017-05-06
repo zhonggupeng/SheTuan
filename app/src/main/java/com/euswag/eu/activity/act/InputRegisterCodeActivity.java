@@ -31,7 +31,7 @@ public class InputRegisterCodeActivity extends AppCompatActivity {
     private InputPINTest inputPINTest;
 
     private OKHttpConnect okHttpConnect;
-    private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
+    private String registerfinishurl = "/activity/participateregister";
     private RequestBody registerfinishbody;
 
     private final int REGISTER_FINISH = 110;

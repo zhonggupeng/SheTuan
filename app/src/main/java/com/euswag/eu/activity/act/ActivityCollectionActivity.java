@@ -37,9 +37,9 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
     private SharedPreferences sharedPreferences;
     private OKHttpConnect okHttpConnect;
 
-    private String loadcollectionurl = "https://euswag.com/eu/activity/collectedav";
+    private String loadcollectionurl = "/activity/collectedav";
     private RequestBody loadcollectionbody;
-    private String imageloadurl = "https://euswag.com/picture/activity/";
+    private String imageloadurl = "/picture/activity/";
 
     private final int REFRESH = 100;
     private final int LOADCOLLECTION = 110;

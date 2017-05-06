@@ -66,14 +66,14 @@ public class PressActivityActivity extends AppCompatActivity {
     private final int CHANGE_ACTIVTIY = 0x1110;
 
     private OKHttpConnect okHttpConnect;
-    private String creaturl = "https://euswag.com/eu/activity/createav";
+    private String creaturl = "/activity/createav";
     private RequestBody creatbody;
 
-    private String changeurl = "https://euswag.com/eu/activity/changeav";
+    private String changeurl = "/activity/changeav";
     private RequestBody changebody;
 
-    private String pressimageurl = "https://euswag.com/eu/upload/activity";
-    private String activityimageloadurl = "https://euswag.com/picture/activity/";
+    private String pressimageurl = "/activity";
+    private String activityimageloadurl = "https://eu-1251935523.file.myqcloud.com/activity/av";
 
     private SharedPreferences sharedPreferences;
 
@@ -85,6 +85,7 @@ public class PressActivityActivity extends AppCompatActivity {
 
     private ActivityPressActivityBinding binding = null;
     private File imagefile;
+    private String filename;
 
     private int presstype;
 
@@ -232,6 +233,7 @@ public class PressActivityActivity extends AppCompatActivity {
                                 }
                             } else {
                                 imagefile = new File(imagepath);
+                                filename = DateUtils.data(DateUtils.getCurrentTime());
                                 new Thread(new PressImageRunnable()).start();
                             }
                         }
@@ -290,7 +292,7 @@ public class PressActivityActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
-                resultstring = okHttpConnect.postfile(pressimageurl, imagefile);
+                resultstring = okHttpConnect.postfile(pressimageurl, imagefile, filename);
                 Message message = handler.obtainMessage();
                 message.what = PRESSIMAGE;
                 message.obj = resultstring;
@@ -349,18 +351,18 @@ public class PressActivityActivity extends AppCompatActivity {
                     break;
                 case PRESSIMAGE:
                     String pressimageresult = (String) msg.obj;
+                    System.out.println("????-------------???"+pressimageresult);
                     if (pressimageresult.length() != 0) {
                         JSONObject jsonObject;
                         int result;
                         try {
                             jsonObject = new JSONObject(pressimageresult);
-                            result = jsonObject.getInt("status");
-                            if (result == 200) {
-                                String pressimagedata = jsonObject.getString("data");
+                            result = jsonObject.getInt("code");
+                            if (result == 0) {
                                 if (presstype == 0) {
                                     creatbody = new FormBody.Builder()
                                             .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
-                                            .add("avLogo", pressimagedata.substring(0, pressimagedata.indexOf(".")))
+                                            .add("avLogo", filename)
                                             .add("avDetail", pressActivity.getDetail())
                                             .add("avExpectnum", pressActivity.getExpectnum())
                                             .add("avPlace", pressActivity.getPlace())
@@ -376,7 +378,7 @@ public class PressActivityActivity extends AppCompatActivity {
                                 } else {
                                     changebody = new FormBody.Builder()
                                             .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
-                                            .add("avLogo", pressimagedata.substring(0, pressimagedata.indexOf(".")))
+                                            .add("avLogo", filename)
                                             .add("avid", String.valueOf(pressActivity.getAvid()))
                                             .add("avDetail", pressActivity.getDetail())
                                             .add("avExpectnum", pressActivity.getExpectnum())

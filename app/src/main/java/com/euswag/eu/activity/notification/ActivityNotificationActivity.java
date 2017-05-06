@@ -37,7 +37,7 @@ public class ActivityNotificationActivity extends AppCompatActivity implements S
     private ActivityNotificationAdapter adapter;
 
     private OKHttpConnect okHttpConnect = new OKHttpConnect();
-    private String activitynotificationurl = "https://euswag.com/eu/notification/activity";
+    private String activitynotificationurl = "/notification/activity";
     private RequestBody activitynotificationbody;
 
     private final int GET_NOTIFICATION = 110;

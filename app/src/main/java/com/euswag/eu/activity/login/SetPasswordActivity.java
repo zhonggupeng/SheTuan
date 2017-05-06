@@ -16,6 +16,7 @@ import com.euswag.eu.R;
 import com.euswag.eu.activity.MainTabActivity;
 import com.euswag.eu.bean.SetPassword;
 import com.euswag.eu.databinding.ActivitySetPasswordBinding;
+import com.euswag.eu.model.DateUtils;
 import com.euswag.eu.model.OKHttpConnect;
 
 import org.json.JSONException;
@@ -30,20 +31,21 @@ import okhttp3.RequestBody;
 public class SetPasswordActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
-    private String sendurl = "https://euswag.com/eu/user/newuser";
+    private String sendurl = "/user/newuser";
     private String sendparam;
     private RequestBody sendbody;
 
     //头像上传网址
-    private String sendavatarurl = "https://euswag.com/eu/upload/user";
+    private String sendavatarurl = "/user";
 
-    private String changepasswordurl = "https://euswag.com/eu/user/changepwdbyphone";
+    private String changepasswordurl = "/user/changepwdbyphone";
     private RequestBody changepasswordbody;
 
     private ActivitySetPasswordBinding binding;
     private SetPassword setPassword;
     private Intent dataintent;
     private File file;
+    private String filename;
 
     private final int SENDAVATARIMAGE = 1;
     private final int CHANGEPASSWORD = 2;
@@ -74,6 +76,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                     if (dataintent.getStringExtra("isregister").equals("0")) {
                         //先进行图片的发送，即头像的发送
                         file = new File(dataintent.getStringExtra("headimagepath"));
+                        filename = DateUtils.data(DateUtils.getCurrentTime());
                         new Thread(new SendAvatarRunnable()).start();
                         //然后进行数据的发送
                     } else if (dataintent.getStringExtra("isregister").equals("1")) {
@@ -114,7 +117,7 @@ public class SetPasswordActivity extends AppCompatActivity {
             okHttpConnect = new OKHttpConnect();
             String sendavatarresult;
             try {
-                sendavatarresult = okHttpConnect.postfile(sendavatarurl, file);
+                sendavatarresult = okHttpConnect.postfile(sendavatarurl, file,filename);
                 Message message = handler.obtainMessage();
                 message.what = SENDAVATARIMAGE;
                 message.obj = sendavatarresult;
@@ -155,10 +158,9 @@ public class SetPasswordActivity extends AppCompatActivity {
                         String returnstring;
                         try {
                             jsonObject = new JSONObject(sendavatarresult);
-                            result = jsonObject.getInt("status");
+                            result = jsonObject.getInt("code");
 //                            returnstring = jsonObject.getString("data");
-                            if (result == 200) {
-                                returnstring = jsonObject.getString("data");
+                            if (result == 0) {
                                 int gender;
                                 if (dataintent.getStringExtra("sex").equals("男")) {
                                     gender = 0;
@@ -169,7 +171,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                                 }
                                 sendbody = new FormBody.Builder()
                                         .add("uid", dataintent.getStringExtra("phonenumber"))
-                                        .add("avatar", returnstring.substring(0, returnstring.indexOf(".")))
+                                        .add("avatar", filename)
                                         .add("nickname", dataintent.getStringExtra("nickname"))
                                         .add("gender", String.valueOf(gender))
                                         .add("professionclass", dataintent.getStringExtra("academe"))

@@ -43,12 +43,12 @@ public class CheckListActivity extends AppCompatActivity implements VerticalSwip
     private Intent intent;
 
     private OKHttpConnect okHttpConnect;
-    private String requestmemberurl = "https://euswag.com/eu/activity/memberinfolist";
+    private String requestmemberurl = "/activity/memberinfolist";
     private RequestBody requestmemberbody;
 
-    private String headimageloadurl = "https://euswag.com/picture/user/";
+    private String headimageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
-    private String rejecturl = "https://euswag.com/eu/activity/manage";
+    private String rejecturl = "/activity/manage";
     private RequestBody rejectbody;
 
     private final int REQUEST_PHONE = 110;

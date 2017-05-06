@@ -30,7 +30,7 @@ public class ShetuanRecruitActivity extends AppCompatActivity {
     private Intent getintent;
 
     private OKHttpConnect okHttpConnect;
-    private String cheangerecruiturl = "https://euswag.com/eu/community/changerecruit";
+    private String cheangerecruiturl = "/community/changerecruit";
     private RequestBody changerecruitbody;
 
     private final int CHANGE_RECRUIT = 110;

@@ -37,10 +37,10 @@ public class MeFragment extends Fragment {
     private LayoutInflater inflater;
 
     private OKHttpConnect okHttpConnect;
-    private String loadpersonurl = "https://euswag.com/eu/info/introinfo";
+    private String loadpersonurl = "/info/introinfo";
     private RequestBody loadpersonbody;
 
-    private String imageloadurl = "https://euswag.com/picture/user/";
+    private String imageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
     private final int LOADPERSON = 110;
 

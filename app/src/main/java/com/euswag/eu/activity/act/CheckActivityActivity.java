@@ -40,16 +40,16 @@ public class CheckActivityActivity extends AppCompatActivity {
     private String datajsonstring;
     private ActivityMsg activityMsg = null;
 
-    private String activityimageloadurl = "https://euswag.com/picture/activity/";
+    private String activityimageloadurl = "https://eu-1251935523.file.myqcloud.com/activity/av";
 
     private OKHttpConnect okHttpConnect;
-    private String participatenumberurl = "https://euswag.com/eu/activity/memberinfolist";
+    private String participatenumberurl = "/activity/memberinfolist";
     private RequestBody participatenumberbody;
 
-    private String startregisterurl = "https://euswag.com/eu/activity/startregister";
+    private String startregisterurl = "/activity/startregister";
     private RequestBody startregisterbody;
 
-    private String deleteactivityurl = "https://euswag.com/eu/activity/deleteav";
+    private String deleteactivityurl = "/activity/deleteav";
     private RequestBody deleteactivitybody;
 
     private final int GETNUMBER = 110;

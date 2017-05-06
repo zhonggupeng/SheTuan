@@ -29,7 +29,7 @@ public class OKHttpConnect {
 
     public String postdata(String url, RequestBody body) throws IOException {
         Request request = new Request.Builder()
-            .url(url)
+            .url("https://api.euswag.com/eu"+url)
             .post(body)
             .build();
         Response response = client.newCall(request).execute();
@@ -40,15 +40,15 @@ public class OKHttpConnect {
         }
     }
 
-    public String postfile(String url, File file) throws IOException{
+    public String postfile(String url, File file ,String filename) throws IOException{
         RequestBody filebody = RequestBody.create(MediaType.parse("image/jpeg"),file);
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("file", "file", filebody)
+                .addFormDataPart("file", filename, filebody)
                 .build();
 
         Request request = new Request.Builder()
-                .url(url)
+                .url("https://euswag.com/eu/cos"+url)
                 .post(requestBody)
                 .build();
         Response response = client.newCall(request).execute();

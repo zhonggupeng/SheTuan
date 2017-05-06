@@ -28,7 +28,7 @@ import okhttp3.RequestBody;
 public class InputPhoneActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
-    private String stringurl = "https://euswag.com/eu/user/verifyphone";
+    private String stringurl = "/user/verifyphone";
     private RequestBody body;
     private String phonenumber;
 

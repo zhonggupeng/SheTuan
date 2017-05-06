@@ -37,7 +37,11 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
@@ -46,8 +50,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private String datajsonstring;
     private ActivityMsg activityMsg = null;
 
-    private OKHttpConnect okHttpConnect;
-    private String getoriginatorurl = "https://euswag.com/eu/info/introinfo";
+    private OKHttpConnect okHttpConnect = new OKHttpConnect();
+    private String getoriginatorurl = "/info/introinfo";
     private RequestBody getoriginatorbody;
 
     private final int GETORIGINATOR = 110;
@@ -57,28 +61,34 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private final int CANCELCOLLECTE = 121;
     private final int GETNUMBER = 131;
     private final int REGISTER_FINISH = 141;
+    private final int PUSH_ACTIVITY = 151;
 
-    private String headimageloadurl = "https://euswag.com/picture/user/";
-    private String activityimageloadurl = "https://euswag.com/picture/activity/";
+    private final int SET_TAGS = 1100;
 
-    private String participateurl = "https://euswag.com/eu/activity/participateav";
+    private String headimageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
+    private String activityimageloadurl = "https://eu-1251935523.file.myqcloud.com/activity/av";
+
+    private String participateurl = "/activity/participateav";
     private String participateparam;
     private RequestBody participatebody;
 
-    private String quiturl = "https://euswag.com/eu/activity/quitav";
+    private String quiturl = "/activity/quitav";
     private RequestBody quitbody;
 
-    private String collecteurl = "https://euswag.com/eu/activity/collectav";
+    private String collecteurl = "/activity/collectav";
     private RequestBody collectebody;
 
-    private String cancelcollecteurl = "https://euswag.com/eu/activity/discollectav";
+    private String cancelcollecteurl = "/activity/discollectav";
     private RequestBody cancelcollectebody;
 
-    private String participatenumberurl = "https://euswag.com/eu/activity/memberinfolist";
+    private String participatenumberurl = "/activity/memberinfolist";
     private RequestBody participatenumberbody;
 
-    private String registerfinishurl = "https://euswag.com/eu/activity/participateregister";
+    private String registerfinishurl = "/activity/participateregister";
     private RequestBody registerfinishbody;
+
+    private String pushactivityurl = "/push/activitytagpush";
+    private RequestBody pushactivitybody;
 
     //是否已经收藏该活动，
     private boolean hascollection;
@@ -191,13 +201,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + activityMsg.getUid()));
                     if (ActivityCompat.checkSelfPermission(ActivityDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
                     ActivityDetailActivity.this.startActivity(intent);
@@ -297,7 +300,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
                 resultstring = okHttpConnect.postdata(getoriginatorurl, getoriginatorbody);
@@ -315,7 +317,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
                 resultstring = okHttpConnect.postdata(participateurl, participatebody);
@@ -333,7 +334,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
                 resultstring = okHttpConnect.postdata(quiturl, quitbody);
@@ -351,7 +351,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
                 resultstring = okHttpConnect.postdata(collecteurl, collectebody);
@@ -369,7 +368,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
                 resultstring = okHttpConnect.postdata(cancelcollecteurl, cancelcollectebody);
@@ -387,7 +385,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
                 resultstring = okHttpConnect.postdata(participatenumberurl, participatenumberbody);
@@ -405,7 +402,6 @@ public class ActivityDetailActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            okHttpConnect = new OKHttpConnect();
             String resultstring;
             try {
                 resultstring = okHttpConnect.postdata(registerfinishurl, registerfinishbody);
@@ -418,6 +414,46 @@ public class ActivityDetailActivity extends AppCompatActivity {
             }
         }
     }
+
+    private class PushActivityRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.postdata(pushactivityurl, pushactivitybody);
+                Message message = handler.obtainMessage();
+                message.what = PUSH_ACTIVITY;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //TODO
+    private final TagAliasCallback tagAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int i, String s, Set<String> set) {
+            switch (i){
+                case 0:
+                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+                    pushactivitybody = new FormBody.Builder()
+                            .add("alert", "您成功参加" + activityMsg.getActtitle())
+                            .add("avid", String.valueOf(activityMsg.getActid()))
+                            .add("avname", activityMsg.getActtitle())
+                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                            .build();
+                    new Thread(new PushActivityRunnable()).start();
+                    break;
+                case 6002:
+                    handler.sendMessage(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()));
+                    break;
+                default:break;
+            }
+        }
+    };
 
     private Handler handler = new Handler() {
         @Override
@@ -458,7 +494,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(participateresult);
                             result = jsonObject.getInt("status");
                             if (result == 200) {
-                                Toast.makeText(ActivityDetailActivity.this, "参加成功", Toast.LENGTH_SHORT).show();
+                                //TODO
+                                handler.sendMessage(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()));
                             } else if (result == 500) {
                                 Toast.makeText(ActivityDetailActivity.this, "你已参加了该活动，不要重复参加", Toast.LENGTH_SHORT).show();
                             } else {
@@ -590,6 +627,17 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
+                    break;
+                case SET_TAGS:
+                    //TODO
+                    String tags = (String) msg.obj;
+                    Set<String> set = new HashSet<>();
+                    set.add(tags);
+                    JPushInterface.setTags(getApplicationContext(), set , tagAliasCallback);
+                    break;
+                case PUSH_ACTIVITY:
+                    String pushactivityresult = (String) msg.obj;
+                    System.out.println("推送返回" + pushactivityresult);
                     break;
                 default:
                     break;

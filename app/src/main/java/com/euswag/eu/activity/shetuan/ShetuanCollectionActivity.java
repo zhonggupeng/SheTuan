@@ -35,11 +35,11 @@ public class ShetuanCollectionActivity extends AppCompatActivity implements Swip
     private ArrayList<ShetuanMsg> mData = new ArrayList<>();
 
     private OKHttpConnect okHttpConnect;
-    private String loadcollectionurl = "https://euswag.com/eu/community/collectedcm";
+    private String loadcollectionurl = "/community/collectedcm";
     private RequestBody loadcollectionbody;
 
-    private String shetuanlogourl = "https://euswag.com/picture/community/logo/";
-    private String shetuanbackgroundurl = "https://euswag.com/picture/community/background/";
+    private String shetuanlogourl = "https://eu-1251935523.file.myqcloud.com/community/logo/cmlogo";
+    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbackground";
 
     private final int REFRESH = 110;
     private final int LOAD_COLLECTION = 100;
@@ -110,7 +110,7 @@ public class ShetuanCollectionActivity extends AppCompatActivity implements Swip
                                 jsonArray = (JSONArray) jsonTokener.nextValue();
                                 mData.clear();
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    ShetuanMsg shetuanMsg = new ShetuanMsg(jsonArray.getJSONObject(i).getString("cmName"), jsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl+jsonArray.getJSONObject(i).getString("cmBackground")+".jpg", shetuanlogourl+jsonArray.getJSONObject(i).getString("cmLogo"));
+                                    ShetuanMsg shetuanMsg = new ShetuanMsg(jsonArray.getJSONObject(i).getString("cmName"), jsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl+jsonArray.getJSONObject(i).getString("cmBackground")+".jpg", shetuanlogourl+jsonArray.getJSONObject(i).getString("cmLogo")+".png");
                                     shetuanMsg.setShetuanJsonString(jsonArray.getJSONObject(i).toString());
                                     mData.add(shetuanMsg);
                                 }

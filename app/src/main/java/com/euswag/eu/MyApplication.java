@@ -21,13 +21,15 @@ public class MyApplication extends Application {
         //初始化sdk
         JPushInterface.setDebugMode(false);//正式版的时候设置false，关闭调试
         JPushInterface.init(this);
+        //设置别名
+//        JPushInterface.setAlias(this,"",null);
         //建议添加tag标签，发送消息的之后就可以指定tag标签来发送了
-        Set<String> set = new HashSet<>();
-        set.add("av");//名字任意，可多添加几个
-        set.add("applycm");
-        set.add("oraltest");
-        set.add("interview");
-        set.add("cm");
-        JPushInterface.setTags(this, set, null);//设置标签
+//        Set<String> set = new HashSet<>();
+//        set.add("av");//名字任意，可多添加几个
+//        set.add("applycm");
+//        set.add("oraltest");
+//        set.add("interview");
+//        set.add("cm");
+//        JPushInterface.setTags(this, set, null);//设置标签
     }
 }

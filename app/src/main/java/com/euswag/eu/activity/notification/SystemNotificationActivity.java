@@ -37,7 +37,7 @@ public class SystemNotificationActivity extends AppCompatActivity implements Swi
     private SystemNotificationAdapter adapter;
 
     private OKHttpConnect okHttpConnect = new OKHttpConnect();
-    private String systemnotificationurl = "https://euswag.com/eu/notification/system";
+    private String systemnotificationurl = "/notification/system";
     private RequestBody systemnotificationbody;
 
     private final int GET_NOTIFICATION = 110;
@@ -95,7 +95,6 @@ public class SystemNotificationActivity extends AppCompatActivity implements Swi
             switch (msg.what){
                 case REFRESH:
                     systemnotificationbody = new FormBody.Builder()
-                            .add("uid", sharedPreferences.getString("phonenumber", ""))
                             .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                             .build();
                     new Thread(new GetNotificationRunnable()).start();

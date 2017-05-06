@@ -41,9 +41,9 @@ public class ActivityFragment1 extends Fragment implements VerticalSwipeRefreshL
     private NoLoadmoreActivityRecyclerviewAdapter adapter;
 
     private OKHttpConnect okHttpConnect;
-    private String participatingurl = "https://euswag.com/eu/activity/joinedav";
+    private String participatingurl = "/activity/joinedav";
     private RequestBody participatingbody;
-    private String imageloadurl = "https://euswag.com/picture/activity/";
+    private String imageloadurl = "https://eu-1251935523.file.myqcloud.com/activity/av";
 
     private final int REFRESH_COMPLETE = 0x1101;
     private final int ACTIVITYREFRESH = 0x1010;

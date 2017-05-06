@@ -145,7 +145,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.notification.ShetuanNotificationActivity" />
         <activity android:name=".activity.notification.ActivityNotificationActivity" />
-        <activity android:name=".activity.notification.SystemNotificationActivity"></activity>
+        <activity android:name=".activity.notification.SystemNotificationActivity" />
+        <activity android:name=".activity.shetuan.WriteShetuanNotificationActivity"></activity>
     </application>
 
 </manifest>
