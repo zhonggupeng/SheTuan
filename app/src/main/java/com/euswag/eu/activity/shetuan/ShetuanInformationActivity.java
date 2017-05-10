@@ -54,7 +54,7 @@ public class ShetuanInformationActivity extends AppCompatActivity {
     private RequestBody getheaderbody;
 
     private String shetuanlogourl = "https://eu-1251935523.file.myqcloud.com/community/logo/cmlogo";
-    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbackground";
+    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbg";
 
     private final int SHETUAN_MEMBER = 110;
     private final int COLLECTE = 100;

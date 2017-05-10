@@ -39,7 +39,7 @@ public class ActivityCollectionActivity extends AppCompatActivity implements Ver
 
     private String loadcollectionurl = "/activity/collectedav";
     private RequestBody loadcollectionbody;
-    private String imageloadurl = "/picture/activity/";
+    private String imageloadurl = "https://eu-1251935523.file.myqcloud.com/activity/av";
 
     private final int REFRESH = 100;
     private final int LOADCOLLECTION = 110;

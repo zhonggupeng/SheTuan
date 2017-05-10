@@ -43,6 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:text="确认修改"
+                android:textSize="@dimen/font_size"
                 android:gravity="center_vertical"
                 android:textColor="@color/title_font_color"
                 android:layout_marginRight="10dp"/>

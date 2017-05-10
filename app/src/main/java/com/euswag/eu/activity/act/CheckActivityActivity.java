@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.euswag.eu.R;
 import com.euswag.eu.activity.DetailsQRcodeActivity;
 import com.euswag.eu.activity.funct.PressActivityActivity;
+import com.euswag.eu.activity.notification.PressNotificationActivity;
 import com.euswag.eu.bean.ActivityMsg;
 import com.euswag.eu.databinding.ActivityCheckActivityBinding;
 import com.euswag.eu.model.DateUtils;
@@ -217,6 +218,16 @@ public class CheckActivityActivity extends AppCompatActivity {
                     intent.putExtra("datajson", datajsonstring);
                     CheckActivityActivity.this.startActivity(intent);
                 }
+            }
+        });
+        binding.checkActivityNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckActivityActivity.this, PressNotificationActivity.class);
+                intent.putExtra("type","av");
+                intent.putExtra("id",activityMsg.getActid());
+                intent.putExtra("name",activityMsg.getActtitle());
+                CheckActivityActivity.this.startActivity(intent);
             }
         });
     }

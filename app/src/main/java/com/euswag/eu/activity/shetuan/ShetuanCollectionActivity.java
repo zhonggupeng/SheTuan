@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.Toast;
 
 import com.euswag.eu.R;
@@ -39,7 +40,7 @@ public class ShetuanCollectionActivity extends AppCompatActivity implements Swip
     private RequestBody loadcollectionbody;
 
     private String shetuanlogourl = "https://eu-1251935523.file.myqcloud.com/community/logo/cmlogo";
-    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbackground";
+    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbg";
 
     private final int REFRESH = 110;
     private final int LOAD_COLLECTION = 100;
@@ -60,6 +61,15 @@ public class ShetuanCollectionActivity extends AppCompatActivity implements Swip
         binding.shetuanCollectionRefresh.setOnRefreshListener(this);
         binding.shetuanCollectionRefresh.setDistanceToTriggerSync(300);
         binding.shetuanCollectionRefresh.setSize(SwipeRefreshLayout.DEFAULT);
+        click();
+    }
+    private void click(){
+        binding.shetuanCollectionBackimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShetuanCollectionActivity.this.onBackPressed();
+            }
+        });
     }
 
     @Override

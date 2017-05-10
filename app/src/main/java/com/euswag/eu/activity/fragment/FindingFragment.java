@@ -47,7 +47,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private RequestBody shetuanbody;
 
     private String shetuanlogourl = "https://eu-1251935523.file.myqcloud.com/community/logo/cmlogo";
-    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbackground";
+    private String shetuanbackgroundurl = "https://eu-1251935523.file.myqcloud.com/community/background/cmbg";
 
     private final int REFRESH_COMPLETE = 0x1100;
     private final int LOAD_MORE = 0x1111;

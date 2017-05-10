@@ -3,18 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="pressAnnounce"
-            type="com.euswag.eu.bean.PressAnnounce"/>
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/item_space_color"
-        tools:context="com.euswag.eu.activity.shetuan.PressAnnounceActivity">
+        tools:context="com.euswag.eu.activity.notification.PressNotificationActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,26 +16,26 @@
             android:background="@color/main_color">
 
             <ImageView
+                android:id="@+id/press_notification_backimage"
                 android:layout_width="@dimen/title_height"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:padding="10dp"
-                android:src="@drawable/ic_back"
-                android:onClick="@{pressAnnounce.backclick}"/>
+                android:src="@drawable/ic_back" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="发布公告"
+                android:text="发送通知"
                 android:textColor="@color/title_font_color"
                 android:textSize="@dimen/title_font_size" />
             <TextView
-                android:id="@+id/press_announce_press"
+                android:id="@+id/press_notification_press"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:text="发布"
+                android:text="发送"
                 android:textSize="@dimen/font_size"
                 android:gravity="center_vertical"
                 android:textColor="@color/title_font_color"
@@ -53,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_module_space"></LinearLayout>
         <EditText
+            android:id="@+id/press_notification_content"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:background="@color/white"
@@ -60,7 +55,6 @@
             android:lineSpacingMultiplier="1.2"
             android:padding="@dimen/activity_horizontal_margin"
             android:hint="请输入公告内容"
-            android:text="@={pressAnnounce.announcement}"
             android:textColor="@color/black"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/font_size" />

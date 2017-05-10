@@ -87,8 +87,8 @@ public class ActivityDetailActivity extends AppCompatActivity {
     private String registerfinishurl = "/activity/participateregister";
     private RequestBody registerfinishbody;
 
-    private String pushactivityurl = "/push/activitytagpush";
-    private RequestBody pushactivitybody;
+//    private String pushactivityurl = "/push/activitytagpush";
+//    private RequestBody pushactivitybody;
 
     //是否已经收藏该活动，
     private boolean hascollection;
@@ -415,22 +415,22 @@ public class ActivityDetailActivity extends AppCompatActivity {
         }
     }
 
-    private class PushActivityRunnable implements Runnable {
-
-        @Override
-        public void run() {
-            String resultstring;
-            try {
-                resultstring = okHttpConnect.postdata(pushactivityurl, pushactivitybody);
-                Message message = handler.obtainMessage();
-                message.what = PUSH_ACTIVITY;
-                message.obj = resultstring;
-                handler.sendMessage(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    private class PushActivityRunnable implements Runnable {
+//
+//        @Override
+//        public void run() {
+//            String resultstring;
+//            try {
+//                resultstring = okHttpConnect.postdata(pushactivityurl, pushactivitybody);
+//                Message message = handler.obtainMessage();
+//                message.what = PUSH_ACTIVITY;
+//                message.obj = resultstring;
+//                handler.sendMessage(message);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     //TODO
     private final TagAliasCallback tagAliasCallback = new TagAliasCallback() {
@@ -439,16 +439,16 @@ public class ActivityDetailActivity extends AppCompatActivity {
             switch (i){
                 case 0:
                     // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-                    pushactivitybody = new FormBody.Builder()
-                            .add("alert", "您成功参加" + activityMsg.getActtitle())
-                            .add("avid", String.valueOf(activityMsg.getActid()))
-                            .add("avname", activityMsg.getActtitle())
-                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
-                            .build();
-                    new Thread(new PushActivityRunnable()).start();
+//                    pushactivitybody = new FormBody.Builder()
+//                            .add("alert", "您成功参加" + activityMsg.getActtitle())
+//                            .add("avid", String.valueOf(activityMsg.getActid()))
+//                            .add("avname", activityMsg.getActtitle())
+//                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+//                            .build();
+//                    new Thread(new PushActivityRunnable()).start();
                     break;
                 case 6002:
-                    handler.sendMessage(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()));
+                    handler.sendMessageDelayed(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()),1000*60);
                     break;
                 default:break;
             }
@@ -494,7 +494,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(participateresult);
                             result = jsonObject.getInt("status");
                             if (result == 200) {
-                                //TODO
+                                Toast.makeText(ActivityDetailActivity.this, "参加成功", Toast.LENGTH_SHORT).show();
                                 handler.sendMessage(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()));
                             } else if (result == 500) {
                                 Toast.makeText(ActivityDetailActivity.this, "你已参加了该活动，不要重复参加", Toast.LENGTH_SHORT).show();
@@ -635,10 +635,10 @@ public class ActivityDetailActivity extends AppCompatActivity {
                     set.add(tags);
                     JPushInterface.setTags(getApplicationContext(), set , tagAliasCallback);
                     break;
-                case PUSH_ACTIVITY:
-                    String pushactivityresult = (String) msg.obj;
-                    System.out.println("推送返回" + pushactivityresult);
-                    break;
+//                case PUSH_ACTIVITY:
+//                    String pushactivityresult = (String) msg.obj;
+//                    System.out.println("推送返回" + pushactivityresult);
+//                    break;
                 default:
                     break;
             }
