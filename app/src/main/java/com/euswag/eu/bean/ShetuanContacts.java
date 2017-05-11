@@ -99,7 +99,6 @@ public class ShetuanContacts extends BaseObservable {
         this.academe = academe;
         notifyPropertyChanged(BR.academe);
     }
-
     public boolean isCheck() {
         return isCheck;
     }

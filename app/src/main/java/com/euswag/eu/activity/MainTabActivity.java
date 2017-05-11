@@ -30,6 +30,7 @@ import com.euswag.eu.activity.fragment.HomepageFragment;
 import com.euswag.eu.activity.fragment.MeFragment;
 import com.euswag.eu.activity.fragment.MessageFragment;
 import com.euswag.eu.activity.funct.FunctionActivity;
+import com.euswag.eu.activity.shetuan.ShetuanInformationActivity;
 import com.euswag.eu.databinding.ActivityMainTabBinding;
 import com.euswag.eu.model.OKHttpConnect;
 
@@ -64,8 +65,12 @@ public class MainTabActivity extends FragmentActivity {
     private String registerfinishurl = "/activity/participateregister";
     private RequestBody registerfinishbody;
 
+    private String getshetuanurl = "/community/getcommunity";
+    private RequestBody getshetuanbody;
+
     private final int GETACTIVITY = 110;
     private final int REGISTER = 100;
+    private final int GETSHETUAN = 101;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,12 +171,13 @@ public class MainTabActivity extends FragmentActivity {
                                 .add("avid", resultarray[2])
                                 .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
                                 .build();
-
                         new Thread(new GetAcitivityRunnable()).start();
-
                     } else {
-                        //
-                        //转到社团
+                        getshetuanbody = new FormBody.Builder()
+                                .add("cmid",resultarray[2])
+                                .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                                .build();
+                        new Thread(new GetShetuanRunnable()).start();
                     }
                 } else {
                     registerfinishbody = new FormBody.Builder()
@@ -222,6 +228,23 @@ public class MainTabActivity extends FragmentActivity {
             }
         }
     }
+    private class GetShetuanRunnable implements Runnable{
+
+        @Override
+        public void run() {
+            okHttpConnect = new OKHttpConnect();
+            String resultstring;
+            try {
+                resultstring = okHttpConnect.postdata(getshetuanurl,getshetuanbody);
+                Message message = handler.obtainMessage();
+                message.what = GETSHETUAN;
+                message.obj = resultstring;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private Handler handler = new Handler() {
         @Override
@@ -248,6 +271,29 @@ public class MainTabActivity extends FragmentActivity {
                         }
                     } else {
                         Toast.makeText(MainTabActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case GETSHETUAN:
+                    String getshetuanresult = (String) msg.obj;
+                    if (getshetuanresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(getshetuanresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Intent intent = new Intent(MainTabActivity.this, ShetuanInformationActivity.class);
+                                intent.putExtra("datajson3",jsonObject.getString("data"));
+                                intent.putExtra("collection","0");
+                                MainTabActivity.this.startActivity(intent);
+                            }else {
+                                Toast.makeText(MainTabActivity.this,"请求社团详情失败，请重试",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(MainTabActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case REGISTER:

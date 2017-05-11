@@ -107,15 +107,15 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:background="@drawable/pin_edit_sharp"
-                android:focusable='@{((InputPINTest.edit3.length()==0))?false:true}'
-                android:focusableInTouchMode='@{(InputPINTest.edit3.length()==1)?true:false}'
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
                 android:text="@={InputPINTest.edit4}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:focusable='@{((InputPINTest.edit3.length()==0))?false:true}'
+                android:focusableInTouchMode='@{(InputPINTest.edit3.length()==1)?true:false}'/>
         </LinearLayout>
 
         <TextView

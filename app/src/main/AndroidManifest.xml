@@ -143,13 +143,29 @@
         <activity
             android:name=".activity.shetuan.DeliverShetuanActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.notification.ShetuanNotificationActivity" />
-        <activity android:name=".activity.notification.ActivityNotificationActivity" />
-        <activity android:name=".activity.notification.SystemNotificationActivity" />
-        <activity android:name=".activity.shetuan.WriteShetuanNotificationActivity" />
-        <activity android:name=".activity.notification.PressNotificationActivity" />
-        <activity android:name=".activity.Search2Activity" />
-        <activity android:name=".activity.ShowSearchActivity"></activity>
+        <activity
+            android:name=".activity.notification.ShetuanNotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.notification.ActivityNotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.notification.SystemNotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.shetuan.WriteShetuanNotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.notification.PressNotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Search2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShowSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.shetuan.ShetuanNoticeListActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

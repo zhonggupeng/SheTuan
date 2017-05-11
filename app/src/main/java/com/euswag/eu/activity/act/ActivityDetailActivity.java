@@ -432,28 +432,28 @@ public class ActivityDetailActivity extends AppCompatActivity {
 //        }
 //    }
 
-    //TODO
-    private final TagAliasCallback tagAliasCallback = new TagAliasCallback() {
-        @Override
-        public void gotResult(int i, String s, Set<String> set) {
-            switch (i){
-                case 0:
-                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-//                    pushactivitybody = new FormBody.Builder()
-//                            .add("alert", "您成功参加" + activityMsg.getActtitle())
-//                            .add("avid", String.valueOf(activityMsg.getActid()))
-//                            .add("avname", activityMsg.getActtitle())
-//                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
-//                            .build();
-//                    new Thread(new PushActivityRunnable()).start();
-                    break;
-                case 6002:
-                    handler.sendMessageDelayed(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()),1000*60);
-                    break;
-                default:break;
-            }
-        }
-    };
+//    //TODO
+//    private final TagAliasCallback tagAliasCallback = new TagAliasCallback() {
+//        @Override
+//        public void gotResult(int i, String s, Set<String> set) {
+//            switch (i){
+//                case 0:
+//                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+////                    pushactivitybody = new FormBody.Builder()
+////                            .add("alert", "您成功参加" + activityMsg.getActtitle())
+////                            .add("avid", String.valueOf(activityMsg.getActid()))
+////                            .add("avname", activityMsg.getActtitle())
+////                            .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+////                            .build();
+////                    new Thread(new PushActivityRunnable()).start();
+//                    break;
+//                case 6002:
+//                    handler.sendMessageDelayed(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()),1000*60);
+//                    break;
+//                default:break;
+//            }
+//        }
+//    };
 
     private Handler handler = new Handler() {
         @Override
@@ -495,7 +495,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
                             result = jsonObject.getInt("status");
                             if (result == 200) {
                                 Toast.makeText(ActivityDetailActivity.this, "参加成功", Toast.LENGTH_SHORT).show();
-                                handler.sendMessage(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()));
+//                                handler.sendMessage(handler.obtainMessage(SET_TAGS, "av" + activityMsg.getActid()));
                             } else if (result == 500) {
                                 Toast.makeText(ActivityDetailActivity.this, "你已参加了该活动，不要重复参加", Toast.LENGTH_SHORT).show();
                             } else {
@@ -628,13 +628,13 @@ public class ActivityDetailActivity extends AppCompatActivity {
                         Toast.makeText(ActivityDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case SET_TAGS:
-                    //TODO
-                    String tags = (String) msg.obj;
-                    Set<String> set = new HashSet<>();
-                    set.add(tags);
-                    JPushInterface.setTags(getApplicationContext(), set , tagAliasCallback);
-                    break;
+//                case SET_TAGS:
+//                    //TODO
+//                    String tags = (String) msg.obj;
+//                    Set<String> set = new HashSet<>();
+//                    set.add(tags);
+//                    JPushInterface.setTags(getApplicationContext(), set , tagAliasCallback);
+//                    break;
 //                case PUSH_ACTIVITY:
 //                    String pushactivityresult = (String) msg.obj;
 //                    System.out.println("推送返回" + pushactivityresult);
@@ -699,7 +699,7 @@ public class ActivityDetailActivity extends AppCompatActivity {
             if (resultstring.indexOf("www.euswag.com?") == 0) {
                 String[] resultarray = resultstring.split("\\?|=|&");
                 if (resultarray.length == 5) {
-                    if (resultarray[2].equals(String.valueOf(activityMsg.getActid())) && resultarray[4].equals(String.valueOf(activityMsg.getActid()))) {
+                    if (resultarray[2].equals(String.valueOf(activityMsg.getActid())) && resultarray[4].equals(String.valueOf(activityMsg.getActregister()))) {
                         registerfinishbody = new FormBody.Builder()
                                 .add("uid", sharedPreferences.getString("phonenumber", "0"))
                                 .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))

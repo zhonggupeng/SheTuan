@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.euswag.eu.activity.shetuan.ShetuanNoticeListActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/main_color">
+
+        <ImageView
+            android:id="@+id/shetuan_notice_list_backimage"
+            android:layout_width="@dimen/title_height"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="选择联系人"
+            android:textColor="@color/title_font_color"
+            android:textSize="@dimen/title_font_size" />
+        <TextView
+            android:id="@+id/shetuan_notice_list_nextstep"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:text="下一步"
+            android:textSize="@dimen/font_size"
+            android:gravity="center_vertical"
+            android:textColor="@color/title_font_color"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"/>
+    </RelativeLayout>
+    <CheckBox
+        android:id="@+id/shetuan_notice_list_selectall"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/module_item_height"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:text="全选"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bottom_line"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@color/gray">
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/shetuan_notice_list_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/shetuan_notice_list_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/shetuan_notice_list_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+            </android.support.v7.widget.RecyclerView>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
+</layout>

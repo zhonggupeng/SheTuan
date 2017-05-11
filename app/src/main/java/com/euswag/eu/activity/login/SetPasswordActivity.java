@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
@@ -233,6 +234,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                             jsonObject = new JSONObject(senduserinforesult);
                             result = jsonObject.getInt("status");
                             if (result == 200) {
+                                JPushInterface.setAlias(getApplication(),dataintent.getStringExtra("phonenumber"),null);
                                 SharedPreferences sharedPreferences = getSharedPreferences("token", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("accesstoken", jsonObject.getString("data"));
@@ -245,7 +247,6 @@ public class SetPasswordActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(SetPasswordActivity.this, "出现异常，请点击重试", Toast.LENGTH_SHORT).show();
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -255,7 +256,6 @@ public class SetPasswordActivity extends AppCompatActivity {
                     break;
                 default:
                     break;
-
             }
         }
     };

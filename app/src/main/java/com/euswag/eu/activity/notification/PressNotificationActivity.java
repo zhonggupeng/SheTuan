@@ -15,6 +15,9 @@ import com.euswag.eu.R;
 import com.euswag.eu.databinding.ActivityPressNotificationBinding;
 import com.euswag.eu.model.OKHttpConnect;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.FormBody;
@@ -26,10 +29,10 @@ public class PressNotificationActivity extends AppCompatActivity {
     private Intent getintent;
 
     private OKHttpConnect okHttpConnect = new OKHttpConnect();
-    private String pressnotificationurl = "/push/activitytagpush";
+    private String pressnotificationurl = "/push/activityPush";
     private RequestBody pressnotificationbody;
 
-    private String shetuannotificationurl = "/push/communitytagpush";
+    private String shetuannotificationurl = "/push/communityaliaspush";
     private RequestBody shetuannotificationbody;
 
     private final int PRESS = 110;
@@ -61,11 +64,12 @@ public class PressNotificationActivity extends AppCompatActivity {
                                 .add("alert", binding.pressNotificationContent.getText().toString())
                                 .add("avid", String.valueOf(getintent.getIntExtra("id", 0)))
                                 .add("avname", getintent.getStringExtra("name"))
-                                .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                                .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
                                 .build();
                         new Thread(new PressNotificationRunnable()).start();
                     }else if(getintent.getStringExtra("type").equals("cm")){
                         shetuannotificationbody = new FormBody.Builder()
+                                .add("alias",getintent.getStringExtra("phonelist"))
                                 .add("alert", binding.pressNotificationContent.getText().toString())
                                 .add("cmid", String.valueOf(getintent.getIntExtra("id", 0)))
                                 .add("cmname", getintent.getStringExtra("name"))
@@ -116,11 +120,45 @@ public class PressNotificationActivity extends AppCompatActivity {
             switch (msg.what){
                 case PRESS:
                     String pressresult = (String) msg.obj;
-                    System.out.println("tuisong fanhui:  "+pressresult);
-                    //TODO
+                    if (pressresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(pressresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(PressNotificationActivity.this,"通知发送成功",Toast.LENGTH_SHORT).show();
+                                PressNotificationActivity.this.finish();
+                            }else {
+                                Toast.makeText(PressNotificationActivity.this,"通知发送失败，请重试",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(PressNotificationActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case SHETUAN_NOTIFICATION:
-                    //TODO
+                    String shetuannotificationresult = (String) msg.obj;
+                    if (shetuannotificationresult.length()!=0){
+                        JSONObject jsonObject;
+                        int result;
+                        try {
+                            jsonObject = new JSONObject(shetuannotificationresult);
+                            result = jsonObject.getInt("status");
+                            if (result == 200){
+                                Toast.makeText(PressNotificationActivity.this,"通知发送成功",Toast.LENGTH_SHORT).show();
+                                PressNotificationActivity.this.finish();
+                            }else {
+                                Toast.makeText(PressNotificationActivity.this,"通知发送失败，请重试",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        Toast.makeText(PressNotificationActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 default:break;
             }

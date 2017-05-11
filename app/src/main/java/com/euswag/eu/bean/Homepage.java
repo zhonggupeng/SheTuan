@@ -6,8 +6,8 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.euswag.eu.activity.MainTabActivity;
+import com.euswag.eu.activity.Search2Activity;
 import com.euswag.eu.activity.shetuan.MyShetuanActivity;
-import com.euswag.eu.activity.SearchActivity;
 import com.euswag.eu.activity.act.MyActivityActivity;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
@@ -29,7 +29,7 @@ public class Homepage extends BaseObservable{
         context.startActivity(intent);
     }
     public void searchviewclick(View view){
-        Intent intent = new Intent(context, SearchActivity.class);
+        Intent intent = new Intent(context, Search2Activity.class);
         context.startActivity(intent);
     }
     public void scanimageclick(View view){

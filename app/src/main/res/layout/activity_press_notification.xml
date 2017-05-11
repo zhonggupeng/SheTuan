@@ -54,7 +54,7 @@
             android:gravity="left|top"
             android:lineSpacingMultiplier="1.2"
             android:padding="@dimen/activity_horizontal_margin"
-            android:hint="请输入公告内容"
+            android:hint="请输入发送内容"
             android:textColor="@color/black"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/font_size" />

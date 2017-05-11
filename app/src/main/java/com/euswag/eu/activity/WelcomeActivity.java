@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
@@ -54,6 +55,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 WelcomeActivity.this.startActivity(intent);
                 WelcomeActivity.this.finish();
             }else {
+                JPushInterface.setAlias(getApplication(),sharedPreferences.getString("phonenumber", ""),null);
                 requestBody = new FormBody.Builder()
                         .add("uid", sharedPreferences.getString("phonenumber", ""))
                         .add("accesstoken", sharedPreferences.getString("accesstoken", ""))
