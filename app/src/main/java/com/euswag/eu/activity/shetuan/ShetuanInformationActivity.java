@@ -336,10 +336,13 @@ public class ShetuanInformationActivity extends AppCompatActivity {
                         try {
                             jsonObject = new JSONObject(collecteresult);
                             result = jsonObject.getInt("status");
+                            System.out.println("result"+result);
                             if (result == 200) {
                                 Toast.makeText(ShetuanInformationActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
                                 binding.shetuanInformationCollection.setImageResource(R.drawable.ic_collection_after);
                                 hascollection = true;
+                            } else if (result == 500){
+                                Toast.makeText(ShetuanInformationActivity.this, "你已经收藏过该活动", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(ShetuanInformationActivity.this, "收藏失败，请重试", Toast.LENGTH_SHORT).show();
                             }

@@ -35,6 +35,7 @@ public class MeFragment extends Fragment {
 
     private FragmentMeBinding binding = null;
     private LayoutInflater inflater;
+    private SharedPreferences sharedPreferences;
 
     private OKHttpConnect okHttpConnect;
     private String loadpersonurl = "/info/introinfo";
@@ -42,8 +43,9 @@ public class MeFragment extends Fragment {
 
     private String imageloadurl = "https://eu-1251935523.file.myqcloud.com/user/user";
 
-    private final int LOADPERSON = 110;
+    private int hasload = 0;
 
+    private final int LOADPERSON = 110;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +54,7 @@ public class MeFragment extends Fragment {
         if (binding == null) {
             this.inflater = inflater;
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_me, container, false);
-            SharedPreferences sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
+            sharedPreferences = inflater.getContext().getSharedPreferences("token", Context.MODE_PRIVATE);
             loadpersonbody = new FormBody.Builder()
                     .add("uid", sharedPreferences.getString("phonenumber", "0"))
                     .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
@@ -147,6 +149,7 @@ public class MeFragment extends Fragment {
                     } else {
                         Toast.makeText(inflater.getContext(), "", Toast.LENGTH_SHORT).show();
                     }
+                    hasload = 1;
                     break;
                 default:
                     break;
@@ -154,4 +157,15 @@ public class MeFragment extends Fragment {
         }
     };
 
+    @Override
+    public void onResume() {
+        if (hasload == 1){
+            loadpersonbody = new FormBody.Builder()
+                    .add("uid", sharedPreferences.getString("phonenumber", "0"))
+                    .add("accesstoken", sharedPreferences.getString("accesstoken", "00"))
+                    .build();
+            new Thread(new LoadPersonRunnable()).start();
+        }
+        super.onResume();
+    }
 }

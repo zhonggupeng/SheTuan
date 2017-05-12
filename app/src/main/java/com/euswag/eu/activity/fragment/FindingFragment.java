@@ -160,6 +160,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 jsonArray = (JSONArray) jsonTokener.nextValue();
                                 mData.clear();
                                 for (int i = 0; i < jsonArray.length(); i++) {
+                                    System.out.println(i+":  "+jsonArray.getJSONObject(i).getString("cmBackground"));
                                     ShetuanMsg shetuanMsg = new ShetuanMsg(jsonArray.getJSONObject(i).getString("cmName"), jsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl + jsonArray.getJSONObject(i).getString("cmBackground") + ".jpg", shetuanlogourl + jsonArray.getJSONObject(i).getString("cmLogo")+".png");
                                     shetuanMsg.setShetuanJsonString(jsonArray.getJSONObject(i).toString());
                                     mData.add(shetuanMsg);
@@ -209,6 +210,7 @@ public class FindingFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 loadmoreJsonArray = (JSONArray) loadmoreJsonTokener.nextValue();
                                 if (loadmoreJsonArray.length() != 0) {
                                     for (int i = 0; i < loadmoreJsonArray.length(); i++) {
+                                        System.out.println(i+":  "+loadmoreJsonArray.getJSONObject(i).getString("cmBackground"));
                                         ShetuanMsg shetuanMsg = new ShetuanMsg(loadmoreJsonArray.getJSONObject(i).getString("cmName"), loadmoreJsonArray.getJSONObject(i).getString("cmDetail"), shetuanbackgroundurl + loadmoreJsonArray.getJSONObject(i).getString("cmBackground") + ".jpg", shetuanlogourl + loadmoreJsonArray.getJSONObject(i).getString("cmLogo")+".png");
                                         shetuanMsg.setShetuanJsonString(loadmoreJsonArray.getJSONObject(i).toString());
                                         mData.add(shetuanMsg);

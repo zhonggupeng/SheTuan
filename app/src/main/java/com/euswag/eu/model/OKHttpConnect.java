@@ -48,7 +48,7 @@ public class OKHttpConnect {
                 .build();
 
         Request request = new Request.Builder()
-                .url("https://euswag.com/eu/cos"+url)
+                .url("https://api.euswag.com/eu/cos"+url)
                 .post(requestBody)
                 .build();
         Response response = client.newCall(request).execute();

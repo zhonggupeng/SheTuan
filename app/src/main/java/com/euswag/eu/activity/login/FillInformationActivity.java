@@ -42,7 +42,7 @@ public class FillInformationActivity extends AppCompatActivity {
     private String photoSavePath;
     private String photoSaveName;
     private String path;
-    private String headimagepath;
+    private String headimagepath = "";
 
     private ActivityFillInformationBinding binding;
     private InformationFill informationFill;
@@ -68,13 +68,14 @@ public class FillInformationActivity extends AppCompatActivity {
 
         File file = new File(Environment.getExternalStorageDirectory(),"SheTuan/cache");
         if (!file.exists()) {
-            Toast.makeText(FillInformationActivity.this,"无法使用存储器，该功能无法正常使用",Toast.LENGTH_LONG).show();
+            Toast.makeText(FillInformationActivity.this,"无法使用存储器，你无法使用头像",Toast.LENGTH_LONG).show();
             file.mkdirs();
+            binding.fillInformHeadimage.setClickable(false);
+        }else {
+            photoSavePath = Environment.getExternalStorageDirectory().getPath() + "/SheTuan/cache/";
+            System.out.println(photoSavePath);
+            photoSaveName = System.currentTimeMillis() + ".jpeg";
         }
-        photoSavePath=Environment.getExternalStorageDirectory().getPath()+"/SheTuan/cache/";
-        System.out.println(photoSavePath);
-        photoSaveName =System.currentTimeMillis()+ ".jpeg";
-
         sexSelect = new SexSelect(this);
         click();
         //解决启动Activy时自动弹出输入法
@@ -103,12 +104,7 @@ public class FillInformationActivity extends AppCompatActivity {
                     Toast.makeText(FillInformationActivity.this,"未填写姓名",Toast.LENGTH_SHORT).show();
                 }else if (binding.fillInformEntryyear.getText()==null||binding.fillInformEntryyear.getText().length()==0){
                     Toast.makeText(FillInformationActivity.this,"未填写入学年份",Toast.LENGTH_SHORT).show();
-                } else if (headimagepath==null||headimagepath.length()==0){
-                    Toast.makeText(FillInformationActivity.this,"请设置头像",Toast.LENGTH_SHORT).show();
                 }else {
-                    new AlertDialog.Builder(FillInformationActivity.this).setTitle("提示").setMessage("为了在社团、活动交流方便，您确定填写了真实的个人信息吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent = new Intent(FillInformationActivity.this, SetPasswordActivity.class);
                             intent.putExtra("isregister", "0");
                             intent.putExtra("phonenumber", informationFill.getPhonenumber());
@@ -122,8 +118,6 @@ public class FillInformationActivity extends AppCompatActivity {
                             intent.putExtra("entryyear", binding.fillInformEntryyear.getText());
                             intent.putExtra("headimagepath", headimagepath);
                             FillInformationActivity.this.startActivity(intent);
-                        }
-                    }).setNegativeButton("取消", null).show();
                 }
             }
         });

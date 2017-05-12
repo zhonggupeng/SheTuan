@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.euswag.eu.R;
 import com.euswag.eu.adapter.ActivityNotificationAdapter;
+import com.euswag.eu.bean.ActivityMsg;
 import com.euswag.eu.bean.ActivityNotification;
 import com.euswag.eu.databinding.ActivityActivityNotificationBinding;
 import com.euswag.eu.model.DateUtils;

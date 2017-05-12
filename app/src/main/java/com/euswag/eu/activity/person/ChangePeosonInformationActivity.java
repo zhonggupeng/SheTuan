@@ -94,10 +94,12 @@ public class ChangePeosonInformationActivity extends AppCompatActivity {
         if (!file.exists()) {
             Toast.makeText(this, "无法使用存储器，修改头像无法正常使用", Toast.LENGTH_LONG).show();
             file.mkdirs();
+            binding.changeInformHeadimage.setClickable(false);
+        }else {
+            photoSavePath = Environment.getExternalStorageDirectory().getPath() + "/SheTuan/cache/";
+            System.out.println(photoSavePath);
+            photoSaveName = System.currentTimeMillis() + ".jpeg";
         }
-        photoSavePath = Environment.getExternalStorageDirectory().getPath() + "/SheTuan/cache/";
-        System.out.println(photoSavePath);
-        photoSaveName = System.currentTimeMillis() + ".jpeg";
         click1();
         //解决启动Activy时自动弹出输入法
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

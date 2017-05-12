@@ -33,7 +33,6 @@ public class SetPasswordActivity extends AppCompatActivity {
 
     private OKHttpConnect okHttpConnect;
     private String sendurl = "/user/newuser";
-    private String sendparam;
     private RequestBody sendbody;
 
     //头像上传网址
@@ -59,7 +58,6 @@ public class SetPasswordActivity extends AppCompatActivity {
         setPassword = new SetPassword(this);
         binding.setSetPassword(setPassword);
         dataintent = getIntent();
-
         click();
         //解决启动Activy时自动弹出输入法
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -75,10 +73,35 @@ public class SetPasswordActivity extends AppCompatActivity {
                     Toast.makeText(SetPasswordActivity.this, "两次输入的密码不一致", Toast.LENGTH_SHORT).show();
                 } else {
                     if (dataintent.getStringExtra("isregister").equals("0")) {
-                        //先进行图片的发送，即头像的发送
-                        file = new File(dataintent.getStringExtra("headimagepath"));
-                        filename = DateUtils.data(DateUtils.getCurrentTime());
-                        new Thread(new SendAvatarRunnable()).start();
+                        if (dataintent.getStringExtra("headimagepath")==null||dataintent.getStringExtra("headimagepath").equals("")){
+                            int gender;
+                            if (dataintent.getStringExtra("sex").equals("男")) {
+                                gender = 0;
+                            } else if (dataintent.getStringExtra("sex").equals("女")) {
+                                gender = 1;
+                            } else {
+                                gender = 2;
+                            }
+                            sendbody = new FormBody.Builder()
+                                    .add("uid", dataintent.getStringExtra("phonenumber"))
+                                    .add("nickname", dataintent.getStringExtra("nickname"))
+                                    .add("gender", String.valueOf(gender))
+                                    .add("professionclass", dataintent.getStringExtra("academe"))
+                                    .add("studentid", dataintent.getStringExtra("studentid"))
+                                    .add("name", dataintent.getStringExtra("name"))
+                                    //用入学年份替换个人说明
+                                    .add("grade", dataintent.getStringExtra("entryyear"))
+                                    .add("password", setPassword.getConfirmpassword())
+                                    .add("reputation", "100")
+                                    .add("verified", "0")
+                                    .build();
+                            new Thread(new SendUserinfoRunnable()).start();
+                        }else {
+                            //先进行图片的发送，即头像的发送
+                            file = new File(dataintent.getStringExtra("headimagepath"));
+                            filename = DateUtils.data(DateUtils.getCurrentTime());
+                            new Thread(new SendAvatarRunnable()).start();
+                        }
                         //然后进行数据的发送
                     } else if (dataintent.getStringExtra("isregister").equals("1")) {
                         //仅仅修改密码，返回新的tocken
