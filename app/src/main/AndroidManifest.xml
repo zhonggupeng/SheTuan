@@ -75,7 +75,7 @@
             android:name=".activity.person.AccountPasswordReviseActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SearchActivity"
+            android:name=".activity.search.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.act.CheckActivityActivity"
@@ -159,13 +159,17 @@
             android:name=".activity.notification.PressNotificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.Search2Activity"
+            android:name=".activity.search.Search2Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShowSearchActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.shetuan.ShetuanNoticeListActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.shetuan.ShetuanNoticeListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.search.SearchActivtiyActivity" />
+        <activity android:name=".activity.search.SearchShetuanActivity" />
+        <activity android:name=".activity.search.SearchPeopleActivity"></activity>
     </application>
 
 </manifest>

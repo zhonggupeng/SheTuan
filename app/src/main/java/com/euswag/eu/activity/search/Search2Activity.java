@@ -1,6 +1,7 @@
-package com.euswag.eu.activity;
+package com.euswag.eu.activity.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
@@ -61,6 +62,33 @@ public class Search2Activity extends AppCompatActivity {
             }
         });
     }
+    private void click2(){
+        binding.search2Activityactivity.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Search2Activity.this,SearchActivtiyActivity.class);
+                intent.putExtra("keyword",binding.search2Searchcontent.getText().toString());
+                Search2Activity.this.startActivity(intent);
+            }
+        });
+        binding.search2Shetuanshetuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Search2Activity.this,SearchShetuanActivity.class);
+                intent.putExtra("keyword",binding.search2Searchcontent.getText().toString());
+                Search2Activity.this.startActivity(intent);
+            }
+        });
+        binding.search2Peoplepeople.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Search2Activity.this,SearchPeopleActivity.class);
+                intent.putExtra("keyword",binding.search2Searchcontent.getText().toString());
+                Search2Activity.this.startActivity(intent);
+            }
+        });
+    }
     private class SearchRunnable implements Runnable{
 
         @Override
@@ -95,8 +123,9 @@ public class Search2Activity extends AppCompatActivity {
                                 binding.search2Activitycount.setText(searchdatajson.getString("activityNum"));
                                 binding.search2Shetuancount.setText(searchdatajson.getString("communityNum"));
                                 binding.search2Peoplecount.setText(searchdatajson.getString("userNum"));
+                                click2();
                             }else {
-                                Toast.makeText(Search2Activity.this,"获取搜索信息失败",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Search2Activity.this,"搜索失败",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

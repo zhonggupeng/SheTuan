@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white"
-        tools:context="com.euswag.eu.activity.Search2Activity">
+        tools:context="com.euswag.eu.activity.search.Search2Activity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -73,27 +73,21 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin">
             <RelativeLayout
+                android:id="@+id/search2_activityactivity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:id="@+id/search2_activityimage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/roundshape"
                     android:src="@drawable/search_activity"
                     android:padding="13dp"/>
+
                 <TextView
-                    android:id="@+id/search2_activitycount"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="@dimen/title_font_size"
-                    android:textColor="@color/black"
-                    android:gravity="bottom|right"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"/>
-                <TextView
+                    android:id="@+id/search2_activitytext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -101,30 +95,33 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/font_size"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/search2_activitycount"/>
+                    android:layout_below="@+id/search2_activityimage"/>
+                <TextView
+                    android:id="@+id/search2_activitycount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/title_font_size"
+                    android:textColor="@color/black"
+                    android:layout_below="@+id/search2_activitytext" />
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/search2_shetuanshetuan"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:id="@+id/search2_shetuanimage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/roundshape"
                     android:src="@drawable/search_community"
                     android:padding="14dp"/>
+
                 <TextView
-                    android:id="@+id/search2_shetuancount"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="@dimen/title_font_size"
-                    android:textColor="@color/black"
-                    android:gravity="bottom|right"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"/>
-                <TextView
+                    android:id="@+id/search2_shetuantext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -132,30 +129,33 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/font_size"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/search2_shetuancount"/>
+                    android:layout_below="@+id/search2_shetuanimage"/>
+                <TextView
+                    android:id="@+id/search2_shetuancount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/title_font_size"
+                    android:textColor="@color/black"
+                    android:layout_below="@+id/search2_shetuantext"/>
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/search2_peoplepeople"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:id="@+id/search2_peopleimage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/roundshape"
                     android:padding="10dp"
                     android:src="@drawable/search_people"/>
+
                 <TextView
-                    android:id="@+id/search2_peoplecount"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="@dimen/title_font_size"
-                    android:textColor="@color/black"
-                    android:gravity="bottom|right"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"/>
-                <TextView
+                    android:id="@+id/search2_peopletext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -163,7 +163,16 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/font_size"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/search2_peoplecount"/>
+                    android:layout_below="@+id/search2_peopleimage"/>
+                <TextView
+                    android:id="@+id/search2_peoplecount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/title_font_size"
+                    android:textColor="@color/black"
+                    android:layout_below="@+id/search2_peopletext"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.euswag.eu.R;
-import com.euswag.eu.activity.SearchActivity;
+import com.euswag.eu.activity.search.SearchActivity;
 import com.euswag.eu.adapter.FirstAdapter;
 import com.euswag.eu.bean.ActivityMsg;
 import com.euswag.eu.bean.MoreActivity;

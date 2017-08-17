@@ -1,4 +1,4 @@
-package com.euswag.eu.activity;
+package com.euswag.eu.activity.search;
 
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
